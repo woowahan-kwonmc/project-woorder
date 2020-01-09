@@ -27,18 +27,23 @@ public class Coupon extends ModifiableEntity {
     private CouponUseStatus couponUseStatus;
 
     @Embedded
+    private CouponTypeInfo couponTypeInfo;
+
+    @Embedded
     private CouponMember couponMember;
 
     @Embedded
-    private CouponTypeInfo couponTypeInfo;
+    private CouponPayment couponPayment;
 
     public Coupon(final CouponCode couponCode,
                   final CouponUseStatus couponUseStatus,
+                  final CouponTypeInfo couponTypeInfo,
                   final CouponMember couponMember,
-                  final CouponTypeInfo couponTypeInfo) {
+                  final CouponPayment couponPayment) {
         this.couponCode = couponCode;
         this.couponUseStatus = couponUseStatus;
-        this.couponMember = couponMember;
         this.couponTypeInfo = couponTypeInfo;
+        this.couponMember = couponMember;
+        this.couponPayment = couponPayment;
     }
 }

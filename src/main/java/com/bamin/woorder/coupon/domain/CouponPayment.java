@@ -1,4 +1,4 @@
-package com.bamin.woorder.order.domain;
+package com.bamin.woorder.coupon.domain;
 
 import com.bamin.woorder.payment.domain.Payment;
 import lombok.AccessLevel;
@@ -12,13 +12,13 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class OrderPayment {
+public class CouponPayment {
 
+    @JoinColumn(name = "\"coupon_payment_no\"")
     @ManyToOne
-    @JoinColumn(name = "\"order_payment_no\"")
-    private Payment orderPayment;
+    private Payment couponPayment;
 
-    public OrderPayment(final Payment orderPayment) {
-        this.orderPayment = orderPayment;
+    public CouponPayment(final Payment couponPayment) {
+        this.couponPayment = couponPayment;
     }
 }

@@ -15,8 +15,7 @@ import javax.persistence.*;
 @Entity
 public class CouponType extends ModifiableEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"coupon_type_no\"",
             updatable = false)
     private Long couponTypeNo;

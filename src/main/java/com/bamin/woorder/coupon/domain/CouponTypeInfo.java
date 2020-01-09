@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @Embeddable
 public class CouponTypeInfo {
 
-    @JoinColumn(name = "coupon_type_no")
+    @JoinColumn(name = "\"coupon_type_no\"")
     @ManyToOne
     private CouponType couponType;
 

@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class CouponMember {
 
-    @Column(name = "coupon_member_no",
+    @Column(name = "\"coupon_member_no\"",
             nullable = false,
             updatable = false)
     private Long couponMember;

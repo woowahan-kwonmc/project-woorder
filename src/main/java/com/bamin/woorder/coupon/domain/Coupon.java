@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "couponNo", callSuper = false)
-@Table(name = "COUPON")
+@Table(name = "\"COUPON\"", schema = "woorder")
 @Entity
 public class Coupon extends ModifiableEntity {
 

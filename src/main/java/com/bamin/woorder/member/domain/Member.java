@@ -26,7 +26,11 @@ public class Member extends DeletableEntity {
     @Embedded
     private MemberCouponInfos couponInfos;
 
-    public Member(final MemberName memberName) {
-        this.memberName = memberName;
+    public Member(final String name) {
+        this.memberName = new MemberName(name);
+    }
+
+    public String getName() {
+        return memberName.getMemberName();
     }
 }

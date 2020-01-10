@@ -4,6 +4,7 @@ import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.member.domain.Member;
 import com.bamin.woorder.member.dto.MemberCreateRequestDto;
+import com.bamin.woorder.member.dto.MemberReadRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,19 @@ public class MemberCRUDService {
     @Autowired
     public MemberCRUDService(final MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    public ResponseDto readMember(final MemberReadRequestDto requestDto) {
+        Member savedMember = memberService.findByMemberName(requestDto.getMemberName());
+        return ResponseDto.builder()
+                .path("/members/login")
+                .method("POST")
+                .message("로그인 성공")
+                .data(ResponseData.builder()
+                        .insert("member", savedMember)
+                        .build())
+                .statusCode("200")
+                .build();
     }
 
     public ResponseDto createMember(final MemberCreateRequestDto requestDto) {

@@ -1,7 +1,6 @@
 package com.bamin.woorder.member.presentation;
 
 import com.bamin.woorder.member.application.MemberCRUDService;
-import com.bamin.woorder.member.domain.MemberRepository;
 import com.bamin.woorder.member.dto.MemberCreateRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,11 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MemberCRUDController {
 
-    private final MemberRepository memberRepository;
     private final MemberCRUDService memberCRUDService;
 
-    public MemberCRUDController(final MemberRepository memberRepository, final MemberCRUDService memberCRUDService) {
-        this.memberRepository = memberRepository;
+    public MemberCRUDController(final MemberCRUDService memberCRUDService) {
         this.memberCRUDService = memberCRUDService;
     }
 

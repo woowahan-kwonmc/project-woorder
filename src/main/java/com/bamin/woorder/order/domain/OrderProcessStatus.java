@@ -6,15 +6,17 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
 public class OrderProcessStatus {
 
-    @Column(name = "\"order_status\"",
-            nullable = false,
-            columnDefinition = "enum('CREATE', 'ONPROGRESS', 'COMPLETE', 'CANCELED') default 'CREATE'")
+    @Column(name = "order_status",
+            nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     public OrderProcessStatus(final OrderStatus orderStatus) {

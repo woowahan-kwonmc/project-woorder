@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class MenuName {
 
-    @Column(name = "\"menu_name\"",
+    @Column(name = "menu_name",
             length = 100)
     private String menuName;
 

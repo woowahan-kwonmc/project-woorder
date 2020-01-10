@@ -11,13 +11,13 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "paymentNo", callSuper = false)
-@Table(name = "\"PAYMENT\"", schema = "woorder")
+@Table(name = "PAYMENT")
 @Entity
 public class Payment extends DeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"payment_no\"", updatable = false)
+    @Column(name = "payment_no", updatable = false)
     private Long paymentNo;
 
     @Embedded

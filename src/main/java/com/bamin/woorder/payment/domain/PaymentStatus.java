@@ -6,15 +6,17 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
 public class PaymentStatus {
 
-    @Column(name = "\"payment_status\"",
-            nullable = false,
-            columnDefinition = "enum('INCOMPLETE', 'COMPLETE', 'CANCELED') default 'INCOMPLETE'")
+    @Column(name = "payment_status",
+            nullable = false)
+    @Enumerated(EnumType.STRING)
     private PayStatus payStatus;
 
     public PaymentStatus(final PayStatus payStatus) {

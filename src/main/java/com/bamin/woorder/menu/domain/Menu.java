@@ -12,12 +12,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "menuNo", callSuper = false)
-@Table(name = "\"MENU\"", schema = "woorder")
+@Table(name = "MENU")
 @Entity
 public class Menu extends DeletableEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"menu_no\"")
+    @Column(name = "menu_no")
     private Long menuNo;
 
     @Embedded

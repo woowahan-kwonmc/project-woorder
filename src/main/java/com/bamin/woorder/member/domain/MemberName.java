@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 class MemberName {
 
-    @Column(name = "\"member_name\"",
+    @Column(name = "member_name",
             length = 20)
     private String memberName;
 

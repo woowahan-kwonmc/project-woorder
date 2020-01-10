@@ -11,13 +11,13 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "orderNo", callSuper = false)
-@Table(name = "\"ORDER\"", schema = "woorder")
+@Table(name = "ORDER")
 @Entity
 public class Order extends DeletableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"order_no\"",
+    @Column(name = "order_no",
             updatable = false)
     private Long orderNo;
 

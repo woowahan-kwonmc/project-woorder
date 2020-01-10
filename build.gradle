@@ -29,6 +29,10 @@ dependencies {
 	}
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'com.h2database:h2'
+	testImplementation 'io.rest-assured:rest-assured:4.1.1'
+	testImplementation 'io.rest-assured:json-path:4.1.1'
+	testImplementation 'io.rest-assured:xml-path:4.1.1'
+	testImplementation 'io.rest-assured:json-schema-validator:4.1.1'
 
 	runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
 

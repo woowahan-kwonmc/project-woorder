@@ -24,4 +24,9 @@ public class MemberService {
             throw new DuplicatedNameException(name);
         }
     }
+
+    Member findByMemberName(final String memberName) {
+        return memberRepository.findByMemberNameMemberName(memberName)
+                .orElseThrow(NotFoundUserException::new);
+    }
 }

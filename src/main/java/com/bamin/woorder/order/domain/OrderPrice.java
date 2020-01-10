@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OrderPrice {
 
-    @Column(name = "\"order_price\"",
+    @Column(name = "order_price",
             nullable = false)
     private int orderPrice;
 

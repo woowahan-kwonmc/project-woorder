@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OrderQuantity {
 
-    @Column(name = "\"order_quantity\"",
+    @Column(name = "order_quantity",
             nullable = false)
     private int quantity;
 

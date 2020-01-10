@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 public class OrderMenu {
 
     @OneToOne
-    @JoinColumn(name = "\"order_menu_no\"")
+    @JoinColumn(name = "order_menu_no")
     private Menu menu;
 
     public OrderMenu(final Menu menu) {

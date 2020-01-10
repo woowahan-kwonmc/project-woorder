@@ -11,12 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "couponTypeNo", callSuper = false)
-@Table(name = "\"COUPON_TYPE\"", schema = "woorder")
+@Table(name = "COUPON_TYPE")
 @Entity
 public class CouponType extends ModifiableEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"coupon_type_no\"",
+    @Column(name = "coupon_type_no",
             updatable = false)
     private Long couponTypeNo;
 

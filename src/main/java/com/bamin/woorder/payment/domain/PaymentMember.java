@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 public class PaymentMember {
 
     @OneToOne
-    @JoinColumn(name = "\"payment_member_no\"")
+    @JoinColumn(name = "payment_member_no")
     private Member member;
 
     public PaymentMember(final Member member) {

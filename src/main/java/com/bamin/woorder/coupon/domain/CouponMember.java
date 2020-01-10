@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,8 +15,8 @@ import javax.persistence.ManyToOne;
 @Embeddable
 public class CouponMember {
 
-    @ManyToOne
-    @JoinColumn(name = "\"coupon_member_no\"")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "coupon_member_no")
     private Member couponMember;
 
     public CouponMember(final Member couponMember) {

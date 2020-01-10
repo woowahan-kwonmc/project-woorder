@@ -11,12 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "memberNo", callSuper = false)
-@Table(name = "\"MEMBER\"", schema = "woorder")
+@Table(name = "MEMBER")
 @Entity
 public class Member extends DeletableEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"member_no\"",
+    @Column(name = "member_no",
             updatable = false)
     private Long memberNo;
 
@@ -26,7 +26,11 @@ public class Member extends DeletableEntity {
     @Embedded
     private MemberCouponInfos couponInfos;
 
-    public Member(final MemberName memberName) {
-        this.memberName = memberName;
+    public Member(final String name) {
+        this.memberName = new MemberName(name);
+    }
+
+    public String getName() {
+        return memberName.getMemberName();
     }
 }

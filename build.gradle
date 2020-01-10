@@ -28,7 +28,7 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'com.h2database:h2'
+	testImplementation 'com.h2database:h2:1.4.199'
 	testImplementation 'io.rest-assured:rest-assured:4.1.1'
 	testImplementation 'io.rest-assured:json-path:4.1.1'
 	testImplementation 'io.rest-assured:xml-path:4.1.1'

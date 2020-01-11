@@ -184,4 +184,20 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("data.updatedMenu.menuName", is("탕수육"))
                                 .insert("data.updatedMenu.menuPrice", is(2000)));
     }
+
+    @Test
+    @DisplayName("[DELETE] /menus, 특정 메뉴 삭제 성공")
+    void successfullyDeleteMenu() {
+        EasyRestAssured
+                .givenParams(new EasyGivenQueryParameters()
+                        .addParam("menuNo", 4L))
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.DELETE)
+                .thenExpectDescriptiveWith(
+                        OK, MENUS_BASE_SERVLET_PATH,
+                        EasyExpectBodies.builder()
+                                .insert("message", is(MENU_DELETE_SUCCEED_RESPONSE_MESSAGE))
+                                .insert("data.deletedMenu.menuNo", is(4))
+                                .insert("data.deletedMenu.menuName", is("치즈볼(4개)"))
+                                .insert("data.deletedMenu.menuPrice", is(4000)));
+    }
 }

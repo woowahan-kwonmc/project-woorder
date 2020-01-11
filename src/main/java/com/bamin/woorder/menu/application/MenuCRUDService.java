@@ -49,6 +49,20 @@ public class MenuCRUDService {
                 .build();
     }
 
+    public ResponseDto selectMenu(final Long menuNo) {
+        Menu findMenu = menuService.findMenuById(menuNo);
+        return ResponseDto.builder()
+                .path(String.format("/menus/%d", menuNo))
+                .method("GET")
+                .message("메뉴 조회 성공")
+                .data(ResponseData.builder()
+                        .insert("menu", mapMenuResponseDto(findMenu))
+                        .build())
+                .statusCode("200")
+                .build();
+
+    }
+
     private MenuResponseDto mapMenuResponseDto(final Menu menu) {
         return new MenuResponseDto(menu.getNo(), menu.getName(), menu.getPrice());
     }

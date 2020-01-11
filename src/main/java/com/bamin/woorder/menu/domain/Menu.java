@@ -1,7 +1,7 @@
 package com.bamin.woorder.menu.domain;
 
 
-import com.bamin.woorder.common.domain.DeletableEntity;
+import com.bamin.woorder.common.domain.ModifiableEntity;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = "menuNo", callSuper = false)
 @Table(name = "MENU")
 @Entity
-public class Menu extends DeletableEntity {
+public class Menu extends ModifiableEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_no")

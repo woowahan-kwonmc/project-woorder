@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.*;
 public class MemberCRUDControllerTest extends AcceptanceTestUtils {
 
     @Test
-    @DisplayName("[POST] /members, 회원 가입 성공")
+    @DisplayName("[POST] /api/v1/members, 회원 가입 성공")
     void successfullyCreateUser() {
         EasyRestAssured
                 .givenBody(new MemberCreateRequestDto(SUCCEED_CREATE_NAME))
@@ -29,7 +29,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /members, 회원 가입 실패, 중복 이름")
+    @DisplayName("[POST] /api/v1/members, 회원 가입 실패, 중복 이름")
     void failedCreateUserDuplicatedName() {
         EasyRestAssured
                 .givenBody(new MemberCreateRequestDto(ALREADY_SAVED_NAME))
@@ -42,7 +42,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /members, 회원 가입 실패, 이름 글자 수 초과")
+    @DisplayName("[POST] /api/v1/members, 회원 가입 실패, 이름 글자 수 초과")
     void failedCreateUserNameLength() {
         EasyRestAssured
                 .givenBody(new MemberCreateRequestDto(UPPER_BOUND_LENGTH_NAME))
@@ -55,7 +55,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /members, 회원 가입 실패, 이름 글자 수 부족")
+    @DisplayName("[POST] /api/v1/members, 회원 가입 실패, 이름 글자 수 부족")
     void failedCreateUserNoName() {
         EasyRestAssured
                 .givenBody(new MemberCreateRequestDto(LOWER_BOUND_LENGTH_NAME))
@@ -68,7 +68,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /members/login, 회원 정보 읽기 성공")
+    @DisplayName("[POST] /api/v1/members/login, 회원 정보 읽기 성공")
     void successfullyLogin() {
         EasyRestAssured
                 .givenBody(new MemberReadRequestDto(ALREADY_SAVED_NAME))
@@ -81,7 +81,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /members/login, 회원 정보 읽기 실패, 존재하지 않음")
+    @DisplayName("[POST] /api/v1/members/login, 회원 정보 읽기 실패, 존재하지 않음")
     void failedLoginNotExist() {
         EasyRestAssured
                 .givenBody(new MemberReadRequestDto(NOT_FOUND_NAME))

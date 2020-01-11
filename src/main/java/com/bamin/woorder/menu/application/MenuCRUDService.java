@@ -17,6 +17,14 @@ import java.util.stream.Collectors;
 @Service
 public class MenuCRUDService {
 
+    private static final String MENUS_SERVLET_PATH = "/api/v1/menus";
+    private static final String PAGE_QUERY_FORMAT = "?page=%d&num=%d";
+    private static final String MENU_CREATE_SUCCEED_RESPONSE_MESSAGE = "메뉴 등록 성공";
+    private static final String MENU_SELECT_PAGE_SUCCEED_RESPONSE_MESSAGE = "%d 페이지의 메뉴 목록 %d개";
+    private static final String MENU_SELECT_SUCCEED_RESPONSE_MESSAGE = "메뉴 조회 성공";
+    private static final String MENU_UPDATE_SUCCEED_RESPONSE_MESSAGE = "메뉴 업데이트 성공";
+    private static final String MENU_DELETE_SUCCEED_RESPONSE_MESSAGE = "메뉴 삭제 성공";
+
     private final MenuService menuService;
 
     @Autowired
@@ -27,9 +35,9 @@ public class MenuCRUDService {
     public ResponseDto createMenu(MenuRequestDto requestDto) {
         Menu savedMenu = menuService.createMenu(requestDto.getName(), requestDto.getPrice());
         return ResponseDto.builder()
-                .path("/menus")
+                .path(MENUS_SERVLET_PATH)
                 .method(ResponseDtoMethod.POST)
-                .message("메뉴 등록 성공")
+                .message(MENU_CREATE_SUCCEED_RESPONSE_MESSAGE)
                 .data(ResponseData.builder()
                         .insert("menu", mapMenuResponseDto(savedMenu))
                         .build())
@@ -43,9 +51,9 @@ public class MenuCRUDService {
                 .map(this::mapMenuResponseDto)
                 .collect(Collectors.toList());
         return ResponseDto.builder()
-                .path(String.format("/menus?page=%d&num=%d", page, num))
+                .path(String.format(MENUS_SERVLET_PATH + PAGE_QUERY_FORMAT, page, num))
                 .method(ResponseDtoMethod.GET)
-                .message(String.format("%d 페이지의 메뉴 목록 %d개", page, num))
+                .message(String.format(MENU_SELECT_PAGE_SUCCEED_RESPONSE_MESSAGE, page, num))
                 .data(ResponseData.builder()
                         .insert("menus", pageMenus).build())
                 .statusCode(ResponseDtoStatusCode.OK)
@@ -55,9 +63,9 @@ public class MenuCRUDService {
     public ResponseDto selectMenu(final Long menuNo) {
         Menu findMenu = menuService.findMenuById(menuNo);
         return ResponseDto.builder()
-                .path(String.format("/menus/%d", menuNo))
+                .path(String.format(MENUS_SERVLET_PATH + "/%d", menuNo))
                 .method(ResponseDtoMethod.GET)
-                .message("메뉴 조회 성공")
+                .message(MENU_SELECT_SUCCEED_RESPONSE_MESSAGE)
                 .data(ResponseData.builder()
                         .insert("menu", mapMenuResponseDto(findMenu))
                         .build())
@@ -69,9 +77,9 @@ public class MenuCRUDService {
     public ResponseDto updateMenu(final MenuUpdateRequestDto requestDto) {
         Menu updatedMenu = menuService.updateMenu(requestDto.getMenuNo(), requestDto.getMenuUpdateData());
         return ResponseDto.builder()
-                .path("/menus")
+                .path(MENUS_SERVLET_PATH)
                 .method(ResponseDtoMethod.PUT)
-                .message("메뉴 업데이트 성공")
+                .message(MENU_UPDATE_SUCCEED_RESPONSE_MESSAGE)
                 .data(ResponseData.builder()
                         .insert("updatedMenu", mapMenuResponseDto(updatedMenu))
                         .build())
@@ -87,9 +95,9 @@ public class MenuCRUDService {
         Menu savedMenu = menuService.findMenuById(menuNo);
         menuService.deleteMenu(savedMenu);
         return ResponseDto.builder()
-                .path("/menus")
+                .path(MENUS_SERVLET_PATH)
                 .method(ResponseDtoMethod.DELETE)
-                .message("메뉴 삭제 성공")
+                .message(MENU_DELETE_SUCCEED_RESPONSE_MESSAGE)
                 .data(ResponseData.builder()
                         .insert("deletedMenu", mapMenuResponseDto(savedMenu))
                         .build())

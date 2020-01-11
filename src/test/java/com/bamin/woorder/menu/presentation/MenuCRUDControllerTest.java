@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.*;
 class MenuCRUDControllerTest extends AcceptanceTestUtils {
 
     @Test
-    @DisplayName("[POST] /menus, 메뉴 등록 성공")
+    @DisplayName("[POST] /api/v1/menus, 메뉴 등록 성공")
     void successfullyCreateMenu() {
         MenuRequestDto requestDto = new MenuCreateRequestDto("치킨", "3000");
 
@@ -36,7 +36,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /menus, 메뉴 등록 실패, 문자열 가격")
+    @DisplayName("[POST] /api/v1/menus, 메뉴 등록 실패, 문자열 가격")
     void failedCreateMenuPriceIsNotNumber() {
         MenuRequestDto requestDto = new MenuCreateRequestDto("치킨", "삼천원");
 
@@ -52,7 +52,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /menus, 메뉴 등록 실패, 메뉴 이름 100자 초과")
+    @DisplayName("[POST] /api/v1/menus, 메뉴 등록 실패, 메뉴 이름 100자 초과")
     void failedCreateMenuNameUpperBound() {
         MenuRequestDto requestDto = new MenuCreateRequestDto(
                 "1234567890" + "1234567890" + "1234567890" + "1234567890" +
@@ -71,7 +71,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /menus, 메뉴 등록 실패, 메뉴 이름 1자 미만")
+    @DisplayName("[POST] /api/v1/menus, 메뉴 등록 실패, 메뉴 이름 1자 미만")
     void failedCreateMenuNameLowerBound() {
         MenuRequestDto requestDto = new MenuCreateRequestDto("", "200");
 
@@ -87,7 +87,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[POST] /menus, 메뉴 등록 실패, 메뉴 가격 1 미만")
+    @DisplayName("[POST] /api/v1/menus, 메뉴 등록 실패, 메뉴 가격 1 미만")
     void failedCreateMenuPrice() {
         MenuRequestDto requestDto = new MenuCreateRequestDto("메뉴", "00");
 
@@ -103,7 +103,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[GET] /menus, 해당 페이지의 해당 개수만큼 메뉴 조회 성공")
+    @DisplayName("[GET] /api/v1/menus, 해당 페이지의 해당 개수만큼 메뉴 조회 성공")
     void successfullyGetPageableMenus() {
         EasyRestAssured
                 .givenParams(
@@ -121,7 +121,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[GET] /menus, 쿼리 스트링에 문자가 들어가면 에러")
+    @DisplayName("[GET] /api/v1/menus, 쿼리 스트링에 문자가 들어가면 에러")
     void failedGetPageableMenus() {
         EasyRestAssured
                 .givenParams(
@@ -139,7 +139,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[GET] /menus/{menuNo}, 특정 메뉴 상세 정보 조회 성공")
+    @DisplayName("[GET] /api/v1/menus/{menuNo}, 특정 메뉴 상세 정보 조회 성공")
     void successfullySelectMenu() {
         EasyRestAssured
                 .givenPathVariable(
@@ -147,7 +147,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
                                 .addVariables("menuNo", SELECT_MENU_NO))
                 .whenRequest(baseUrl(SELECT_MENU_SERVLET_PATH), EasyRestAssuredRequestMethod.GET)
                 .thenExpectDescriptiveWith(
-                        OK, String.format("/menus/%d", SELECT_MENU_NO),
+                        OK, String.format(MENU_NO_PATH_VARIABLE_SERVLET_PATH, SELECT_MENU_NO),
                         EasyExpectBodies.builder()
                                 .insert("message", is(MENU_SELECT_SUCCEED_RESPONSE_MESSAGE))
                                 .insert("data.menu.menuNo", is(SELECT_MENU_NO))
@@ -156,21 +156,21 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[GET] /menus/{menuNo}, 특정 메뉴 상세 정보 조회 실패, 존재하지 않음")
+    @DisplayName("[GET] /api/v1/menus/{menuNo}, 특정 메뉴 상세 정보 조회 실패, 존재하지 않음")
     void failedSelectMenuNotFound() {
         EasyRestAssured
                 .givenPathVariable(
                         EasyGivenPathVariables.add("menuNo", NOT_EXIST_MENU_ID))
                 .whenRequest(baseUrl(SELECT_MENU_SERVLET_PATH), EasyRestAssuredRequestMethod.GET)
                 .thenExpectDescriptiveWith(
-                        NOT_FOUND, String.format("/menus/%d", NOT_EXIST_MENU_ID),
+                        NOT_FOUND, String.format(MENU_NO_PATH_VARIABLE_SERVLET_PATH, NOT_EXIST_MENU_ID),
                         EasyExpectBodies.builder()
                                 .insert("message", is(NOT_FOUND_SELECT_FAILED_RESPONSE_MESSAGE))
                                 .insert("data.requestNo", is(NOT_EXIST_MENU_ID)));
     }
 
     @Test
-    @DisplayName("[PATCH] /menus, 특정 메뉴 정보 업데이트 성공")
+    @DisplayName("[PATCH] /api/v1/menus, 특정 메뉴 정보 업데이트 성공")
     void successfullyUpdateMenu() {
         EasyRestAssured
                 .givenBody(new MenuUpdateRequestDto(
@@ -186,7 +186,7 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
-    @DisplayName("[DELETE] /menus, 특정 메뉴 삭제 성공")
+    @DisplayName("[DELETE] /api/v1/menus, 특정 메뉴 삭제 성공")
     void successfullyDeleteMenu() {
         EasyRestAssured
                 .givenParams(new EasyGivenQueryParameters()

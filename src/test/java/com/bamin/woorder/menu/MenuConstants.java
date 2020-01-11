@@ -3,8 +3,9 @@ package com.bamin.woorder.menu;
 public interface MenuConstants {
 
     // base path
-    String MENUS_BASE_SERVLET_PATH = "/menus";
-    String SELECT_MENU_SERVLET_PATH = "/menus/{menuNo}";
+    String MENUS_BASE_SERVLET_PATH = "/api/v1/menus";
+    String SELECT_MENU_SERVLET_PATH = "/api/v1/menus/{menuNo}";
+    String MENU_NO_PATH_VARIABLE_SERVLET_PATH = "/api/v1/menus/%d";
 
     String PAGE_QUERY_STRING = "?page=1&num=3";
 

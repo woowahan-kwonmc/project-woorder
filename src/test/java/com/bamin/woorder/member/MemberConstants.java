@@ -3,8 +3,8 @@ package com.bamin.woorder.member;
 public interface MemberConstants {
 
     // base path
-    String MEMBERS_BASE_SERVLET_PATH = "/members";
-    String MEMBERS_LOGIN_SERVLET_PATH = "/members/login";
+    String MEMBERS_BASE_SERVLET_PATH = "/api/v1/members";
+    String MEMBERS_LOGIN_SERVLET_PATH = "/api/v1/members/login";
 
     // names
     String SUCCEED_CREATE_NAME = "woowaluffy";

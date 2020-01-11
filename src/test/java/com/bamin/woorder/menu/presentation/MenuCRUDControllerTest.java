@@ -2,10 +2,7 @@ package com.bamin.woorder.menu.presentation;
 
 import com.bamin.woorder.AcceptanceTestUtils;
 import com.bamin.woorder.TestStatusCode;
-import com.bamin.woorder.common.utils.easyrestassured.EasyExpectBodies;
-import com.bamin.woorder.common.utils.easyrestassured.EasyGivenParams;
-import com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured;
-import com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod;
+import com.bamin.woorder.common.utils.easyrestassured.*;
 import com.bamin.woorder.menu.dto.MenuCreateRequestDto;
 import com.bamin.woorder.menu.dto.MenuRequestDto;
 import org.junit.jupiter.api.DisplayName;
@@ -25,12 +22,9 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
 
         EasyRestAssured
                 .givenBody(requestDto)
-                .whenRequest(
-                        baseUrl(MENUS_BASE_SERVLET_PATH),
-                        EasyRestAssuredRequestMethod.POST)
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        TestStatusCode.OK,
-                        MENUS_BASE_SERVLET_PATH,
+                        TestStatusCode.OK, MENUS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is("메뉴 등록 성공"))
                                 .insert("data.menu.menuNo", is(notNullValue()))
@@ -46,12 +40,9 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
 
         EasyRestAssured
                 .givenBody(requestDto)
-                .whenRequest(
-                        baseUrl(MENUS_BASE_SERVLET_PATH),
-                        EasyRestAssuredRequestMethod.POST)
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        TestStatusCode.BAD_REQUEST,
-                        MENUS_BASE_SERVLET_PATH,
+                        TestStatusCode.BAD_REQUEST, MENUS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is("가격은 숫자만 입력이 가능합니다."))
                                 .insert("data", is(nullValue()))
@@ -68,12 +59,9 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
 
         EasyRestAssured
                 .givenBody(requestDto)
-                .whenRequest(
-                        baseUrl(MENUS_BASE_SERVLET_PATH),
-                        EasyRestAssuredRequestMethod.POST)
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        TestStatusCode.BAD_REQUEST,
-                        MENUS_BASE_SERVLET_PATH,
+                        TestStatusCode.BAD_REQUEST, MENUS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is("메뉴 이름은 1자 이상, 100자 이하입니다."))
                                 .insert("data.menuName", is(notNullValue()))
@@ -87,12 +75,9 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
 
         EasyRestAssured
                 .givenBody(requestDto)
-                .whenRequest(
-                        baseUrl(MENUS_BASE_SERVLET_PATH),
-                        EasyRestAssuredRequestMethod.POST)
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        TestStatusCode.BAD_REQUEST,
-                        MENUS_BASE_SERVLET_PATH,
+                        TestStatusCode.BAD_REQUEST, MENUS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is("메뉴 이름은 1자 이상, 100자 이하입니다."))
                                 .insert("data.menuName", is(notNullValue()))
@@ -106,12 +91,9 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
 
         EasyRestAssured
                 .givenBody(requestDto)
-                .whenRequest(
-                        baseUrl(MENUS_BASE_SERVLET_PATH),
-                        EasyRestAssuredRequestMethod.POST)
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        TestStatusCode.BAD_REQUEST,
-                        MENUS_BASE_SERVLET_PATH,
+                        TestStatusCode.BAD_REQUEST, MENUS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is("메뉴 가격은 0 이하로 설정할 수 없습니다."))
                                 .insert("data.menuPrice", is(notNullValue()))
@@ -123,15 +105,12 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     void successfullyGetPageableMenus() {
         EasyRestAssured
                 .givenParams(
-                        new EasyGivenParams()
+                        new EasyGivenQueryParameters()
                                 .addParam("page", 1)
                                 .addParam("num", 3))
-                .whenRequest(
-                        baseUrl(MENUS_BASE_SERVLET_PATH),
-                        EasyRestAssuredRequestMethod.GET)
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.GET)
                 .thenExpectDescriptiveWith(
-                        TestStatusCode.OK,
-                        MENUS_BASE_SERVLET_PATH + PAGE_QUERY_STRING,
+                        TestStatusCode.OK, MENUS_BASE_SERVLET_PATH + PAGE_QUERY_STRING,
                         EasyExpectBodies.builder()
                                 .insert("message", is(String.format("%d 페이지의 메뉴 목록 %d개", 1, 3)))
                                 .insert("data.menus.size()", is(3))
@@ -143,18 +122,44 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     void failedGetPageableMenus() {
         EasyRestAssured
                 .givenParams(
-                        new EasyGivenParams()
+                        new EasyGivenQueryParameters()
                                 .addParam("page", 1)
                                 .addParam("num", 3))
-                .whenRequest(
-                        baseUrl(MENUS_BASE_SERVLET_PATH),
-                        EasyRestAssuredRequestMethod.GET)
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.GET)
                 .thenExpectDescriptiveWith(
-                        TestStatusCode.OK,
-                        MENUS_BASE_SERVLET_PATH + PAGE_QUERY_STRING,
+                        TestStatusCode.OK, MENUS_BASE_SERVLET_PATH + PAGE_QUERY_STRING,
                         EasyExpectBodies.builder()
                                 .insert("message", is(String.format("%d 페이지의 메뉴 목록 %d개", 1, 3)))
                                 .insert("data.menus.size()", is(3))
                 );
+    }
+
+    @Test
+    @DisplayName("[GET] /menus/{menuNo}, 특정 메뉴 상세 정보 조회 성공")
+    void successfullySelectMenu() {
+        EasyRestAssured
+                .givenPathVariable(
+                        new EasyGivenPathVariables()
+                                .addVariables("menuNo", 1))
+                .whenRequest(baseUrl("/menus/{menuNo}"), EasyRestAssuredRequestMethod.GET)
+                .thenExpectDescriptiveWith(TestStatusCode.OK, "/menus/1",
+                        EasyExpectBodies.builder()
+                                .insert("message", is("메뉴 조회 성공"))
+                                .insert("data.menu.menuNo", is(1))
+                                .insert("data.menu.menuName", is("간장치킨"))
+                                .insert("data.menu.menuPrice", is(18000)));
+    }
+
+    @Test
+    @DisplayName("[GET] /menus/{menuNo}, 특정 메뉴 상세 정보 조회 실패, 존재하지 않음")
+    void failedSelectMenuNotFound() {
+        EasyRestAssured
+                .givenPathVariable(
+                        EasyGivenPathVariables.add("menuNo", 1_000_000))
+                .whenRequest(baseUrl("/menus/{menuNo}"), EasyRestAssuredRequestMethod.GET)
+                .thenExpectDescriptiveWith(TestStatusCode.BAD_REQUEST, "/menus/1000000",
+                        EasyExpectBodies.builder()
+                                .insert("message", is("해당하는 메뉴가 존재하지 않습니다."))
+                                .insert("data.requestNo", is(1000000)));
     }
 }

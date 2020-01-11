@@ -1,4 +1,4 @@
-package com.bamin.woorder.easyrestassured;
+package com.bamin.woorder.common.utils.easyrestassured;
 
 import org.hamcrest.Matcher;
 

@@ -1,4 +1,4 @@
-package com.bamin.woorder.easyrestassured;
+package com.bamin.woorder.common.utils.easyrestassured;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;

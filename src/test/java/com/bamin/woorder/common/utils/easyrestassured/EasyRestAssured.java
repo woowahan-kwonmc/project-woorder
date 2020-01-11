@@ -1,11 +1,11 @@
-package com.bamin.woorder.easyrestassured;
+package com.bamin.woorder.common.utils.easyrestassured;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-import static com.bamin.woorder.easyrestassured.EasyRestAssuredRequestMethod.GET;
-import static com.bamin.woorder.easyrestassured.EasyRestAssuredRequestMethod.POST;
+import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.GET;
+import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.POST;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;

@@ -1,9 +1,9 @@
 package com.bamin.woorder.member.presentation;
 
 import com.bamin.woorder.AcceptanceTestUtils;
-import com.bamin.woorder.easyrestassured.EasyExpectBodies;
-import com.bamin.woorder.easyrestassured.EasyRestAssured;
-import com.bamin.woorder.easyrestassured.EasyRestAssuredRequestMethod;
+import com.bamin.woorder.common.utils.easyrestassured.EasyExpectBodies;
+import com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured;
+import com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod;
 import com.bamin.woorder.member.MemberConstants;
 import com.bamin.woorder.member.dto.MemberCreateRequestDto;
 import com.bamin.woorder.member.dto.MemberReadRequestDto;

@@ -1,6 +1,6 @@
 package com.bamin.woorder.menu.domain;
 
-import com.bamin.woorder.common.exception.InvalidParameterTypeException;
+import com.bamin.woorder.common.utils.TypeUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,17 +21,9 @@ public class MenuPrice {
     private int menuPrice;
 
     public MenuPrice(final String menuPrice) {
-        int price = checkMenuPriceType(menuPrice);
+        int price = TypeUtils.parseOrThrow(menuPrice, PRICE_NOT_NUMBER_EXCEPTION_MESSAGE);
         checkMenuPriceRange(price);
         this.menuPrice = price;
-    }
-
-    private int checkMenuPriceType(final String menuPrice) {
-        try {
-            return Integer.parseInt(menuPrice);
-        } catch (NumberFormatException e) {
-            throw new InvalidParameterTypeException(PRICE_NOT_NUMBER_EXCEPTION_MESSAGE);
-        }
     }
 
     private void checkMenuPriceRange(final int price) {

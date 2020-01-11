@@ -44,4 +44,8 @@ public class MenuService {
         savedMenu.updatePrice(menuUpdateData.getUpdatePrice());
         return savedMenu;
     }
+
+    public void deleteMenu(final Menu menu) {
+        menuRepository.delete(menu);
+    }
 }

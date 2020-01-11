@@ -38,4 +38,9 @@ public class MenuCRUDController {
     public ResponseEntity updateMenu(@RequestBody final MenuUpdateRequestDto requestDto) {
         return ResponseEntity.ok(menuCRUDService.updateMenu(requestDto));
     }
+
+    @DeleteMapping("/menus")
+    public ResponseEntity deleteMenu(@RequestParam final Long menuNo) {
+        return ResponseEntity.ok(menuCRUDService.deleteMenu(menuNo));
+    }
 }

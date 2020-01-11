@@ -82,4 +82,18 @@ public class MenuCRUDService {
     private MenuResponseDto mapMenuResponseDto(final Menu menu) {
         return new MenuResponseDto(menu.getNo(), menu.getName(), menu.getPrice());
     }
+
+    public ResponseDto deleteMenu(final Long menuNo) {
+        Menu savedMenu = menuService.findMenuById(menuNo);
+        menuService.deleteMenu(savedMenu);
+        return ResponseDto.builder()
+                .path("/menus")
+                .method(ResponseDtoMethod.DELETE)
+                .message("메뉴 삭제 성공")
+                .data(ResponseData.builder()
+                        .insert("deletedMenu", mapMenuResponseDto(savedMenu))
+                        .build())
+                .statusCode(ResponseDtoStatusCode.OK)
+                .build();
+    }
 }

@@ -16,6 +16,8 @@ public interface MenuConstants {
     String MENUS_SELECT_RESPONSE_MESSAGE_FORMAT = "%d 페이지의 메뉴 목록 %d개";
     String MENU_SELECT_SUCCEED_RESPONSE_MESSAGE = "메뉴 조회 성공";
     String NOT_FOUND_SELECT_FAILED_RESPONSE_MESSAGE = "해당하는 메뉴가 존재하지 않습니다.";
+    String MENU_UPDATE_SUCCEED_RESPONSE_MESSAGE = "메뉴 업데이트 성공";
+    String MENU_DELETE_SUCCEED_RESPONSE_MESSAGE = "메뉴 삭제 성공";
 
     int SELECT_PAGE = 1;
     int SELECT_NUM = 3;

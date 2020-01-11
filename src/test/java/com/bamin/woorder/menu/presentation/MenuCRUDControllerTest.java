@@ -5,6 +5,8 @@ import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.common.utils.easyrestassured.*;
 import com.bamin.woorder.menu.dto.MenuCreateRequestDto;
 import com.bamin.woorder.menu.dto.MenuRequestDto;
+import com.bamin.woorder.menu.dto.MenuUpdateData;
+import com.bamin.woorder.menu.dto.MenuUpdateRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +16,7 @@ import static com.bamin.woorder.menu.MenuConstants.*;
 import static org.hamcrest.CoreMatchers.*;
 
 class MenuCRUDControllerTest extends AcceptanceTestUtils {
+
     @Test
     @DisplayName("[POST] /menus, 메뉴 등록 성공")
     void successfullyCreateMenu() {
@@ -164,5 +167,37 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
                         EasyExpectBodies.builder()
                                 .insert("message", is(NOT_FOUND_SELECT_FAILED_RESPONSE_MESSAGE))
                                 .insert("data.requestNo", is(NOT_EXIST_MENU_ID)));
+    }
+
+    @Test
+    @DisplayName("[PATCH] /menus, 특정 메뉴 정보 업데이트 성공")
+    void successfullyUpdateMenu() {
+        EasyRestAssured
+                .givenBody(new MenuUpdateRequestDto(
+                        1L, new MenuUpdateData("탕수육", "2000")))
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.PUT)
+                .thenExpectDescriptiveWith(
+                        OK, MENUS_BASE_SERVLET_PATH,
+                        EasyExpectBodies.builder()
+                                .insert("message", is(MENU_UPDATE_SUCCEED_RESPONSE_MESSAGE))
+                                .insert("data.updatedMenu.menuNo", is(1))
+                                .insert("data.updatedMenu.menuName", is("탕수육"))
+                                .insert("data.updatedMenu.menuPrice", is(2000)));
+    }
+
+    @Test
+    @DisplayName("[DELETE] /menus, 특정 메뉴 삭제 성공")
+    void successfullyDeleteMenu() {
+        EasyRestAssured
+                .givenParams(new EasyGivenQueryParameters()
+                        .addParam("menuNo", 4L))
+                .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.DELETE)
+                .thenExpectDescriptiveWith(
+                        OK, MENUS_BASE_SERVLET_PATH,
+                        EasyExpectBodies.builder()
+                                .insert("message", is(MENU_DELETE_SUCCEED_RESPONSE_MESSAGE))
+                                .insert("data.deletedMenu.menuNo", is(4))
+                                .insert("data.deletedMenu.menuName", is("치즈볼(4개)"))
+                                .insert("data.deletedMenu.menuPrice", is(4000)));
     }
 }

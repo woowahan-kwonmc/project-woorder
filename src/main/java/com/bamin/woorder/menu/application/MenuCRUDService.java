@@ -7,6 +7,7 @@ import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.menu.domain.Menu;
 import com.bamin.woorder.menu.dto.MenuRequestDto;
 import com.bamin.woorder.menu.dto.MenuResponseDto;
+import com.bamin.woorder.menu.dto.MenuUpdateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,34 @@ public class MenuCRUDService {
 
     }
 
+    public ResponseDto updateMenu(final MenuUpdateRequestDto requestDto) {
+        Menu updatedMenu = menuService.updateMenu(requestDto.getMenuNo(), requestDto.getMenuUpdateData());
+        return ResponseDto.builder()
+                .path("/menus")
+                .method(ResponseDtoMethod.PUT)
+                .message("메뉴 업데이트 성공")
+                .data(ResponseData.builder()
+                        .insert("updatedMenu", mapMenuResponseDto(updatedMenu))
+                        .build())
+                .statusCode(ResponseDtoStatusCode.OK)
+                .build();
+    }
+
     private MenuResponseDto mapMenuResponseDto(final Menu menu) {
         return new MenuResponseDto(menu.getNo(), menu.getName(), menu.getPrice());
+    }
+
+    public ResponseDto deleteMenu(final Long menuNo) {
+        Menu savedMenu = menuService.findMenuById(menuNo);
+        menuService.deleteMenu(savedMenu);
+        return ResponseDto.builder()
+                .path("/menus")
+                .method(ResponseDtoMethod.DELETE)
+                .message("메뉴 삭제 성공")
+                .data(ResponseData.builder()
+                        .insert("deletedMenu", mapMenuResponseDto(savedMenu))
+                        .build())
+                .statusCode(ResponseDtoStatusCode.OK)
+                .build();
     }
 }

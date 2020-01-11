@@ -40,4 +40,12 @@ public class Menu extends ModifiableEntity {
     public int getPrice() {
         return menuPrice.getMenuPrice();
     }
+
+    public void updateName(final String updateName) {
+        this.menuName = new MenuName(updateName);
+    }
+
+    public void updatePrice(final String updatePrice) {
+        this.menuPrice = new MenuPrice(updatePrice);
+    }
 }

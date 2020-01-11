@@ -2,10 +2,12 @@ package com.bamin.woorder.menu.application;
 
 import com.bamin.woorder.menu.domain.Menu;
 import com.bamin.woorder.menu.domain.MenuRepository;
+import com.bamin.woorder.menu.dto.MenuUpdateData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,5 +35,17 @@ public class MenuService {
     public Menu findMenuById(final Long menuNo) {
         return menuRepository.findById(menuNo)
                 .orElseThrow(() -> new MenuNotFoundException(menuNo));
+    }
+
+    @Transactional
+    public Menu updateMenu(final Long menuNo, final MenuUpdateData menuUpdateData) {
+        Menu savedMenu = findMenuById(menuNo);
+        savedMenu.updateName(menuUpdateData.getUpdateName());
+        savedMenu.updatePrice(menuUpdateData.getUpdatePrice());
+        return savedMenu;
+    }
+
+    public void deleteMenu(final Menu menu) {
+        menuRepository.delete(menu);
     }
 }

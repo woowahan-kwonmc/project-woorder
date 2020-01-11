@@ -4,6 +4,7 @@ import com.bamin.woorder.common.dto.PageReadRequestDto;
 import com.bamin.woorder.common.presentation.PageRequestParams;
 import com.bamin.woorder.menu.application.MenuCRUDService;
 import com.bamin.woorder.menu.dto.MenuCreateRequestDto;
+import com.bamin.woorder.menu.dto.MenuUpdateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,15 @@ public class MenuCRUDController {
     @GetMapping("/menus")
     public ResponseEntity selectPageMenus(@PageRequestParams final PageReadRequestDto requestDto) {
         return ResponseEntity.ok(menuCRUDService.selectPageMenus(requestDto.getPage(), requestDto.getNum()));
+    }
+
+    @PutMapping("/menus")
+    public ResponseEntity updateMenu(@RequestBody final MenuUpdateRequestDto requestDto) {
+        return ResponseEntity.ok(menuCRUDService.updateMenu(requestDto));
+    }
+
+    @DeleteMapping("/menus")
+    public ResponseEntity deleteMenu(@RequestParam final Long menuNo) {
+        return ResponseEntity.ok(menuCRUDService.deleteMenu(menuNo));
     }
 }

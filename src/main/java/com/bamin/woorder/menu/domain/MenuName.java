@@ -17,6 +17,13 @@ public class MenuName {
     private String menuName;
 
     public MenuName(final String menuName) {
+        checkNameLength(menuName);
         this.menuName = menuName;
+    }
+
+    private void checkNameLength(final String menuName) {
+        if (menuName.length() < 1 || menuName.length() > 100) {
+            throw new MenuNameLengthException(menuName);
+        }
     }
 }

@@ -4,8 +4,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.GET;
-import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.POST;
+import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -57,6 +56,8 @@ public class EasyRestAssured {
         this.requestUrl = url;
         whenGet(requestMethod);
         whenPost(requestMethod);
+        whenPut(requestMethod);
+        whenDelete(requestMethod);
         return this;
     }
 
@@ -71,6 +72,20 @@ public class EasyRestAssured {
         if (requestMethod.equals(POST)) {
             this.response = this.requestSpecification.when().post(this.requestUrl);
             this.requestMethod = POST.toString();
+        }
+    }
+
+    private void whenPut(final EasyRestAssuredRequestMethod requestMethod) {
+        if (requestMethod.equals(PUT)) {
+            this.response = this.requestSpecification.when().put(this.requestUrl);
+            this.requestMethod = PUT.toString();
+        }
+    }
+
+    private void whenDelete(final EasyRestAssuredRequestMethod requestMethod) {
+        if (requestMethod.equals(DELETE)) {
+            this.response = this.requestSpecification.when().delete(this.requestUrl);
+            this.requestMethod = DELETE.toString();
         }
     }
 

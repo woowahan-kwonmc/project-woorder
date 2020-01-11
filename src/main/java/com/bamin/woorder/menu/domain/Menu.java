@@ -4,13 +4,11 @@ package com.bamin.woorder.menu.domain;
 import com.bamin.woorder.common.domain.DeletableEntity;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
 @EqualsAndHashCode(of = "menuNo", callSuper = false)
 @Table(name = "MENU")
 @Entity
@@ -26,8 +24,20 @@ public class Menu extends DeletableEntity {
     @Embedded
     private MenuPrice menuPrice;
 
-    public Menu(final MenuName menuName, final MenuPrice menuPrice) {
-        this.menuName = menuName;
-        this.menuPrice = menuPrice;
+    public Menu(final String menuName, final String menuPrice) {
+        this.menuName = new MenuName(menuName);
+        this.menuPrice = new MenuPrice(menuPrice);
+    }
+
+    public Long getNo() {
+        return menuNo;
+    }
+
+    public String getName() {
+        return menuName.getMenuName();
+    }
+
+    public int getPrice() {
+        return menuPrice.getMenuPrice();
     }
 }

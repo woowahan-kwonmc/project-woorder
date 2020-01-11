@@ -1,6 +1,6 @@
 package com.bamin.woorder;
 
 public class TestStatusCode {
-    public static int OK_INT = 200;
-    public static int BAD_REQUEST_INT = 404;
+    public static int OK = 200;
+    public static int BAD_REQUEST = 404;
 }

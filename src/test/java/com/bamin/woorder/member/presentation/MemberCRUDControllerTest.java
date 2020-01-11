@@ -10,8 +10,8 @@ import com.bamin.woorder.member.dto.MemberReadRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.bamin.woorder.TestStatusCode.BAD_REQUEST_INT;
-import static com.bamin.woorder.TestStatusCode.OK_INT;
+import static com.bamin.woorder.TestStatusCode.BAD_REQUEST;
+import static com.bamin.woorder.TestStatusCode.OK;
 import static org.hamcrest.CoreMatchers.*;
 
 public class MemberCRUDControllerTest extends AcceptanceTestUtils implements MemberConstants {
@@ -25,7 +25,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils implements Mem
                         baseUrl(MEMBERS_BASE_SERVLET_PATH),
                         EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        OK_INT,
+                        OK,
                         MEMBERS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(SUCCEED_CREATE_RESPONSE_MESSAGE))
@@ -42,7 +42,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils implements Mem
                         baseUrl(MEMBERS_BASE_SERVLET_PATH),
                         EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        BAD_REQUEST_INT,
+                        BAD_REQUEST,
                         MEMBERS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(FAILED_DUPLICATED_RESPONSE_MESSAGE))
@@ -59,7 +59,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils implements Mem
                         baseUrl(MEMBERS_BASE_SERVLET_PATH),
                         EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        BAD_REQUEST_INT,
+                        BAD_REQUEST,
                         MEMBERS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(FAILED_LENGTH_RESPONSE_MESSAGE))
@@ -76,7 +76,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils implements Mem
                         baseUrl(MEMBERS_BASE_SERVLET_PATH),
                         EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        BAD_REQUEST_INT,
+                        BAD_REQUEST,
                         MEMBERS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(FAILED_LENGTH_RESPONSE_MESSAGE))
@@ -93,7 +93,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils implements Mem
                         baseUrl(MEMBERS_LOGIN_SERVLET_PATH),
                         EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        OK_INT,
+                        OK,
                         MEMBERS_LOGIN_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(SUCCEED_LOGIN_MESSAGE))
@@ -110,7 +110,7 @@ public class MemberCRUDControllerTest extends AcceptanceTestUtils implements Mem
                         baseUrl(MEMBERS_LOGIN_SERVLET_PATH),
                         EasyRestAssuredRequestMethod.POST)
                 .thenExpectDescriptiveWith(
-                        BAD_REQUEST_INT,
+                        BAD_REQUEST,
                         MEMBERS_LOGIN_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(NOT_FOUND_MEMBER_RESPONSE_MESSAGE))

@@ -35,12 +35,21 @@ public class EasyRestAssured {
         );
     }
 
-    public static EasyRestAssured givenParams(final EasyGivenParams parameters) {
+    public static EasyRestAssured givenParams(final EasyGivenQueryParameters parameters) {
         return new EasyRestAssured(
                 given().
                         accept(ContentType.JSON).
                         contentType(ContentType.JSON).
                         queryParams(parameters.getParams())
+        );
+    }
+
+    public static EasyRestAssured givenPathVariable(final EasyGivenPathVariables pathVariables) {
+        return new EasyRestAssured(
+                given().
+                        accept(ContentType.JSON).
+                        contentType(ContentType.JSON).
+                        pathParams(pathVariables.getVariables())
         );
     }
 

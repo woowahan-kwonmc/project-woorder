@@ -26,7 +26,7 @@ public class EasyRestAssured {
         this.requestSpecification = requestSpecification;
     }
 
-    public static EasyRestAssured givenBody(Object object) {
+    public static EasyRestAssured givenBody(final Object object) {
         return new EasyRestAssured(
                 given().
                         accept(ContentType.JSON).
@@ -35,7 +35,16 @@ public class EasyRestAssured {
         );
     }
 
-    public EasyRestAssured whenRequest(String url, EasyRestAssuredRequestMethod requestMethod) {
+    public static EasyRestAssured givenParams(final EasyGivenParams parameters) {
+        return new EasyRestAssured(
+                given().
+                        accept(ContentType.JSON).
+                        contentType(ContentType.JSON).
+                        queryParams(parameters.getParams())
+        );
+    }
+
+    public EasyRestAssured whenRequest(final String url, final EasyRestAssuredRequestMethod requestMethod) {
         this.requestUrl = url;
         whenGet(requestMethod);
         whenPost(requestMethod);
@@ -56,7 +65,9 @@ public class EasyRestAssured {
         }
     }
 
-    public void thenExpectDescriptiveWith(int statusCode, String path, EasyExpectBodies easyExpectBodies) {
+    public void thenExpectDescriptiveWith(final int statusCode,
+                                          final String path,
+                                          final EasyExpectBodies easyExpectBodies) {
         EasyValidatableResponse validatableResponse = new EasyValidatableResponse(response.then());
         validatableResponse.statusCode(statusCode);
         validatableResponse.contentType(ContentType.JSON);

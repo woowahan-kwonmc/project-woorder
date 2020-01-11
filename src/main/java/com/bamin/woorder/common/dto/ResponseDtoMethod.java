@@ -1,6 +1,6 @@
-package com.bamin.woorder;
+package com.bamin.woorder.common.dto;
 
-public class TestRequestMethod {
+public class ResponseDtoMethod {
     public static String GET = "GET";
     public static String POST = "POST";
     public static String PATCH = "PATCH";

@@ -2,6 +2,8 @@ package com.bamin.woorder.member.application;
 
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
+import com.bamin.woorder.common.dto.ResponseDtoMethod;
+import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.member.domain.Member;
 import com.bamin.woorder.member.dto.MemberCreateRequestDto;
 import com.bamin.woorder.member.dto.MemberReadRequestDto;
@@ -22,12 +24,12 @@ public class MemberCRUDService {
         Member savedMember = memberService.findByMemberName(requestDto.getMemberName());
         return ResponseDto.builder()
                 .path("/members/login")
-                .method("POST")
+                .method(ResponseDtoMethod.POST)
                 .message("로그인 성공")
                 .data(ResponseData.builder()
                         .insert("member", savedMember)
                         .build())
-                .statusCode("200")
+                .statusCode(ResponseDtoStatusCode.OK)
                 .build();
     }
 
@@ -35,12 +37,12 @@ public class MemberCRUDService {
         Member savedMember = memberService.createMember(requestDto.getName());
         return ResponseDto.builder()
                 .path("/members")
-                .method("POST")
+                .method(ResponseDtoMethod.POST)
                 .message("회원 가입 성공")
                 .data(ResponseData.builder()
                         .insert("name", savedMember.getName())
                         .build())
-                .statusCode("200")
+                .statusCode(ResponseDtoStatusCode.OK)
                 .build();
     }
 }

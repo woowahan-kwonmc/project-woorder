@@ -83,7 +83,7 @@ public class EasyRestAssured {
         validatableResponse.expectBody(easyExpectBodies
                 .insert(METHOD, is(requestMethod))
                 .insert(PATH, is(path))
-                .insert(STATUS_CODE, is(String.valueOf(statusCode)))
+                .insert(STATUS_CODE, is(statusCode))
                 .insert(TIMESTAMP, is(notNullValue()))
         );
     }

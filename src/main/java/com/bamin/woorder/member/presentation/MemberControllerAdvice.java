@@ -2,6 +2,7 @@ package com.bamin.woorder.member.presentation;
 
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
+import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.member.AbstractNameException;
 import com.bamin.woorder.member.application.DuplicatedNameException;
 import com.bamin.woorder.member.application.NotFoundUserException;
@@ -20,7 +21,7 @@ public class MemberControllerAdvice {
     @ExceptionHandler({DuplicatedNameException.class, InvalidNameLengthException.class})
     public ResponseEntity handlingException(final AbstractNameException e, final HttpServletRequest request) {
         log.error(e.getMessage());
-        return ResponseEntity.status(404)
+        return ResponseEntity.status(ResponseDtoStatusCode.BAD_REQUEST)
                 .body(ResponseDto.builder()
                         .path(request.getServletPath())
                         .method(request.getMethod())
@@ -28,19 +29,19 @@ public class MemberControllerAdvice {
                         .data(ResponseData.builder()
                                 .insert("name", e.getName())
                                 .build())
-                        .statusCode("404")
+                        .statusCode(ResponseDtoStatusCode.BAD_REQUEST)
                         .build());
     }
 
     @ExceptionHandler(NotFoundUserException.class)
     public ResponseEntity handlingNotFoundUserException(final RuntimeException e, final HttpServletRequest request) {
         log.error(e.getMessage());
-        return ResponseEntity.status(404)
+        return ResponseEntity.status(ResponseDtoStatusCode.NOT_FOUND)
                 .body(ResponseDto.builder()
                         .path(request.getServletPath())
                         .method(request.getMethod())
                         .message(e.getMessage())
-                        .statusCode("404")
+                        .statusCode(ResponseDtoStatusCode.NOT_FOUND)
                         .build());
     }
 }

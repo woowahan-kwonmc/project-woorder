@@ -2,6 +2,8 @@ package com.bamin.woorder.menu.application;
 
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
+import com.bamin.woorder.common.dto.ResponseDtoMethod;
+import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.menu.domain.Menu;
 import com.bamin.woorder.menu.dto.MenuRequestDto;
 import com.bamin.woorder.menu.dto.MenuResponseDto;
@@ -25,12 +27,12 @@ public class MenuCRUDService {
         Menu savedMenu = menuService.createMenu(requestDto.getName(), requestDto.getPrice());
         return ResponseDto.builder()
                 .path("/menus")
-                .method("POST")
+                .method(ResponseDtoMethod.POST)
                 .message("메뉴 등록 성공")
                 .data(ResponseData.builder()
                         .insert("menu", mapMenuResponseDto(savedMenu))
                         .build())
-                .statusCode("200")
+                .statusCode(ResponseDtoStatusCode.OK)
                 .build();
     }
 
@@ -41,11 +43,11 @@ public class MenuCRUDService {
                 .collect(Collectors.toList());
         return ResponseDto.builder()
                 .path(String.format("/menus?page=%d&num=%d", page, num))
-                .method("GET")
+                .method(ResponseDtoMethod.GET)
                 .message(String.format("%d 페이지의 메뉴 목록 %d개", page, num))
                 .data(ResponseData.builder()
                         .insert("menus", pageMenus).build())
-                .statusCode("200")
+                .statusCode(ResponseDtoStatusCode.OK)
                 .build();
     }
 
@@ -53,12 +55,12 @@ public class MenuCRUDService {
         Menu findMenu = menuService.findMenuById(menuNo);
         return ResponseDto.builder()
                 .path(String.format("/menus/%d", menuNo))
-                .method("GET")
+                .method(ResponseDtoMethod.GET)
                 .message("메뉴 조회 성공")
                 .data(ResponseData.builder()
                         .insert("menu", mapMenuResponseDto(findMenu))
                         .build())
-                .statusCode("200")
+                .statusCode(ResponseDtoStatusCode.OK)
                 .build();
 
     }

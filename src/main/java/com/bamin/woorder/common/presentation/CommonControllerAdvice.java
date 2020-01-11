@@ -1,6 +1,7 @@
 package com.bamin.woorder.common.presentation;
 
 import com.bamin.woorder.common.dto.ResponseDto;
+import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.common.exception.InvalidParameterTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,12 @@ public class CommonControllerAdvice {
     @ExceptionHandler({InvalidParameterTypeException.class})
     public ResponseEntity handlingException(final RuntimeException e, final HttpServletRequest request) {
         log.error(e.getMessage());
-        return ResponseEntity.status(404)
+        return ResponseEntity.status(ResponseDtoStatusCode.BAD_REQUEST)
                 .body(ResponseDto.builder()
                         .path(request.getServletPath())
                         .method(request.getMethod())
                         .message(e.getMessage())
-                        .statusCode("404")
+                        .statusCode(ResponseDtoStatusCode.BAD_REQUEST)
                         .build());
     }
 }

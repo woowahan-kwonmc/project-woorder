@@ -12,7 +12,7 @@ public interface DescriptiveResponse {
 
     Map<String, Object> getData();
 
-    String getStatusCode();
+    int getStatusCode();
 
     LocalDateTime getTimestamp();
 }

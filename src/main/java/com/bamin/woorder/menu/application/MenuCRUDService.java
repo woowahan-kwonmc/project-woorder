@@ -7,6 +7,7 @@ import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.menu.domain.Menu;
 import com.bamin.woorder.menu.dto.MenuRequestDto;
 import com.bamin.woorder.menu.dto.MenuResponseDto;
+import com.bamin.woorder.menu.dto.MenuUpdateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,19 @@ public class MenuCRUDService {
                 .statusCode(ResponseDtoStatusCode.OK)
                 .build();
 
+    }
+
+    public ResponseDto updateMenu(final MenuUpdateRequestDto requestDto) {
+        Menu updatedMenu = menuService.updateMenu(requestDto.getMenuNo(), requestDto.getMenuUpdateData());
+        return ResponseDto.builder()
+                .path("/menus")
+                .method(ResponseDtoMethod.PUT)
+                .message("메뉴 업데이트 성공")
+                .data(ResponseData.builder()
+                        .insert("updatedMenu", mapMenuResponseDto(updatedMenu))
+                        .build())
+                .statusCode(ResponseDtoStatusCode.OK)
+                .build();
     }
 
     private MenuResponseDto mapMenuResponseDto(final Menu menu) {

@@ -29,4 +29,9 @@ public class MenuService {
                 .stream()
                 .collect(Collectors.toList());
     }
+
+    public Menu findMenuById(final Long menuNo) {
+        return menuRepository.findById(menuNo)
+                .orElseThrow(() -> new MenuNotFoundException(menuNo));
+    }
 }

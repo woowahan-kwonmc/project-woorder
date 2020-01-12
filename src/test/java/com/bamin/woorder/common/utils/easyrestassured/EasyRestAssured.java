@@ -92,7 +92,10 @@ public class EasyRestAssured {
     public void thenExpectDescriptiveWith(final int statusCode,
                                           final String path,
                                           final EasyExpectBodies easyExpectBodies) {
-        EasyValidatableResponse validatableResponse = new EasyValidatableResponse(response.then());
+        EasyValidatableResponse validatableResponse = new EasyValidatableResponse(
+                this.response.then().
+                        log().ifValidationFails().
+                        log().ifError());
         validatableResponse.statusCode(statusCode);
         validatableResponse.contentType(ContentType.JSON);
         validatableResponse.expectBody(easyExpectBodies

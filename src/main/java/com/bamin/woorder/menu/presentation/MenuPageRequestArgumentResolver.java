@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class MenuPageRequestArgumentResolver implements HandlerMethodArgumentResolver {
 
-    public static final String CHECK_QUERY_STRING_EXCEPTION_MESSAGE = "요청 쿼리 스트링을 확인해주세요.";
+    private static final String CHECK_QUERY_STRING_EXCEPTION_MESSAGE = "요청 쿼리 스트링을 확인해주세요.";
 
     @Override
     public boolean supportsParameter(final MethodParameter parameter) {
@@ -27,8 +27,8 @@ public class MenuPageRequestArgumentResolver implements HandlerMethodArgumentRes
         String numParam = request.getParameter("num");
 
         return new MenuPageReadRequestDto(
-                TypeUtils.parseOrThrow(pageParam, CHECK_QUERY_STRING_EXCEPTION_MESSAGE),
-                TypeUtils.parseOrThrow(numParam, CHECK_QUERY_STRING_EXCEPTION_MESSAGE)
+                TypeUtils.parseToIntegerOrThrow(pageParam, CHECK_QUERY_STRING_EXCEPTION_MESSAGE),
+                TypeUtils.parseToIntegerOrThrow(numParam, CHECK_QUERY_STRING_EXCEPTION_MESSAGE)
         );
     }
 }

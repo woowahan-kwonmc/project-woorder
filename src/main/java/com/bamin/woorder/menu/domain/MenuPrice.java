@@ -21,7 +21,7 @@ public class MenuPrice {
     private int menuPrice;
 
     public MenuPrice(final String menuPrice) {
-        int price = TypeUtils.parseOrThrow(menuPrice, PRICE_NOT_NUMBER_EXCEPTION_MESSAGE);
+        int price = TypeUtils.parseToIntegerOrThrow(menuPrice, PRICE_NOT_NUMBER_EXCEPTION_MESSAGE);
         checkMenuPriceRange(price);
         this.menuPrice = price;
     }

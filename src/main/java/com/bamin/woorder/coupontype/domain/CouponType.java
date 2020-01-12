@@ -1,12 +1,10 @@
 package com.bamin.woorder.coupontype.domain;
 
 import com.bamin.woorder.common.domain.ModifiableEntity;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -21,6 +19,9 @@ public class CouponType extends ModifiableEntity {
     private Long couponTypeNo;
 
     @Embedded
+    private CouponTypeName couponTypeName;
+
+    @Embedded
     private CouponTypeDiscount couponTypeDiscount;
 
     @Embedded
@@ -29,11 +30,40 @@ public class CouponType extends ModifiableEntity {
     @Embedded
     private CouponTypeUsablePeriod couponTypeUsablePeriod;
 
-    public CouponType(final CouponTypeDiscount couponTypeDiscount,
-                      final CouponTypeCount couponTypeCount,
-                      final CouponTypeUsablePeriod couponTypeUsablePeriod) {
-        this.couponTypeDiscount = couponTypeDiscount;
-        this.couponTypeCount = couponTypeCount;
-        this.couponTypeUsablePeriod = couponTypeUsablePeriod;
+    @Builder
+    public CouponType(final String couponTypeName,
+                      final String couponTypeCount,
+                      final String couponTypeDiscount,
+                      final String startTime,
+                      final String endTime) {
+        this.couponTypeName = new CouponTypeName(couponTypeName);
+        this.couponTypeCount = new CouponTypeCount(couponTypeCount);
+        this.couponTypeDiscount = new CouponTypeDiscount(couponTypeDiscount);
+        this.couponTypeUsablePeriod = new CouponTypeUsablePeriod(startTime, endTime);
+    }
+
+    public Long getNo() {
+        return getCouponTypeNo();
+    }
+
+
+    public String getName() {
+        return couponTypeName.getCouponTypeName();
+    }
+
+    public int getDiscount() {
+        return couponTypeDiscount.getAmount();
+    }
+
+    public int getCount() {
+        return couponTypeCount.getCount();
+    }
+
+    public LocalDateTime getStartTime() {
+        return couponTypeUsablePeriod.getStartTime();
+    }
+
+    public LocalDateTime getEndTime() {
+        return couponTypeUsablePeriod.getEndTime();
     }
 }

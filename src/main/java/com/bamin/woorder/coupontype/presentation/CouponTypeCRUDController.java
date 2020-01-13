@@ -28,4 +28,9 @@ public class CouponTypeCRUDController {
     public ResponseEntity selectPageCouponTypes(@PageRequestParams final PageReadRequestDto requestDto) {
         return ResponseEntity.ok(couponTypeCRUDService.selectPageCouponTypes(requestDto.getPage(), requestDto.getNum()));
     }
+
+    @GetMapping("/couponTypes/{couponTypeNo}")
+    public ResponseEntity selectCouponType(@PathVariable final Long couponTypeNo) {
+        return ResponseEntity.ok(couponTypeCRUDService.selectCouponType(couponTypeNo));
+    }
 }

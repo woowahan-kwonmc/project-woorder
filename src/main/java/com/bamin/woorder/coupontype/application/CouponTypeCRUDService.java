@@ -2,6 +2,7 @@ package com.bamin.woorder.coupontype.application;
 
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
+import com.bamin.woorder.coupon.domain.Coupon;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import com.bamin.woorder.coupontype.dto.CouponTypeCreateRequestDto;
 import com.bamin.woorder.coupontype.dto.CouponTypeResponseDto;
@@ -48,6 +49,21 @@ public class CouponTypeCRUDService {
                 .statusCode(200)
                 .data(ResponseData.builder()
                         .insert("couponTypes", pageCouponTypes)
+                        .build())
+                .build();
+    }
+
+    public ResponseDto selectCouponType(final Long couponTypeNo) {
+        CouponType savedCouponType = couponTypeService.selectCouponType(couponTypeNo);
+        List<Coupon> couponTypeCoupons = savedCouponType.getCoupons();
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/couponTypes/%d", couponTypeNo))
+                .method("GET")
+                .message("쿠폰 타입 정보 조회 성공")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("couponType", mapCouponTypeResponseDto(savedCouponType))
+                        .insert("couponsSize", couponTypeCoupons.size())
                         .build())
                 .build();
     }

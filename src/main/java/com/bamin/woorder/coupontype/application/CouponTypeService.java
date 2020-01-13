@@ -39,4 +39,9 @@ public class CouponTypeService {
                 .stream()
                 .collect(Collectors.toList());
     }
+
+    public CouponType selectCouponType(final Long couponTypeNo) {
+        return couponTypeRepository.findById(couponTypeNo)
+                .orElseThrow(() -> new CouponNotFoundException(couponTypeNo));
+    }
 }

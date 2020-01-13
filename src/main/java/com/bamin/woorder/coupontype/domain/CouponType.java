@@ -1,10 +1,12 @@
 package com.bamin.woorder.coupontype.domain;
 
 import com.bamin.woorder.common.domain.ModifiableEntity;
+import com.bamin.woorder.coupon.domain.Coupon;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -28,6 +30,9 @@ public class CouponType extends ModifiableEntity {
     private CouponTypeCount couponTypeCount;
 
     @Embedded
+    private CouponTypeCoupons couponTypeCoupons;
+
+    @Embedded
     private CouponTypeUsablePeriod couponTypeUsablePeriod;
 
     @Builder
@@ -46,7 +51,6 @@ public class CouponType extends ModifiableEntity {
         return getCouponTypeNo();
     }
 
-
     public String getName() {
         return couponTypeName.getCouponTypeName();
     }
@@ -57,6 +61,10 @@ public class CouponType extends ModifiableEntity {
 
     public int getCount() {
         return couponTypeCount.getCount();
+    }
+
+    public List<Coupon> getCoupons() {
+        return couponTypeCoupons.getCoupons();
     }
 
     public LocalDateTime getStartTime() {

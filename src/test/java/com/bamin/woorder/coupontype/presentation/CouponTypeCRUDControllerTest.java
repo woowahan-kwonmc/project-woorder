@@ -1,18 +1,14 @@
 package com.bamin.woorder.coupontype.presentation;
 
 import com.bamin.woorder.AcceptanceTestUtils;
-import com.bamin.woorder.common.utils.easyrestassured.EasyExpectBodies;
-import com.bamin.woorder.common.utils.easyrestassured.EasyGivenQueryParameters;
-import com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured;
-import com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod;
+import com.bamin.woorder.common.utils.easyrestassured.*;
 import com.bamin.woorder.coupontype.dto.CouponTypeCreateRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.BAD_REQUEST;
-import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.OK;
+import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.*;
 import static com.bamin.woorder.coupontype.presentation.CouponTypeConstants.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -31,8 +27,8 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_DISCOUNT,
                         startTime,
                         endTime))
-                .whenRequest(baseUrl(COUPON_TYPE_SERVLET_BASE_PATH), EasyRestAssuredRequestMethod.POST)
-                .thenExpectDescriptiveWith(OK, COUPON_TYPE_SERVLET_BASE_PATH,
+                .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
+                .thenExpectDescriptiveWith(OK, COUPON_TYPE_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(COUPON_TYPE_CREATE_SUCCEED_RESPONSE_MESSAGE))
                                 .insert("data.couponType.no", is(notNullValue()))
@@ -56,8 +52,8 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_DISCOUNT,
                         startTime,
                         endTime))
-                .whenRequest(baseUrl(COUPON_TYPE_SERVLET_BASE_PATH), EasyRestAssuredRequestMethod.POST)
-                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_SERVLET_BASE_PATH,
+                .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
+                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(COUPON_TYPE_PERIOD_FAILED_RESPONSE_MESSAGE))
                                 .insert("data.currentTime", is(notNullValue()))
@@ -78,8 +74,8 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_DISCOUNT,
                         startTime,
                         endTime))
-                .whenRequest(baseUrl(COUPON_TYPE_SERVLET_BASE_PATH), EasyRestAssuredRequestMethod.POST)
-                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_SERVLET_BASE_PATH,
+                .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
+                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(COUPON_TYPE_PERIOD_FAILED_RESPONSE_MESSAGE))
                                 .insert("data.currentTime", is(notNullValue()))
@@ -99,8 +95,8 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_DISCOUNT,
                         sameTime,
                         sameTime))
-                .whenRequest(baseUrl(COUPON_TYPE_SERVLET_BASE_PATH), EasyRestAssuredRequestMethod.POST)
-                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_SERVLET_BASE_PATH,
+                .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
+                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(COUPON_TYPE_PERIOD_FAILED_RESPONSE_MESSAGE))
                                 .insert("data.currentTime", is(notNullValue()))
@@ -121,8 +117,8 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_DISCOUNT,
                         startTime,
                         endTime))
-                .whenRequest(baseUrl(COUPON_TYPE_SERVLET_BASE_PATH), EasyRestAssuredRequestMethod.POST)
-                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_SERVLET_BASE_PATH,
+                .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
+                .thenExpectDescriptiveWith(BAD_REQUEST, COUPON_TYPE_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(COUPON_TYPE_PERIOD_FAILED_RESPONSE_MESSAGE))
                                 .insert("data.currentTime", is(notNullValue()))
@@ -143,5 +139,39 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         EasyExpectBodies.builder()
                                 .insert("message", is(String.format(COUPON_TYPES_SELECT_SUCCEED_RESPONSE_MESSAGE, 1, 3)))
                                 .insert("data.couponTypes.size()", is(3)));
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/couponTypes/{couponTypeNo}, 특정 쿠폰 타입 조회 성공")
+    void successfullySelectCouponType() {
+        EasyRestAssured
+                .givenPathVariable(new EasyGivenPathVariables()
+                        .addVariables("couponTypeNo", COUPON_TYPE_NO_01))
+                .whenRequest(baseUrl(COUPON_TYPE_SELECT_SERVLET_PATH), EasyRestAssuredRequestMethod.GET)
+                .thenExpectDescriptiveWith(OK, String.format(COUPON_TYPE_SELECT_FORMATTED_PATH, COUPON_TYPE_NO_01),
+                        EasyExpectBodies.builder()
+                                .insert("message", is(COUPON_TYPE_SELECT_SUCCEED_RESPONSE_MESSAGE))
+                                .insert("data.couponType.no", is(COUPON_TYPE_NO_01))
+                                .insert("data.couponType.name", is(COUPON_TYPE_NO_01_NAME))
+                                .insert("data.couponType.discount", is(COUPON_TYPE_NO_01_DISCOUNT))
+                                .insert("data.couponType.count", is(COUPON_TYPE_NO_01_COUNT))
+                                .insert("data.couponType.startTime", is(COUPON_TYPE_NO_01_START_TIME))
+                                .insert("data.couponType.endTime", is(COUPON_TYPE_NO_01_END_TIME))
+                                .insert("data.couponsSize", is(0))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/couponTypes/{couponTypeNo}, 특정 쿠폰 타입 조회 실패, 존재하지 않음")
+    void failedSelectCouponTypeNotFound() {
+        EasyRestAssured
+                .givenPathVariable(new EasyGivenPathVariables()
+                        .addVariables("couponTypeNo", COUPON_TYPE_NO_NOT_EXIST))
+                .whenRequest(baseUrl(COUPON_TYPE_SELECT_SERVLET_PATH), EasyRestAssuredRequestMethod.GET)
+                .thenExpectDescriptiveWith(NOT_FOUND, String.format(COUPON_TYPE_SELECT_FORMATTED_PATH, COUPON_TYPE_NO_NOT_EXIST),
+                        EasyExpectBodies.builder()
+                                .insert("message", is(COUPON_TYPE_SELECT_NOT_FOUND_RESPONSE_MESSAGE))
+                                .insert("data.requestNo", is(COUPON_TYPE_NO_NOT_EXIST))
+                );
     }
 }

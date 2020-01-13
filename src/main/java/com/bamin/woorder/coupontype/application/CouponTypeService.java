@@ -3,7 +3,11 @@ package com.bamin.woorder.coupontype.application;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import com.bamin.woorder.coupontype.domain.CouponTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CouponTypeService {
@@ -28,5 +32,16 @@ public class CouponTypeService {
                 .endTime(endTime)
                 .build();
         return couponTypeRepository.save(couponType);
+    }
+
+    public List<CouponType> selectPageCouponTypes(final int page, final int num) {
+        return couponTypeRepository.findAll(PageRequest.of(page - 1, num))
+                .stream()
+                .collect(Collectors.toList());
+    }
+
+    public CouponType selectCouponType(final Long couponTypeNo) {
+        return couponTypeRepository.findById(couponTypeNo)
+                .orElseThrow(() -> new CouponNotFoundException(couponTypeNo));
     }
 }

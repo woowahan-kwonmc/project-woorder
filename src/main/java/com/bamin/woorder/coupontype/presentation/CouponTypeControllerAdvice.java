@@ -3,6 +3,7 @@ package com.bamin.woorder.coupontype.presentation;
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
+import com.bamin.woorder.coupontype.application.CouponNotFoundException;
 import com.bamin.woorder.coupontype.domain.exception.CouponTypeCountRangeException;
 import com.bamin.woorder.coupontype.domain.exception.CouponTypeDiscountAmountException;
 import com.bamin.woorder.coupontype.domain.exception.CouponTypeNameLengthException;
@@ -59,6 +60,21 @@ public class CouponTypeControllerAdvice {
                         .method(request.getMethod())
                         .message(e.getMessage())
                         .statusCode(ResponseDtoStatusCode.BAD_REQUEST)
+                        .build());
+    }
+
+    @ExceptionHandler({CouponNotFoundException.class})
+    public ResponseEntity handleCouponTypeLengthException(final CouponNotFoundException e, final HttpServletRequest request) {
+        log.error(e.getMessage());
+        return ResponseEntity.status(ResponseDtoStatusCode.NOT_FOUND)
+                .body(ResponseDto.builder()
+                        .path(request.getServletPath())
+                        .method(request.getMethod())
+                        .message(e.getMessage())
+                        .data(ResponseData.builder()
+                                .insert("requestNo", e.getRequestNo())
+                                .build())
+                        .statusCode(ResponseDtoStatusCode.NOT_FOUND)
                         .build());
     }
 }

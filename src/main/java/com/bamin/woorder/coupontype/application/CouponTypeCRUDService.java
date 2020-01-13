@@ -2,11 +2,15 @@ package com.bamin.woorder.coupontype.application;
 
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
+import com.bamin.woorder.coupon.domain.Coupon;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import com.bamin.woorder.coupontype.dto.CouponTypeCreateRequestDto;
 import com.bamin.woorder.coupontype.dto.CouponTypeResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CouponTypeCRUDService {
@@ -29,6 +33,37 @@ public class CouponTypeCRUDService {
                 .statusCode(200)
                 .data(ResponseData.builder()
                         .insert("couponType", mapCouponTypeResponseDto(savedCouponType))
+                        .build())
+                .build();
+    }
+
+    public ResponseDto selectPageCouponTypes(final int page, final int num) {
+        List<CouponType> couponTypes = couponTypeService.selectPageCouponTypes(page, num);
+        List<CouponTypeResponseDto> pageCouponTypes = couponTypes.stream()
+                .map(this::mapCouponTypeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseDto.builder()
+                .path("/api/v1/couponTypes/all")
+                .method("GET")
+                .message(String.format("쿠폰 타입 %d 페이지 %d 개 조회 성공", page, num))
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("couponTypes", pageCouponTypes)
+                        .build())
+                .build();
+    }
+
+    public ResponseDto selectCouponType(final Long couponTypeNo) {
+        CouponType savedCouponType = couponTypeService.selectCouponType(couponTypeNo);
+        List<Coupon> couponTypeCoupons = savedCouponType.getCoupons();
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/couponTypes/%d", couponTypeNo))
+                .method("GET")
+                .message("쿠폰 타입 정보 조회 성공")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("couponType", mapCouponTypeResponseDto(savedCouponType))
+                        .insert("couponsSize", couponTypeCoupons.size())
                         .build())
                 .build();
     }

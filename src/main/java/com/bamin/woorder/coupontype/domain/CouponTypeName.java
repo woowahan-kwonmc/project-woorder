@@ -16,7 +16,7 @@ public class CouponTypeName {
     private static final int LENGTH_LOWER_BOUND = 1;
     private static final int LENGTH_UPPER_BOUND = 30;
 
-    @Column(name = "coupon_usable_start_time",
+    @Column(name = "coupon_type_name",
             nullable = false,
             length = 30)
     private String couponTypeName;

@@ -15,7 +15,8 @@ import java.util.List;
 @Entity
 public class CouponType extends ModifiableEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coupon_type_no",
             updatable = false)
     private Long couponTypeNo;
@@ -30,19 +31,24 @@ public class CouponType extends ModifiableEntity {
     private CouponTypeCount couponTypeCount;
 
     @Embedded
-    private CouponTypeCoupons couponTypeCoupons;
+    private CouponTypeHasCode couponTypeHasCode;
 
     @Embedded
     private CouponTypeUsablePeriod couponTypeUsablePeriod;
+
+    @Embedded
+    private CouponTypeCoupons couponTypeCoupons;
 
     @Builder
     public CouponType(final String couponTypeName,
                       final String couponTypeCount,
                       final String couponTypeDiscount,
+                      final boolean couponTypeHasCode,
                       final String startTime,
                       final String endTime) {
         this.couponTypeName = new CouponTypeName(couponTypeName);
         this.couponTypeCount = new CouponTypeCount(couponTypeCount);
+        this.couponTypeHasCode = new CouponTypeHasCode(couponTypeHasCode);
         this.couponTypeDiscount = new CouponTypeDiscount(couponTypeDiscount);
         this.couponTypeUsablePeriod = new CouponTypeUsablePeriod(startTime, endTime);
     }
@@ -53,6 +59,10 @@ public class CouponType extends ModifiableEntity {
 
     public String getName() {
         return couponTypeName.getCouponTypeName();
+    }
+
+    public boolean getHasCode() {
+        return couponTypeHasCode.isCouponTypeHasCode();
     }
 
     public int getDiscount() {

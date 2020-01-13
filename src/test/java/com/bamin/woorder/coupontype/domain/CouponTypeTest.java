@@ -21,6 +21,7 @@ class CouponTypeTest {
                 "민철이가 쏜다.",
                 "1000",
                 "10",
+                true,
                 LocalDateTime.now().plusDays(2L).toString(),
                 LocalDateTime.now().plusDays(3L).toString()));
     }
@@ -32,6 +33,7 @@ class CouponTypeTest {
                 "",
                 "1000",
                 "10",
+                true,
                 LocalDateTime.now().plusDays(2L).toString(),
                 LocalDateTime.now().plusDays(3L).toString()));
     }
@@ -43,6 +45,7 @@ class CouponTypeTest {
                 "민철이가 쏜다.",
                 "0",
                 "10",
+                true,
                 LocalDateTime.now().plusDays(2L).toString(),
                 LocalDateTime.now().plusDays(3L).toString()));
     }
@@ -54,6 +57,7 @@ class CouponTypeTest {
                 "민철이가 쏜다.",
                 "1",
                 "0",
+                true,
                 LocalDateTime.now().plusDays(2L).toString(),
                 LocalDateTime.now().plusDays(3L).toString()));
     }
@@ -65,6 +69,7 @@ class CouponTypeTest {
                 "민철이가 쏜다.",
                 "1",
                 "1",
+                true,
                 LocalDateTime.now().minusDays(2L).toString(),
                 LocalDateTime.now().plusDays(3L).toString()));
     }

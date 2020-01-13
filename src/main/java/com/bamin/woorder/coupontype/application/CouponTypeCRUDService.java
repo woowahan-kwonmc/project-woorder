@@ -24,8 +24,14 @@ public class CouponTypeCRUDService {
 
 
     public ResponseDto createCouponType(final CouponTypeCreateRequestDto requestDto) {
-        CouponType savedCouponType = couponTypeService.createCouponType(requestDto.getCouponTypeName(), requestDto.getCouponTypeCount(),
-                requestDto.getCouponTypeDiscount(), requestDto.getStartTime(), requestDto.getEndTime());
+        CouponType savedCouponType = couponTypeService.createCouponTypeBuilder()
+                .couponTypeName(requestDto.getCouponTypeName())
+                .couponTypeCount(requestDto.getCouponTypeCount())
+                .couponTypeDiscount(requestDto.getCouponTypeDiscount())
+                .couponTypeHasCode(requestDto.isCouponTypeHasCode())
+                .startTime(requestDto.getStartTime())
+                .endTime(requestDto.getEndTime())
+                .build();
         return ResponseDto.builder()
                 .path("/api/v1/couponTypes")
                 .method("POST")
@@ -72,6 +78,7 @@ public class CouponTypeCRUDService {
         return CouponTypeResponseDto.builder()
                 .no(couponType.getNo())
                 .name(couponType.getName())
+                .hasCode(couponType.getHasCode())
                 .discount(couponType.getDiscount())
                 .count(couponType.getCount())
                 .startTime(couponType.getStartTime())

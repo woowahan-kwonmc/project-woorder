@@ -15,7 +15,7 @@ public class ResponseDto extends DescriptiveResponseDto {
     @Builder
     public ResponseDto(final String path,
                        final String method,
-                       final Map<String, Object> data,
+                       final Object data,
                        final String message,
                        final int statusCode) {
         super(path, method, data, message, statusCode);

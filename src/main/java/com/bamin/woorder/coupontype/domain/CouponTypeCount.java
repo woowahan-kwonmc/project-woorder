@@ -19,19 +19,19 @@ public class CouponTypeCount {
 
     @Column(name = "coupon_type_count",
             nullable = false)
-    private int count;
+    private Long count;
 
-    public CouponTypeCount(final int count) {
+    public CouponTypeCount(final Long count) {
         this.count = count;
     }
 
     public CouponTypeCount(final String couponTypeCount) {
-        int count = TypeUtils.parseToIntegerOrThrow(couponTypeCount, COUPON_COUNT_TYPE_CHECK_EXCEPTION_MESSAGE);
+        long count = TypeUtils.parseToLongOrThrow(couponTypeCount, COUPON_COUNT_TYPE_CHECK_EXCEPTION_MESSAGE);
         checkCouponTypeCountRange(count);
         this.count = count;
     }
 
-    private void checkCouponTypeCountRange(final int count) {
+    private void checkCouponTypeCountRange(final long count) {
         if (count < COUPON_TYPE_COUNT_LOWER_BOUND) {
             throw new CouponTypeCountRangeException();
         }

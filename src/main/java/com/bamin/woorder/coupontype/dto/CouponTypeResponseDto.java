@@ -14,7 +14,7 @@ public class CouponTypeResponseDto {
     private Long no;
     private String name;
     private int discount;
-    private int count;
+    private long count;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
@@ -22,7 +22,7 @@ public class CouponTypeResponseDto {
     public CouponTypeResponseDto(final Long no,
                                  final String name,
                                  final int discount,
-                                 final int count,
+                                 final long count,
                                  final LocalDateTime startTime,
                                  final LocalDateTime endTime) {
         this.no = no;

@@ -59,7 +59,7 @@ public class CouponType extends ModifiableEntity {
         return couponTypeDiscount.getAmount();
     }
 
-    public int getCount() {
+    public Long getCount() {
         return couponTypeCount.getCount();
     }
 

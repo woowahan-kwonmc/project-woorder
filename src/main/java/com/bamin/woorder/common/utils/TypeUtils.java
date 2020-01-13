@@ -18,6 +18,14 @@ public class TypeUtils {
         }
     }
 
+    public static long parseToLongOrThrow(String value, String message) {
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            throw new InvalidParameterTypeException(message);
+        }
+    }
+
     public static LocalDateTime parseToTimeOrThrow(String time) {
         try {
             return LocalDateTime.parse(time);

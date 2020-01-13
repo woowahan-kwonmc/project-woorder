@@ -27,6 +27,20 @@ class TypeUtilsTest {
     }
 
     @Test
+    @DisplayName("String -> Long 형 변환 성공")
+    void successfullyParseToLong() {
+        long result = TypeUtils.parseToLongOrThrow("5000000000", "메시지");
+        assertThat(result).isEqualTo(5000000000L);
+    }
+
+    @Test
+    @DisplayName("String -> Long 형 변환 실패")
+    void failedParseToLong() {
+        assertThrows(InvalidParameterTypeException.class,
+                () -> TypeUtils.parseToLongOrThrow("a", "메시지"));
+    }
+
+    @Test
     @DisplayName("String -> LocalDateTime 형 변환 성공")
     void successfullyParseToTime() {
         LocalDateTime now = LocalDateTime.now();

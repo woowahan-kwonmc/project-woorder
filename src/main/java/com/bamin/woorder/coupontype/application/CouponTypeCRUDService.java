@@ -8,6 +8,9 @@ import com.bamin.woorder.coupontype.dto.CouponTypeResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CouponTypeCRUDService {
 
@@ -29,6 +32,22 @@ public class CouponTypeCRUDService {
                 .statusCode(200)
                 .data(ResponseData.builder()
                         .insert("couponType", mapCouponTypeResponseDto(savedCouponType))
+                        .build())
+                .build();
+    }
+
+    public ResponseDto selectPageCouponTypes(final int page, final int num) {
+        List<CouponType> couponTypes = couponTypeService.selectPageCouponTypes(page, num);
+        List<CouponTypeResponseDto> pageCouponTypes = couponTypes.stream()
+                .map(this::mapCouponTypeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseDto.builder()
+                .path("/api/v1/couponTypes/all")
+                .method("GET")
+                .message(String.format("쿠폰 타입 %d 페이지 %d 개 조회 성공", page, num))
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("couponTypes", pageCouponTypes)
                         .build())
                 .build();
     }

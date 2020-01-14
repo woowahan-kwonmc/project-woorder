@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -19,5 +20,21 @@ public class CouponTypeInfo {
 
     public CouponTypeInfo(final CouponType couponType) {
         this.couponType = couponType;
+    }
+
+    public String getName() {
+        return couponType.getName();
+    }
+
+    public int getDiscount() {
+        return couponType.getDiscount();
+    }
+
+    public LocalDateTime getStartTime() {
+        return couponType.getStartTime();
+    }
+
+    public LocalDateTime getEndTime() {
+        return couponType.getEndTime();
     }
 }

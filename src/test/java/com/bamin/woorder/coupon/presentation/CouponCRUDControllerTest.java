@@ -104,4 +104,30 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("data.endTime", is("2020-01-11T15:13:20"))
                 );
     }
+
+    @Test
+    @DirtiesContext
+    @DisplayName("[POST] /api/v1/coupons/codeCoupon, 코드 쿠폰 생성 성공")
+    void successfullyCreateCodeCoupon() {
+        EasyRestAssured
+                .givenBody(new CouponCreateRequestDto(CODE_COUPON_TYPE_NO, 10L))
+                .whenRequest(baseUrl(CREATE_COUPON_CODE_MODE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
+                .thenExpectDescriptiveWith(OK, CREATE_COUPON_CODE_MODE_SERVLET_PATH,
+                        EasyExpectBodies.builder()
+                                .insert("message", is(CREATE_CODE_COUPON_SUCCEED_RESPONSE_MESSAGE))
+                                .insert("data.coupons.size()", is(10))
+                                .insert("data.coupons[0].code", is(notNullValue()))
+                                .insert("data.coupons[1].code", is(notNullValue()))
+                                .insert("data.coupons[2].code", is(notNullValue()))
+                                .insert("data.coupons[3].code", is(notNullValue()))
+                                .insert("data.coupons[4].code", is(notNullValue()))
+                                .insert("data.coupons[5].code", is(notNullValue()))
+                                .insert("data.coupons[6].code", is(notNullValue()))
+                                .insert("data.coupons[7].code", is(notNullValue()))
+                                .insert("data.coupons[8].code", is(notNullValue()))
+                                .insert("data.coupons[9].code", is(notNullValue()))
+                                .insert("data.couponType.name", is(CODE_COUPON_TYPE_NO))
+                                .insert("data.couponType.hasCode", is(true))
+                );
+    }
 }

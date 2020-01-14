@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -14,6 +16,7 @@ public class CouponUseStatus {
 
     @Column(name = "coupon_status",
             nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private CouponStatus couponStatus;
 
     public CouponUseStatus(final CouponStatus couponStatus) {

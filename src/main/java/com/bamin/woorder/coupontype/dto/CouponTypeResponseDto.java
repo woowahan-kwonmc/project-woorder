@@ -13,20 +13,23 @@ public class CouponTypeResponseDto {
 
     private Long no;
     private String name;
+    private boolean hasCode;
     private int discount;
-    private int count;
+    private long count;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
     @Builder
     public CouponTypeResponseDto(final Long no,
                                  final String name,
+                                 final boolean hasCode,
                                  final int discount,
-                                 final int count,
+                                 final long count,
                                  final LocalDateTime startTime,
                                  final LocalDateTime endTime) {
         this.no = no;
         this.name = name;
+        this.hasCode = hasCode;
         this.discount = discount;
         this.count = count;
         this.startTime = startTime;

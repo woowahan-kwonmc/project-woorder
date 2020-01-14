@@ -10,7 +10,7 @@ public interface DescriptiveResponse {
 
     String getMessage();
 
-    Map<String, Object> getData();
+    Object getData();
 
     int getStatusCode();
 

@@ -25,6 +25,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_NAME,
                         CREATE_COUPON_TYPE_COUNT,
                         CREATE_COUPON_TYPE_DISCOUNT,
+                        true,
                         startTime,
                         endTime))
                 .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
@@ -35,6 +36,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("data.couponType.name", is(CREATE_COUPON_TYPE_NAME))
                                 .insert("data.couponType.count", is(CREATE_COUPON_TYPE_COUNT_INT))
                                 .insert("data.couponType.discount", is(CREATE_COUPON_TYPE_DISCOUNT_INT))
+                                .insert("data.couponType.hasCode", is(true))
                                 .insert("data.couponType.startTime", is(startTime))
                                 .insert("data.couponType.endTime", is(endTime))
                                 .build());
@@ -50,6 +52,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_NAME,
                         CREATE_COUPON_TYPE_COUNT,
                         CREATE_COUPON_TYPE_DISCOUNT,
+                        true,
                         startTime,
                         endTime))
                 .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
@@ -72,6 +75,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_NAME,
                         CREATE_COUPON_TYPE_COUNT,
                         CREATE_COUPON_TYPE_DISCOUNT,
+                        true,
                         startTime,
                         endTime))
                 .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
@@ -93,6 +97,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_NAME,
                         CREATE_COUPON_TYPE_COUNT,
                         CREATE_COUPON_TYPE_DISCOUNT,
+                        true,
                         sameTime,
                         sameTime))
                 .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
@@ -115,6 +120,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                         CREATE_COUPON_TYPE_NAME,
                         CREATE_COUPON_TYPE_COUNT,
                         CREATE_COUPON_TYPE_DISCOUNT,
+                        true,
                         startTime,
                         endTime))
                 .whenRequest(baseUrl(COUPON_TYPE_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.POST)
@@ -153,6 +159,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("message", is(COUPON_TYPE_SELECT_SUCCEED_RESPONSE_MESSAGE))
                                 .insert("data.couponType.no", is(COUPON_TYPE_NO_01))
                                 .insert("data.couponType.name", is(COUPON_TYPE_NO_01_NAME))
+                                .insert("data.couponType.hasCode", is(true))
                                 .insert("data.couponType.discount", is(COUPON_TYPE_NO_01_DISCOUNT))
                                 .insert("data.couponType.count", is(COUPON_TYPE_NO_01_COUNT))
                                 .insert("data.couponType.startTime", is(COUPON_TYPE_NO_01_START_TIME))

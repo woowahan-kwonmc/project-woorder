@@ -14,13 +14,13 @@ public abstract class DescriptiveResponseDto implements DescriptiveResponse {
     private String path;
     private String method;
     private String message;
-    private Map<String, Object> data;
+    private Object data;
     private int statusCode;
     private LocalDateTime timestamp;
 
     protected DescriptiveResponseDto(final String path,
                                      final String method,
-                                     final Map<String, Object> data,
+                                     final Object data,
                                      final String message,
                                      final int statusCode) {
         this.path = path;

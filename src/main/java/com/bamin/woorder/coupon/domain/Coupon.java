@@ -1,6 +1,7 @@
 package com.bamin.woorder.coupon.domain;
 
 import com.bamin.woorder.common.domain.ModifiableEntity;
+import com.bamin.woorder.coupontype.domain.CouponType;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,15 +36,17 @@ public class Coupon extends ModifiableEntity {
     @Embedded
     private CouponPayment couponPayment;
 
-    public Coupon(final CouponCode couponCode,
-                  final CouponUseStatus couponUseStatus,
-                  final CouponTypeInfo couponTypeInfo,
-                  final CouponMember couponMember,
-                  final CouponPayment couponPayment) {
-        this.couponCode = couponCode;
-        this.couponUseStatus = couponUseStatus;
-        this.couponTypeInfo = couponTypeInfo;
-        this.couponMember = couponMember;
-        this.couponPayment = couponPayment;
+    public Coupon(CouponType couponType) {
+        this.couponCode = new CouponCode();
+        this.couponUseStatus = new CouponUseStatus(CouponStatus.USABLE);
+        this.couponTypeInfo = new CouponTypeInfo(couponType);
+    }
+
+    public String getCode() {
+        return couponCode.getCouponCode();
+    }
+
+    public String getUseStatus() {
+        return couponUseStatus.getCouponStatus().name();
     }
 }

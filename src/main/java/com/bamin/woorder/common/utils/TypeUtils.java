@@ -33,4 +33,11 @@ public class TypeUtils {
             throw new InvalidLocalDateTimeStringException(CANNOT_PARSE_TO_LOCAL_DATE_TIME_EXCEPTION_MESSAGE);
         }
     }
+
+    public static boolean parseToBooleanOrThrow(final String params, final String message) {
+        if (!"true".equalsIgnoreCase(params) && !"false".equalsIgnoreCase(params)) {
+            throw new InvalidParameterTypeException(message);
+        }
+        return Boolean.parseBoolean(params);
+    }
 }

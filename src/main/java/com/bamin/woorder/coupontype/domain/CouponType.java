@@ -73,6 +73,11 @@ public class CouponType extends ModifiableEntity {
             throw new IllegalCouponTypeException(this.getCouponTypeNo(), this.getName(), this.getHasCode());
         }
     }
+    public void checkHasCode() {
+        if (!this.getHasCode()) {
+            throw new IllegalCouponTypeException(this.getCouponTypeNo(), this.getName(), this.getHasCode());
+        }
+    }
 
     public Long getNo() {
         return getCouponTypeNo();

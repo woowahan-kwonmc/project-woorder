@@ -42,6 +42,12 @@ public class Coupon extends ModifiableEntity {
         this.couponTypeInfo = new CouponTypeInfo(couponType);
     }
 
+    public Coupon(final String code, final CouponType couponType) {
+        this.couponCode = new CouponCode(code);
+        this.couponUseStatus = new CouponUseStatus(CouponStatus.USABLE);
+        this.couponTypeInfo = new CouponTypeInfo(couponType);
+    }
+
     public String getCode() {
         return couponCode.getCouponCode();
     }

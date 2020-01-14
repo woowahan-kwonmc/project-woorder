@@ -2,7 +2,6 @@ package com.bamin.woorder.coupon.application;
 
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.coupon.domain.Coupon;
-import com.bamin.woorder.coupon.dto.CouponCreateRequestDto;
 import com.bamin.woorder.coupon.dto.CouponData;
 import com.bamin.woorder.coupon.dto.CouponResponseDto;
 import com.bamin.woorder.coupontype.application.CouponTypeService;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,15 +24,15 @@ public class CouponCRUDService {
         this.couponTypeService = couponTypeService;
     }
 
-    public ResponseDto createDownloadableCoupons(final Long couponTypeNo, final Long requestCounts) {
+    public ResponseDto createDownloadableCoupons(final Long couponTypeNo, final Long requestCounts, final Mode mode) {
         CouponType couponType = getDownloadableCouponType(couponTypeNo);
         Long currentCouponTypeCount = couponService.countCouponIncludedCouponType(couponType.getCouponTypeNo());
         Long totalCouponTypeCount = couponType.getTotalCountAfterGenerate(currentCouponTypeCount, requestCounts);
-        List<Coupon> createdCoupons = couponService.createCoupons(couponType, requestCounts);
+        List<Coupon> createdCoupons = couponService.createDownloadableCoupons(couponType, requestCounts);
         return ResponseDto.builder()
-                .path("/api/v1/coupons/downloadMode")
+                .path(String.format("/api/v1/coupons%s", mode.getPath()))
                 .method("POST")
-                .message("다운로드 쿠폰 생성 성공")
+                .message(String.format("%s 쿠폰 생성 성공", mode.getName()))
                 .statusCode(200)
                 .data(mapToCouponResponseDto(couponType, totalCouponTypeCount, mapToCouponData(createdCoupons)))
                 .build();
@@ -43,6 +41,26 @@ public class CouponCRUDService {
     private CouponType getDownloadableCouponType(final Long couponTypeNo) {
         CouponType couponType = couponTypeService.selectCreatableCouponType(couponTypeNo);
         couponType.checkDownloadable();
+        return couponType;
+    }
+
+    public ResponseDto createCodeCoupons(final Long couponTypeNo, final Long requestCounts, final Mode mode) {
+        CouponType couponType = getCodeCouponType(couponTypeNo);
+        Long currentCouponTypeCount = couponService.countCouponIncludedCouponType(couponType.getCouponTypeNo());
+        Long totalCouponTypeCount = couponType.getTotalCountAfterGenerate(currentCouponTypeCount, requestCounts);
+        List<Coupon> createdCoupons = couponService.createCodeCoupons(couponType, requestCounts);
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/coupons%s", mode.getPath()))
+                .method("POST")
+                .message(String.format("%s 쿠폰 생성 성공", mode.getName()))
+                .statusCode(200)
+                .data(mapToCouponResponseDto(couponType, totalCouponTypeCount, mapToCouponData(createdCoupons)))
+                .build();
+    }
+
+    private CouponType getCodeCouponType(final Long couponTypeNo) {
+        CouponType couponType = couponTypeService.selectCreatableCouponType(couponTypeNo);
+        couponType.checkHasCode();
         return couponType;
     }
 

@@ -3,6 +3,7 @@ package com.bamin.woorder.coupontype.domain;
 
 import com.bamin.woorder.common.infra.LocalDateTimePersistenceConverter;
 import com.bamin.woorder.common.utils.TypeUtils;
+import com.bamin.woorder.coupontype.domain.exception.CouponTypePeriodException;
 import com.bamin.woorder.coupontype.domain.exception.CouponTypeUsablePeriodException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -58,4 +59,11 @@ public class CouponTypeUsablePeriod {
                 || unCheckedStartTime.isEqual(unCheckedEndTime);
     }
 
+    boolean checkCreatablePeriod() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        if (currentTime.isAfter(endTime)) {
+            throw new CouponTypePeriodException(endTime);
+        }
+        return true;
+    }
 }

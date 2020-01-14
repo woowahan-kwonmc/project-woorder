@@ -1,6 +1,5 @@
 package com.bamin.woorder.coupontype.application;
 
-import com.bamin.woorder.coupon.application.CannotCreateCouponException;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import com.bamin.woorder.coupontype.domain.CouponTypeRepository;
 import lombok.Builder;
@@ -48,5 +47,11 @@ public class CouponTypeService {
     CouponType selectCouponType(final Long couponTypeNo) {
         return couponTypeRepository.findById(couponTypeNo)
                 .orElseThrow(() -> new CouponNotFoundException(couponTypeNo));
+    }
+
+    public CouponType selectCreatableCouponType(final Long couponTypeNo) {
+        CouponType couponType = selectCouponType(couponTypeNo);
+        couponType.checkCreatablePeriod();
+        return couponType;
     }
 }

@@ -2,6 +2,8 @@ package com.bamin.woorder.coupontype.domain;
 
 import com.bamin.woorder.common.domain.ModifiableEntity;
 import com.bamin.woorder.coupon.domain.Coupon;
+import com.bamin.woorder.coupontype.domain.exception.CouponTypeCountExcessException;
+import com.bamin.woorder.coupontype.domain.exception.IllegalCouponTypeException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -51,6 +53,25 @@ public class CouponType extends ModifiableEntity {
         this.couponTypeHasCode = new CouponTypeHasCode(couponTypeHasCode);
         this.couponTypeDiscount = new CouponTypeDiscount(couponTypeDiscount);
         this.couponTypeUsablePeriod = new CouponTypeUsablePeriod(startTime, endTime);
+    }
+
+    public boolean checkCreatablePeriod() {
+        return couponTypeUsablePeriod.checkCreatablePeriod();
+    }
+
+    public Long getTotalCountAfterGenerate(final Long currentCouponCount, final Long requestCounts) {
+        long totalCountAfterGenerate = currentCouponCount + requestCounts;
+        if (totalCountAfterGenerate < this.getCount()) {
+            return totalCountAfterGenerate;
+        }
+
+        throw new CouponTypeCountExcessException(currentCouponCount, requestCounts, this.getCount());
+    }
+
+    public void checkDownloadable() {
+        if (this.getHasCode()) {
+            throw new IllegalCouponTypeException(this.getCouponTypeNo(), this.getName(), this.getHasCode());
+        }
     }
 
     public Long getNo() {

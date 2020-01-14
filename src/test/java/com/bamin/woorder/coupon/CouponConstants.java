@@ -14,4 +14,6 @@ public class CouponConstants {
     public static final String CREATE_COUPON_FAILED_EXCESS_RESPONSE_MESSAGE = "생성 가능한 수를 초과하여 생성할 수 없습니다.";
     public static final String CREATE_COUPON_FAILED_CODE_NEEDED_RESPONSE_MESSAGE = "코드가 필요한 코드형 쿠폰 타입입니다.";
     public static final String CREATE_COUPON_FAILED_CREATABLE_PERIOD_RESPONSE_MESSAGE = "쿠폰 생성 가능 기간이 아닙니다.";
+
+    public static final String CODE_COUPON_TYPE_NAME = "이달의 카피라이터";
 }

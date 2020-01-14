@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @EqualsAndHashCode(of = "couponTypeNo", callSuper = false)
 @Table(name = "COUPON_TYPE")

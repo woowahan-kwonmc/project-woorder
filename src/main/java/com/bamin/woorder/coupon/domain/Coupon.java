@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -54,5 +55,21 @@ public class Coupon extends ModifiableEntity {
 
     public String getUseStatus() {
         return couponUseStatus.getCouponStatus().name();
+    }
+
+    public String getName() {
+        return couponTypeInfo.getName();
+    }
+
+    public int getDiscount() {
+        return couponTypeInfo.getDiscount();
+    }
+
+    public LocalDateTime getStartTime() {
+        return couponTypeInfo.getStartTime();
+    }
+
+    public LocalDateTime getEndTime() {
+        return couponTypeInfo.getEndTime();
     }
 }

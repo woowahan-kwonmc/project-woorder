@@ -1,8 +1,11 @@
 package com.bamin.woorder.coupon.application;
 
+import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.coupon.domain.Coupon;
 import com.bamin.woorder.coupon.dto.CouponData;
+import com.bamin.woorder.coupon.dto.CouponDescResponseDto;
+import com.bamin.woorder.coupon.dto.CouponPageReadRequestDto;
 import com.bamin.woorder.coupon.dto.CouponResponseDto;
 import com.bamin.woorder.coupontype.application.CouponTypeService;
 import com.bamin.woorder.coupontype.domain.CouponType;
@@ -58,6 +61,24 @@ public class CouponCRUDService {
                 .build();
     }
 
+    public ResponseDto selectPageCoupons(final CouponPageReadRequestDto requestDto) {
+        List<Coupon> coupons = couponService.selectPageCouponsOnCondition(requestDto.getPage(), requestDto.getNum(),
+                requestDto.getUsable(), requestDto.getExpired());
+        List<CouponDescResponseDto> pageCoupons = coupons.stream()
+                .map(this::mapToDescResponseDto)
+                .collect(Collectors.toList());
+        return ResponseDto.builder()
+                .path("/api/v1/coupons")
+                .method("GET")
+                .message("쿠폰 조회")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupons", pageCoupons)
+                        .insert("request", requestDto)
+                        .build())
+                .build();
+    }
+
     private CouponType getCodeCouponType(final Long couponTypeNo) {
         CouponType couponType = couponTypeService.selectCreatableCouponType(couponTypeNo);
         couponType.checkHasCode();
@@ -82,6 +103,17 @@ public class CouponCRUDService {
                 .couponTypeHasCode(couponType.getHasCode())
                 .couponTypeStartTime(couponType.getStartTime())
                 .couponTypeEndTime(couponType.getEndTime())
+                .build();
+    }
+
+    private CouponDescResponseDto mapToDescResponseDto(final Coupon coupon) {
+        return CouponDescResponseDto.builder()
+                .code(coupon.getCode())
+                .useStatus(coupon.getUseStatus())
+                .name(coupon.getName())
+                .discount(coupon.getDiscount())
+                .startTime(coupon.getStartTime())
+                .endTime(coupon.getEndTime())
                 .build();
     }
 }

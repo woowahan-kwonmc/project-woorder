@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CouponTypeTest {
 
-    public static final String COUPON_TYPE_NAME = "민철이가 쏜다.";
-    public static final String COUPON_TYPE_COUNT = "10";
-    public static final String COUPON_TYPE_DISCOUNT = "1000";
-    public static final boolean COUPON_TYPE_HAS_CODE_CODE_TYPE = true;
+    private static final String COUPON_TYPE_NAME = "민철이가 쏜다.";
+    private static final String COUPON_TYPE_COUNT = "10";
+    private static final String COUPON_TYPE_DISCOUNT = "1000";
+    private static final boolean COUPON_TYPE_HAS_CODE_CODE_TYPE = true;
 
     @Test
     @DisplayName("CouponType 생성 성공")

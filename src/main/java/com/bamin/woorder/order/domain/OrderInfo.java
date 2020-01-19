@@ -1,6 +1,7 @@
 package com.bamin.woorder.order.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import javax.persistence.Embedded;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class OrderInfo {
+class OrderInfo {
 
     @Embedded
     private OrderMenu orderMenu;
@@ -24,13 +25,23 @@ public class OrderInfo {
     @Embedded
     private OrderProcessStatus orderProcessStatus;
 
-    public OrderInfo(final OrderMenu orderMenu,
-                     final OrderQuantity orderQuantity,
-                     final OrderPrice orderPrice,
-                     final OrderProcessStatus orderProcessStatus) {
+    @Builder
+    OrderInfo(final OrderMenu orderMenu, final int orderQuantity, final int orderMenuPrice) {
         this.orderMenu = orderMenu;
-        this.orderQuantity = orderQuantity;
-        this.orderPrice = orderPrice;
-        this.orderProcessStatus = orderProcessStatus;
+        this.orderQuantity = new OrderQuantity(orderQuantity);
+        this.orderPrice = OrderPrice.of(orderMenuPrice, orderQuantity);
+        this.orderProcessStatus = OrderProcessStatus.initialize();
+    }
+
+    String getStatus() {
+        return orderProcessStatus.getStatus();
+    }
+
+    long getPrice() {
+        return orderPrice.getOrderPrice();
+    }
+
+    long getQuantity() {
+        return orderQuantity.getQuantity();
     }
 }

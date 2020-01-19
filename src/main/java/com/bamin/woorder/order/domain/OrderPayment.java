@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 public class OrderPayment {
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "\"order_payment_no\"")
+    @JoinColumn(name = "order_payment_no")
     private Payment orderPayment;
 
     public OrderPayment(final Payment orderPayment) {

@@ -19,7 +19,15 @@ public class OrderProcessStatus {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    public OrderProcessStatus(final OrderStatus orderStatus) {
+    private OrderProcessStatus(final OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    static OrderProcessStatus initialize() {
+        return new OrderProcessStatus(OrderStatus.CREATE);
+    }
+
+    public String getStatus() {
+        return orderStatus.name();
     }
 }

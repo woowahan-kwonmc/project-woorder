@@ -1,17 +1,16 @@
 package com.bamin.woorder.order.domain;
 
 import com.bamin.woorder.common.domain.DeletableEntity;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.bamin.woorder.member.domain.Member;
+import com.bamin.woorder.menu.domain.Menu;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "orderNo", callSuper = false)
-@Table(name = "ORDER")
+@Table(name = "\"ORDER\"")
 @Entity
 public class Order extends DeletableEntity {
 
@@ -30,11 +29,25 @@ public class Order extends DeletableEntity {
     @Embedded
     private OrderPayment orderPayment;
 
-    public Order(final OrderInfo orderInfo,
-                 final OrderMember orderMember,
-                 final OrderPayment orderPayment) {
-        this.orderInfo = orderInfo;
-        this.orderMember = orderMember;
-        this.orderPayment = orderPayment;
+    @Builder
+    public Order(final int quantity, final Menu savedMenu, final Member savedMember) {
+        this.orderInfo = OrderInfo.builder()
+                .orderQuantity(quantity)
+                .orderMenu(new OrderMenu(savedMenu))
+                .orderMenuPrice(savedMenu.getPrice())
+                .build();
+        this.orderMember = new OrderMember(savedMember);
+    }
+
+    public String getStatus() {
+        return orderInfo.getStatus();
+    }
+
+    public long getPrice() {
+        return orderInfo.getPrice();
+    }
+
+    public long getQuantity() {
+        return orderInfo.getQuantity();
     }
 }

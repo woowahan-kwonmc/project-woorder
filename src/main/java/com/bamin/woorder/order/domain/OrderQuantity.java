@@ -10,13 +10,21 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class OrderQuantity {
+class OrderQuantity {
 
     @Column(name = "order_quantity",
-            nullable = false)
-    private int quantity;
+            nullable = false,
+            updatable = false)
+    private long quantity;
 
-    public OrderQuantity(final int quantity) {
+    OrderQuantity(final long quantity) {
+        checkQuantity(quantity);
         this.quantity = quantity;
+    }
+
+    private void checkQuantity(final long quantity) {
+        if (quantity < 1) {
+            throw new OrderQuantityRangeException();
+        }
     }
 }

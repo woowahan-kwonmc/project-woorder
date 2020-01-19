@@ -12,13 +12,13 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class OrderMember {
+class OrderMember {
 
     @OneToOne
     @JoinColumn(name = "order_member_no")
     private Member member;
 
-    public OrderMember(final Member member) {
+    OrderMember(final Member member) {
         this.member = member;
     }
 }

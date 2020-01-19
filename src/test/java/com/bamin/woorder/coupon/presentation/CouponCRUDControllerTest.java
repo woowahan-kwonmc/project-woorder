@@ -2,6 +2,7 @@ package com.bamin.woorder.coupon.presentation;
 
 import com.bamin.woorder.AcceptanceTestUtils;
 import com.bamin.woorder.common.utils.easyrestassured.EasyExpectBodies;
+import com.bamin.woorder.common.utils.easyrestassured.EasyGivenPathVariables;
 import com.bamin.woorder.common.utils.easyrestassured.EasyGivenQueryParameters;
 import com.bamin.woorder.coupon.domain.CouponStatus;
 import com.bamin.woorder.coupon.dto.CouponCreateRequestDto;
@@ -11,8 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.BAD_REQUEST;
 import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.OK;
-import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured.givenBody;
-import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured.givenParams;
+import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured.*;
 import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.GET;
 import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.POST;
 import static com.bamin.woorder.coupon.CouponConstants.*;
@@ -137,7 +137,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(6))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(6))
@@ -157,7 +157,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(3))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(3))
@@ -176,7 +176,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(3))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(3))
@@ -196,7 +196,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(2))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(3))
@@ -204,4 +204,25 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("data.request.expired", is(false))
                 );
     }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/{couponNo}, 쿠폰 No 로 쿠폰 조회")
+    void successfullyFindCouponByCouponNo() {
+        EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
+                .addVariables("couponNo", 1);
+
+        givenPathVariable(pathVariables)
+                .whenRequest(baseUrl("/api/v1/coupons/{couponNo}"), GET)
+                .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
+                        EasyExpectBodies.builder()
+                                .insert("message", is("쿠폰 조회"))
+                                .insert("coupon.code", is("ABCDEF123456"))
+                                .insert("coupon.useStatus", is("USABLE"))
+                                .insert("coupon.name", is("봉대표가 쏜다"))
+                                .insert("coupon.discount", is(200000))
+                                .insert("coupon.startTime", is(notNullValue()))
+                                .insert("coupon.endTime", is(notNullValue()))
+                );
+    }
+
 }

@@ -4,7 +4,6 @@ import com.bamin.woorder.common.utils.CouponCodeGenerator;
 import com.bamin.woorder.coupon.domain.Coupon;
 import com.bamin.woorder.coupon.domain.CouponRepository;
 import com.bamin.woorder.coupon.domain.CouponStatus;
-import com.bamin.woorder.coupontype.application.CouponNotFoundException;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -86,7 +85,12 @@ public class CouponService {
 
     Coupon findByCouponNo(final Long couponNo) {
         return couponRepository.findById(couponNo)
-                .orElseThrow(() -> new CouponNotFoundException(couponNo));
+                .orElseThrow(() -> new CouponNoNotFoundException(couponNo));
+    }
+
+    Coupon findByCouponCode(final String couponCode) {
+        return couponRepository.findByCouponCodeCouponCode(couponCode)
+                .orElseThrow(() -> new CouponCodeNotFoundException(couponCode));
     }
 
     private List<Coupon> selectAllPageCoupons(final int page, final int num) {

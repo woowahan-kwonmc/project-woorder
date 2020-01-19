@@ -82,9 +82,22 @@ public class CouponCRUDService {
     public ResponseDto findCouponByCouponNo(final Long couponNo) {
         Coupon coupon = couponService.findByCouponNo(couponNo);
         return ResponseDto.builder()
-                .path("/api/v1/coupons")
+                .path(String.format("/api/v1/coupons/%d", couponNo))
                 .method("GET")
-                .message("쿠폰 조회")
+                .message("쿠폰 넘버로 조회")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", mapToDescResponseDto(coupon))
+                        .build())
+                .build();
+    }
+
+    public ResponseDto findCouponByCode(final String couponCode) {
+        Coupon coupon = couponService.findByCouponCode(couponCode);
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/coupons/code/%s", couponCode))
+                .method("GET")
+                .message("쿠폰 코드로 조회")
                 .statusCode(200)
                 .data(ResponseData.builder()
                         .insert("coupon", mapToDescResponseDto(coupon))

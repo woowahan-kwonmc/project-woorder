@@ -3,10 +3,7 @@ package com.bamin.woorder.coupon.application;
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.coupon.domain.Coupon;
-import com.bamin.woorder.coupon.dto.CouponData;
-import com.bamin.woorder.coupon.dto.CouponDescResponseDto;
-import com.bamin.woorder.coupon.dto.CouponPageReadRequestDto;
-import com.bamin.woorder.coupon.dto.CouponResponseDto;
+import com.bamin.woorder.coupon.dto.*;
 import com.bamin.woorder.coupontype.application.CouponTypeService;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,11 +67,50 @@ public class CouponCRUDService {
         return ResponseDto.builder()
                 .path("/api/v1/coupons")
                 .method("GET")
-                .message("쿠폰 조회")
+                .message("쿠폰 목록 조회")
                 .statusCode(200)
                 .data(ResponseData.builder()
                         .insert("coupons", pageCoupons)
                         .insert("request", requestDto)
+                        .build())
+                .build();
+    }
+
+    public ResponseDto findCouponByCouponNo(final Long couponNo) {
+        Coupon coupon = couponService.findByCouponNo(couponNo);
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/coupons/%d", couponNo))
+                .method("GET")
+                .message("쿠폰 넘버로 조회")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", mapToDescResponseDto(coupon))
+                        .build())
+                .build();
+    }
+
+    public ResponseDto findCouponByCode(final String couponCode) {
+        Coupon coupon = couponService.findByCouponCode(couponCode);
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/coupons/code/%s", couponCode))
+                .method("GET")
+                .message("쿠폰 코드로 조회")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", mapToDescResponseDto(coupon))
+                        .build())
+                .build();
+    }
+
+    public ResponseDto existsCouponByCode(final String couponCode) {
+        boolean isExists = couponService.existsByCouponCode(couponCode);
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/coupons/code?couponCode=%s", couponCode))
+                .method("GET")
+                .message("쿠폰 코드 존재 여부 확인")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", new CouponExistDto(isExists))
                         .build())
                 .build();
     }

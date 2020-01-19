@@ -2,6 +2,7 @@ package com.bamin.woorder.coupon.presentation;
 
 import com.bamin.woorder.AcceptanceTestUtils;
 import com.bamin.woorder.common.utils.easyrestassured.EasyExpectBodies;
+import com.bamin.woorder.common.utils.easyrestassured.EasyGivenPathVariables;
 import com.bamin.woorder.common.utils.easyrestassured.EasyGivenQueryParameters;
 import com.bamin.woorder.coupon.domain.CouponStatus;
 import com.bamin.woorder.coupon.dto.CouponCreateRequestDto;
@@ -9,17 +10,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.DirtiesContext;
 
-import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.BAD_REQUEST;
-import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.OK;
-import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured.givenBody;
-import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured.givenParams;
+import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.*;
+import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured.*;
 import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.GET;
 import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.POST;
 import static com.bamin.woorder.coupon.CouponConstants.*;
 import static org.hamcrest.CoreMatchers.*;
 
 class CouponCRUDControllerTest extends AcceptanceTestUtils {
-
     @Test
     @DirtiesContext
     @DisplayName("[POST] /api/v1/coupons/downloadMode, 다운로드 쿠폰 1개 생성 성공")
@@ -137,7 +135,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(6))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(6))
@@ -157,7 +155,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(3))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(3))
@@ -176,7 +174,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(3))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(3))
@@ -196,12 +194,112 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .whenRequest(baseUrl("/api/v1/coupons"), GET)
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 조회"))
+                                .insert("message", is("쿠폰 목록 조회"))
                                 .insert("data.coupons.size()", is(2))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(3))
                                 .insert("data.request.usable", is(true))
                                 .insert("data.request.expired", is(false))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/{couponNo}, 쿠폰 No 로 쿠폰 조회")
+    void successfullyFindCouponByCouponNo() {
+        EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
+                .addVariables("couponNo", 1);
+
+        givenPathVariable(pathVariables)
+                .whenRequest(baseUrl(SELECT_COUPON_NO_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(SELECT_COUPON_NO_BASE_FORMAT_PATH, 1),
+                        EasyExpectBodies.builder()
+                                .insert("message", is("쿠폰 넘버로 조회"))
+                                .insert("data.coupon.code", is(EXISTS_COUPON_CODE_VALUE))
+                                .insert("data.coupon.useStatus", is("USABLE"))
+                                .insert("data.coupon.name", is("봉대표가 쏜다"))
+                                .insert("data.coupon.discount", is(200000))
+                                .insert("data.coupon.startTime", is(notNullValue()))
+                                .insert("data.coupon.endTime", is(notNullValue()))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/{couponNo}, 쿠폰 No 로 쿠폰 조회 실패, 존재하지 않음")
+    void failedFindCouponByCouponNo() {
+        EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
+                .addVariables("couponNo", 1_000_000_000);
+
+        givenPathVariable(pathVariables)
+                .whenRequest(baseUrl(SELECT_COUPON_NO_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(NOT_FOUND, String.format(SELECT_COUPON_NO_BASE_FORMAT_PATH, 1_000_000_000),
+                        EasyExpectBodies.builder()
+                                .insert("message", is("해당하는 쿠폰이 존재하지 않습니다."))
+                                .insert("data.requestNo", is(1_000_000_000))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/code/{couponCode}, 쿠폰 Code 로 쿠폰 조회")
+    void successfullyFindCouponByCouponCode() {
+        EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
+                .addVariables("couponCode", EXISTS_COUPON_CODE_VALUE);
+
+        givenPathVariable(pathVariables)
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_PATH_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(SELECT_COUPON_CODE_FORMAT_PATH, EXISTS_COUPON_CODE_VALUE),
+                        EasyExpectBodies.builder()
+                                .insert("message", is(SELECT_COUPON_CODE_SUCCEED_RESPONSE_MESSAGE))
+                                .insert("data.coupon.code", is(EXISTS_COUPON_CODE_VALUE))
+                                .insert("data.coupon.useStatus", is("USABLE"))
+                                .insert("data.coupon.name", is("봉대표가 쏜다"))
+                                .insert("data.coupon.discount", is(200000))
+                                .insert("data.coupon.startTime", is(notNullValue()))
+                                .insert("data.coupon.endTime", is(notNullValue()))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/code/{couponCode}, 쿠폰 Code 로 쿠폰 조회 실패, 존재하지 않음")
+    void failedFindCouponByCouponCodeNotFound() {
+        EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
+                .addVariables("couponCode", NOT_EXISTS_COUPON_CODE_VALUE);
+
+        givenPathVariable(pathVariables)
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_PATH_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(NOT_FOUND, String.format(SELECT_COUPON_CODE_FORMAT_PATH, NOT_EXISTS_COUPON_CODE_VALUE),
+                        EasyExpectBodies.builder()
+                                .insert("message", is(SELECT_COUPON_CODE_FAILED_RESPONSE_MESSAGE))
+                                .insert("data.requestCode", is(NOT_EXISTS_COUPON_CODE_VALUE))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/code?couponCode=ABCDEF123456, 쿠폰 Code로 쿠폰 존재 여부 확인, 존재")
+    void checkCouponExistByCouponCodeReturnTrue() {
+        EasyGivenQueryParameters requestParam = new EasyGivenQueryParameters()
+                .addParam("couponCode", EXISTS_COUPON_CODE_VALUE);
+
+        givenParams(requestParam)
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(EXISTS_COUPON_CODE_FORMAT_SERVLET_PATH, EXISTS_COUPON_CODE_VALUE),
+                        EasyExpectBodies.builder()
+                                .insert("message", is(EXISTS_COUPON_CODE_RESPONSE_MESSAGE))
+                                .insert("data.coupon.exists", is(true))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/code?couponCode=TTTTTTTTTTTT, 쿠폰 Code로 쿠폰 존재 여부 확인, 존재하지 않음")
+    void checkCouponExistByCouponCodeReturnFalse() {
+        EasyGivenQueryParameters requestParam = new EasyGivenQueryParameters()
+                .addParam("couponCode", NOT_EXISTS_COUPON_CODE_VALUE);
+
+        givenParams(requestParam)
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(EXISTS_COUPON_CODE_FORMAT_SERVLET_PATH, NOT_EXISTS_COUPON_CODE_VALUE),
+                        EasyExpectBodies.builder()
+                                .insert("message", is(EXISTS_COUPON_CODE_RESPONSE_MESSAGE))
+                                .insert("data.coupon.exists", is(false))
                 );
     }
 }

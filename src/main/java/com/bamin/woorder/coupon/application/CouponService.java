@@ -83,6 +83,20 @@ public class CouponService {
         return selectAllPageCoupons(page, num);
     }
 
+    Coupon findByCouponNo(final Long couponNo) {
+        return couponRepository.findById(couponNo)
+                .orElseThrow(() -> new CouponNoNotFoundException(couponNo));
+    }
+
+    Coupon findByCouponCode(final String couponCode) {
+        return couponRepository.findByCouponCodeCouponCode(couponCode)
+                .orElseThrow(() -> new CouponCodeNotFoundException(couponCode));
+    }
+
+    boolean existsByCouponCode(final String couponCode) {
+        return couponRepository.existsByCouponCodeCouponCode(couponCode);
+    }
+
     private List<Coupon> selectAllPageCoupons(final int page, final int num) {
         return couponRepository.findAll(PageRequest.of(page - 1, num))
                 .stream()

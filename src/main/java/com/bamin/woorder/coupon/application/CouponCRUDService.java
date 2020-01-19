@@ -70,11 +70,24 @@ public class CouponCRUDService {
         return ResponseDto.builder()
                 .path("/api/v1/coupons")
                 .method("GET")
-                .message("쿠폰 조회")
+                .message("쿠폰 목록 조회")
                 .statusCode(200)
                 .data(ResponseData.builder()
                         .insert("coupons", pageCoupons)
                         .insert("request", requestDto)
+                        .build())
+                .build();
+    }
+
+    public ResponseDto findCouponByCouponNo(final Long couponNo) {
+        Coupon coupon = couponService.findByCouponNo(couponNo);
+        return ResponseDto.builder()
+                .path("/api/v1/coupons")
+                .method("GET")
+                .message("쿠폰 조회")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", mapToDescResponseDto(coupon))
                         .build())
                 .build();
     }

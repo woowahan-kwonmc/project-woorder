@@ -10,8 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.DirtiesContext;
 
-import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.BAD_REQUEST;
-import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.OK;
+import static com.bamin.woorder.common.dto.ResponseDtoStatusCode.*;
 import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssured.*;
 import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.GET;
 import static com.bamin.woorder.common.utils.easyrestassured.EasyRestAssuredRequestMethod.POST;
@@ -213,16 +212,30 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
 
         givenPathVariable(pathVariables)
                 .whenRequest(baseUrl("/api/v1/coupons/{couponNo}"), GET)
-                .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
+                .thenExpectDescriptiveWith(OK, "/api/v1/coupons/1",
                         EasyExpectBodies.builder()
                                 .insert("message", is("쿠폰 조회"))
-                                .insert("coupon.code", is("ABCDEF123456"))
-                                .insert("coupon.useStatus", is("USABLE"))
-                                .insert("coupon.name", is("봉대표가 쏜다"))
-                                .insert("coupon.discount", is(200000))
-                                .insert("coupon.startTime", is(notNullValue()))
-                                .insert("coupon.endTime", is(notNullValue()))
+                                .insert("data.coupon.code", is("ABCDEF123456"))
+                                .insert("data.coupon.useStatus", is("USABLE"))
+                                .insert("data.coupon.name", is("봉대표가 쏜다"))
+                                .insert("data.coupon.discount", is(200000))
+                                .insert("data.coupon.startTime", is(notNullValue()))
+                                .insert("data.coupon.endTime", is(notNullValue()))
                 );
     }
 
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/{couponNo}, 쿠폰 No 로 쿠폰 조회 실패, 존재하지 않음")
+    void failedFindCouponByCouponNo() {
+        EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
+                .addVariables("couponNo", 1_000_000_000);
+
+        givenPathVariable(pathVariables)
+                .whenRequest(baseUrl("/api/v1/coupons/{couponNo}"), GET)
+                .thenExpectDescriptiveWith(NOT_FOUND, "/api/v1/coupons/1000000000",
+                        EasyExpectBodies.builder()
+                                .insert("message", is("해당하는 쿠폰이 존재하지 않습니다."))
+                                .insert("data.requestNo", is(1000000000))
+                );
+    }
 }

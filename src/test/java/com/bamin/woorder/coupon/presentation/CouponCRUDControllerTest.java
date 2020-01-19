@@ -273,4 +273,34 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("data.requestCode", is("TTTTTTTTTTTT"))
                 );
     }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/code?couponCode=ABCDEF123456, 쿠폰 Code로 쿠폰 존재 여부 확인, 존재")
+    void checkCouponExistByCouponCodeReturnTrue() {
+        EasyGivenQueryParameters requestParam = new EasyGivenQueryParameters()
+                .addParam("couponCode", "ABCDEF123456");
+
+        givenParams(requestParam)
+                .whenRequest(baseUrl("/api/v1/coupons/code"), GET)
+                .thenExpectDescriptiveWith(OK, String.format("/api/v1/coupons/code?couponCode=%s", "ABCDEF123456"),
+                        EasyExpectBodies.builder()
+                                .insert("message", is("쿠폰 코드 존재 여부 확인"))
+                                .insert("data.coupon.exists", is(true))
+                );
+    }
+
+    @Test
+    @DisplayName("[GET] /api/v1/coupons/code?couponCode=TTTTTTTTTTTT, 쿠폰 Code로 쿠폰 존재 여부 확인, 존재하지 않음")
+    void checkCouponExistByCouponCodeReturnFalse() {
+        EasyGivenQueryParameters requestParam = new EasyGivenQueryParameters()
+                .addParam("couponCode", "TTTTTTTTTTTT");
+
+        givenParams(requestParam)
+                .whenRequest(baseUrl("/api/v1/coupons/code"), GET)
+                .thenExpectDescriptiveWith(OK, String.format("/api/v1/coupons/code?couponCode=%s", "TTTTTTTTTTTT"),
+                        EasyExpectBodies.builder()
+                                .insert("message", is("쿠폰 코드 존재 여부 확인"))
+                                .insert("data.coupon.exists", is(false))
+                );
+    }
 }

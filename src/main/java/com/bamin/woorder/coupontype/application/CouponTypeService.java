@@ -46,7 +46,7 @@ public class CouponTypeService {
 
     CouponType selectCouponType(final Long couponTypeNo) {
         return couponTypeRepository.findById(couponTypeNo)
-                .orElseThrow(() -> new CouponNotFoundException(couponTypeNo));
+                .orElseThrow(() -> new CouponTypeNotFoundException(couponTypeNo));
     }
 
     public CouponType selectCreatableCouponType(final Long couponTypeNo) {

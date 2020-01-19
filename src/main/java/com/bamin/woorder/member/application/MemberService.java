@@ -16,6 +16,11 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
+    public Member findMemberByNo(final Long memberNo) {
+        return memberRepository.findById(memberNo)
+                .orElseThrow(NotFoundUserException::new);
+    }
+
     Member createMember(final String name) {
         try {
             Member member = new Member(name);

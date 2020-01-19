@@ -18,7 +18,6 @@ import static com.bamin.woorder.coupon.CouponConstants.*;
 import static org.hamcrest.CoreMatchers.*;
 
 class CouponCRUDControllerTest extends AcceptanceTestUtils {
-
     @Test
     @DirtiesContext
     @DisplayName("[POST] /api/v1/coupons/downloadMode, 다운로드 쿠폰 1개 생성 성공")
@@ -211,11 +210,11 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .addVariables("couponNo", 1);
 
         givenPathVariable(pathVariables)
-                .whenRequest(baseUrl("/api/v1/coupons/{couponNo}"), GET)
-                .thenExpectDescriptiveWith(OK, "/api/v1/coupons/1",
+                .whenRequest(baseUrl(SELECT_COUPON_NO_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(SELECT_COUPON_NO_BASE_FORMAT_PATH, 1),
                         EasyExpectBodies.builder()
                                 .insert("message", is("쿠폰 넘버로 조회"))
-                                .insert("data.coupon.code", is("ABCDEF123456"))
+                                .insert("data.coupon.code", is(EXISTS_COUPON_CODE_VALUE))
                                 .insert("data.coupon.useStatus", is("USABLE"))
                                 .insert("data.coupon.name", is("봉대표가 쏜다"))
                                 .insert("data.coupon.discount", is(200000))
@@ -231,11 +230,11 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .addVariables("couponNo", 1_000_000_000);
 
         givenPathVariable(pathVariables)
-                .whenRequest(baseUrl("/api/v1/coupons/{couponNo}"), GET)
-                .thenExpectDescriptiveWith(NOT_FOUND, "/api/v1/coupons/1000000000",
+                .whenRequest(baseUrl(SELECT_COUPON_NO_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(NOT_FOUND, String.format(SELECT_COUPON_NO_BASE_FORMAT_PATH, 1_000_000_000),
                         EasyExpectBodies.builder()
                                 .insert("message", is("해당하는 쿠폰이 존재하지 않습니다."))
-                                .insert("data.requestNo", is(1000000000))
+                                .insert("data.requestNo", is(1_000_000_000))
                 );
     }
 
@@ -243,14 +242,14 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
     @DisplayName("[GET] /api/v1/coupons/code/{couponCode}, 쿠폰 Code 로 쿠폰 조회")
     void successfullyFindCouponByCouponCode() {
         EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
-                .addVariables("couponCode", "ABCDEF123456");
+                .addVariables("couponCode", EXISTS_COUPON_CODE_VALUE);
 
         givenPathVariable(pathVariables)
-                .whenRequest(baseUrl("/api/v1/coupons/code/{couponCode}"), GET)
-                .thenExpectDescriptiveWith(OK, "/api/v1/coupons/code/ABCDEF123456",
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_PATH_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(SELECT_COUPON_CODE_FORMAT_PATH, EXISTS_COUPON_CODE_VALUE),
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 코드로 조회"))
-                                .insert("data.coupon.code", is("ABCDEF123456"))
+                                .insert("message", is(SELECT_COUPON_CODE_SUCCEED_RESPONSE_MESSAGE))
+                                .insert("data.coupon.code", is(EXISTS_COUPON_CODE_VALUE))
                                 .insert("data.coupon.useStatus", is("USABLE"))
                                 .insert("data.coupon.name", is("봉대표가 쏜다"))
                                 .insert("data.coupon.discount", is(200000))
@@ -263,14 +262,14 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
     @DisplayName("[GET] /api/v1/coupons/code/{couponCode}, 쿠폰 Code 로 쿠폰 조회 실패, 존재하지 않음")
     void failedFindCouponByCouponCodeNotFound() {
         EasyGivenPathVariables pathVariables = new EasyGivenPathVariables()
-                .addVariables("couponCode", "TTTTTTTTTTTT");
+                .addVariables("couponCode", NOT_EXISTS_COUPON_CODE_VALUE);
 
         givenPathVariable(pathVariables)
-                .whenRequest(baseUrl("/api/v1/coupons/code/{couponCode}"), GET)
-                .thenExpectDescriptiveWith(NOT_FOUND, "/api/v1/coupons/code/TTTTTTTTTTTT",
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_PATH_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(NOT_FOUND, String.format(SELECT_COUPON_CODE_FORMAT_PATH, NOT_EXISTS_COUPON_CODE_VALUE),
                         EasyExpectBodies.builder()
-                                .insert("message", is("해당하는 쿠폰이 존재하지 않습니다."))
-                                .insert("data.requestCode", is("TTTTTTTTTTTT"))
+                                .insert("message", is(SELECT_COUPON_CODE_FAILED_RESPONSE_MESSAGE))
+                                .insert("data.requestCode", is(NOT_EXISTS_COUPON_CODE_VALUE))
                 );
     }
 
@@ -278,13 +277,13 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
     @DisplayName("[GET] /api/v1/coupons/code?couponCode=ABCDEF123456, 쿠폰 Code로 쿠폰 존재 여부 확인, 존재")
     void checkCouponExistByCouponCodeReturnTrue() {
         EasyGivenQueryParameters requestParam = new EasyGivenQueryParameters()
-                .addParam("couponCode", "ABCDEF123456");
+                .addParam("couponCode", EXISTS_COUPON_CODE_VALUE);
 
         givenParams(requestParam)
-                .whenRequest(baseUrl("/api/v1/coupons/code"), GET)
-                .thenExpectDescriptiveWith(OK, String.format("/api/v1/coupons/code?couponCode=%s", "ABCDEF123456"),
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(EXISTS_COUPON_CODE_FORMAT_SERVLET_PATH, EXISTS_COUPON_CODE_VALUE),
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 코드 존재 여부 확인"))
+                                .insert("message", is(EXISTS_COUPON_CODE_RESPONSE_MESSAGE))
                                 .insert("data.coupon.exists", is(true))
                 );
     }
@@ -293,13 +292,13 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
     @DisplayName("[GET] /api/v1/coupons/code?couponCode=TTTTTTTTTTTT, 쿠폰 Code로 쿠폰 존재 여부 확인, 존재하지 않음")
     void checkCouponExistByCouponCodeReturnFalse() {
         EasyGivenQueryParameters requestParam = new EasyGivenQueryParameters()
-                .addParam("couponCode", "TTTTTTTTTTTT");
+                .addParam("couponCode", NOT_EXISTS_COUPON_CODE_VALUE);
 
         givenParams(requestParam)
-                .whenRequest(baseUrl("/api/v1/coupons/code"), GET)
-                .thenExpectDescriptiveWith(OK, String.format("/api/v1/coupons/code?couponCode=%s", "TTTTTTTTTTTT"),
+                .whenRequest(baseUrl(SELECT_COUPON_CODE_BASE_SERVLET_PATH), GET)
+                .thenExpectDescriptiveWith(OK, String.format(EXISTS_COUPON_CODE_FORMAT_SERVLET_PATH, NOT_EXISTS_COUPON_CODE_VALUE),
                         EasyExpectBodies.builder()
-                                .insert("message", is("쿠폰 코드 존재 여부 확인"))
+                                .insert("message", is(EXISTS_COUPON_CODE_RESPONSE_MESSAGE))
                                 .insert("data.coupon.exists", is(false))
                 );
     }

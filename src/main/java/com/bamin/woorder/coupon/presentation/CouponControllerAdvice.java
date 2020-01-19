@@ -3,6 +3,7 @@ package com.bamin.woorder.coupon.presentation;
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
+import com.bamin.woorder.coupon.application.CouponCodeNotFoundException;
 import com.bamin.woorder.coupon.application.CouponNoNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,21 @@ public class CouponControllerAdvice {
                         .message(e.getMessage())
                         .data(ResponseData.builder()
                                 .insert("requestNo", e.getRequestNo())
+                                .build())
+                        .statusCode(ResponseDtoStatusCode.NOT_FOUND)
+                        .build());
+    }
+
+    @ExceptionHandler({CouponCodeNotFoundException.class})
+    public ResponseEntity handlingCodeException(final CouponCodeNotFoundException e, final HttpServletRequest request) {
+        log.error(e.getMessage());
+        return ResponseEntity.status(ResponseDtoStatusCode.NOT_FOUND)
+                .body(ResponseDto.builder()
+                        .path(request.getServletPath())
+                        .method(request.getMethod())
+                        .message(e.getMessage())
+                        .data(ResponseData.builder()
+                                .insert("requestCode", e.getRequestCode())
                                 .build())
                         .statusCode(ResponseDtoStatusCode.NOT_FOUND)
                         .build());

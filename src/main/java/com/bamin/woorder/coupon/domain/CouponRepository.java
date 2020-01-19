@@ -19,4 +19,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     Page<Coupon> findAllByCouponTypeInfoCouponTypeCouponTypeUsablePeriodEndTimeIsBefore(final LocalDateTime currentTime, final Pageable pageable);
 
     Optional<Coupon> findByCouponCodeCouponCode(final String couponCode);
+
+    boolean existsByCouponCodeCouponCode(String couponCode);
 }

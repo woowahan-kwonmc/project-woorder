@@ -93,6 +93,10 @@ public class CouponService {
                 .orElseThrow(() -> new CouponCodeNotFoundException(couponCode));
     }
 
+    boolean existsByCouponCode(final String couponCode) {
+        return couponRepository.existsByCouponCodeCouponCode(couponCode);
+    }
+
     private List<Coupon> selectAllPageCoupons(final int page, final int num) {
         return couponRepository.findAll(PageRequest.of(page - 1, num))
                 .stream()

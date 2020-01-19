@@ -3,10 +3,7 @@ package com.bamin.woorder.coupon.application;
 import com.bamin.woorder.common.dto.ResponseData;
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.coupon.domain.Coupon;
-import com.bamin.woorder.coupon.dto.CouponData;
-import com.bamin.woorder.coupon.dto.CouponDescResponseDto;
-import com.bamin.woorder.coupon.dto.CouponPageReadRequestDto;
-import com.bamin.woorder.coupon.dto.CouponResponseDto;
+import com.bamin.woorder.coupon.dto.*;
 import com.bamin.woorder.coupontype.application.CouponTypeService;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +98,19 @@ public class CouponCRUDService {
                 .statusCode(200)
                 .data(ResponseData.builder()
                         .insert("coupon", mapToDescResponseDto(coupon))
+                        .build())
+                .build();
+    }
+
+    public ResponseDto existsCouponByCode(final String couponCode) {
+        boolean isExists = couponService.existsByCouponCode(couponCode);
+        return ResponseDto.builder()
+                .path(String.format("/api/v1/coupons/code?couponCode=%s", couponCode))
+                .method("GET")
+                .message("쿠폰 코드 존재 여부 확인")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", new CouponExistDto(isExists))
                         .build())
                 .build();
     }

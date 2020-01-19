@@ -42,6 +42,11 @@ public class CouponCRUDController {
         return ResponseEntity.ok(couponCRUDService.findCouponByCode(couponCode));
     }
 
+    @GetMapping("/coupons/code")
+    public ResponseEntity existsByCode(@RequestParam final String couponCode) {
+        return ResponseEntity.ok(couponCRUDService.existsCouponByCode(couponCode));
+    }
+
     @GetMapping("/coupons")
     public ResponseEntity selectPageCoupons(@CouponPageRequestParams final CouponPageReadRequestDto requestDto) {
         return ResponseEntity.ok(couponCRUDService.selectPageCoupons(requestDto));

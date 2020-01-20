@@ -13,21 +13,20 @@ import java.time.LocalDateTime;
 @Embeddable
 public class CouponTypeInfo {
 
-    @ManyToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_type_no")
     private CouponType couponType;
 
-    public CouponTypeInfo(final CouponType couponType) {
+    CouponTypeInfo(final CouponType couponType) {
         this.couponType = couponType;
+    }
+
+    int getDiscount() {
+        return couponType.getDiscount();
     }
 
     public String getName() {
         return couponType.getName();
-    }
-
-    public int getDiscount() {
-        return couponType.getDiscount();
     }
 
     public LocalDateTime getStartTime() {

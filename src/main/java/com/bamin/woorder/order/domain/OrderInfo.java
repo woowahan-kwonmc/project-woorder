@@ -48,4 +48,8 @@ class OrderInfo {
     void cancelOrder() {
         this.orderProcessStatus.cancel();
     }
+
+    void updateInProgress() {
+        this.orderProcessStatus.inProgress();
+    }
 }

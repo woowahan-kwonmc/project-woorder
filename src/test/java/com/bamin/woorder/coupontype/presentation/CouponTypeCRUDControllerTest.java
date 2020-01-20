@@ -164,7 +164,7 @@ class CouponTypeCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("data.couponType.count", is(COUPON_TYPE_NO_01_COUNT))
                                 .insert("data.couponType.startTime", is(COUPON_TYPE_NO_01_START_TIME))
                                 .insert("data.couponType.endTime", is(COUPON_TYPE_NO_01_END_TIME))
-                                .insert("data.couponsSize", is(0))
+                                .insert("data.couponsSize", is(2))
                 );
     }
 

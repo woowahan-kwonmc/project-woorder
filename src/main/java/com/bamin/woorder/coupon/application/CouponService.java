@@ -25,6 +25,12 @@ public class CouponService {
         this.couponRepository = couponRepository;
     }
 
+    public List<Coupon> findAllCouponsByNo(final List<Long> couponsNo) {
+        return couponsNo.stream()
+                .map(this::findByCouponNo)
+                .collect(Collectors.toList());
+    }
+
     Long countCouponIncludedCouponType(final Long couponTypeNo) {
         return couponRepository.countAllByCouponTypeInfoCouponTypeCouponTypeNo(couponTypeNo);
     }

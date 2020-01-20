@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode(of = "memberNo", callSuper = false)
 @Table(name = "MEMBER")
@@ -22,9 +22,6 @@ public class Member extends DeletableEntity {
 
     @Embedded
     private MemberName memberName;
-
-    @Embedded
-    private MemberCouponInfos couponInfos;
 
     public Member(final String name) {
         this.memberName = new MemberName(name);

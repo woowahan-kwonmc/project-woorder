@@ -12,14 +12,25 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class CouponUseStatus {
+class CouponUseStatus {
 
     @Column(name = "coupon_status",
             nullable = false)
     @Enumerated(value = EnumType.STRING)
     private CouponStatus couponStatus;
 
-    public CouponUseStatus(final CouponStatus couponStatus) {
+    CouponUseStatus(final CouponStatus couponStatus) {
         this.couponStatus = couponStatus;
+    }
+
+    void useCoupon() {
+        checkCouponUsed();
+        this.couponStatus = CouponStatus.USED;
+    }
+
+    private void checkCouponUsed() {
+        if (this.couponStatus.equals(CouponStatus.USED)) {
+            throw new AlreadyUsedCouponException();
+        }
     }
 }

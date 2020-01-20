@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,17 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class PaymentOrders {
+class PaymentOrders {
 
-    @OneToMany(mappedBy = "orderPayment")
+    @OneToMany(mappedBy = "orderPayment", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
+
+    static PaymentOrders init(final List<Order> payOrders) {
+        return new PaymentOrders().addAll(payOrders);
+    }
+
+    private PaymentOrders addAll(final List<Order> payOrders) {
+        orders.addAll(payOrders);
+        return this;
+    }
 }

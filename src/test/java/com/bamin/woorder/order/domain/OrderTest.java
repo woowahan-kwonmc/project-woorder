@@ -52,4 +52,40 @@ class OrderTest {
         order.cancelOrder();
         assertThrows(AlreadyCanceledOrderException.class, order::cancelOrder);
     }
+
+    @Test
+    @DisplayName("Order 취소 실패, 이미 진행중")
+    void failedCancelOrderAlreadyProcessed() {
+        Order order = Order.builder()
+                .quantity(1)
+                .savedMember(new Member("권민철"))
+                .savedMenu(new Menu("양념치킨", "18000"))
+                .build();
+        order.updateInProgress();
+        assertThrows(AlreadyProcessedOrderException.class, order::cancelOrder);
+    }
+
+    @Test
+    @DisplayName("Order 진행 실패, 이미 진행중")
+    void failedProcessOrder() {
+        Order order = Order.builder()
+                .quantity(1)
+                .savedMember(new Member("권민철"))
+                .savedMenu(new Menu("양념치킨", "18000"))
+                .build();
+        order.updateInProgress();
+        assertThrows(AlreadyProcessedOrderException.class, order::updateInProgress);
+    }
+
+    @Test
+    @DisplayName("Order 진행 실패, 이미 취소")
+    void failedProcessOrderAlreadyCanceled() {
+        Order order = Order.builder()
+                .quantity(1)
+                .savedMember(new Member("권민철"))
+                .savedMenu(new Menu("양념치킨", "18000"))
+                .build();
+        order.cancelOrder();
+        assertThrows(AlreadyCanceledOrderException.class, order::updateInProgress);
+    }
 }

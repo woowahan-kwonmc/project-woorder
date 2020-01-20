@@ -24,6 +24,12 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
+    public List<Order> findAllOrdersByNo(final List<Long> ordersNo) {
+        return ordersNo.stream()
+                .map(this::findByOrderNo)
+                .collect(Collectors.toList());
+    }
+
     List<Order> createOrders(final List<Order> orders) {
         return orderRepository.saveAll(orders);
     }

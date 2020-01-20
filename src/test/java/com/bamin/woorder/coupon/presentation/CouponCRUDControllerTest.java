@@ -195,7 +195,7 @@ class CouponCRUDControllerTest extends AcceptanceTestUtils {
                 .thenExpectDescriptiveWith(OK, "/api/v1/coupons",
                         EasyExpectBodies.builder()
                                 .insert("message", is("쿠폰 목록 조회"))
-                                .insert("data.coupons.size()", is(2))
+                                .insert("data.coupons.size()", is(3))
                                 .insert("data.request.page", is(1))
                                 .insert("data.request.num", is(3))
                                 .insert("data.request.usable", is(true))

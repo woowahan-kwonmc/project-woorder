@@ -2,6 +2,7 @@ package com.bamin.woorder.coupon.domain;
 
 import com.bamin.woorder.common.domain.ModifiableEntity;
 import com.bamin.woorder.coupontype.domain.CouponType;
+import com.bamin.woorder.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -71,5 +72,16 @@ public class Coupon extends ModifiableEntity {
 
     public LocalDateTime getEndTime() {
         return couponTypeInfo.getEndTime();
+    }
+
+    public void useCoupon(final Member payMember) {
+        checkOwner(payMember);
+        this.couponUseStatus.useCoupon();
+    }
+
+    private void checkOwner(final Member payMember) {
+        if (couponMember.isNotEquals(payMember)) {
+            throw new InvalidCouponOwnerException();
+        }
     }
 }

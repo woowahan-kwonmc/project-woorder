@@ -32,9 +32,24 @@ public class OrderProcessStatus {
     }
 
     void cancel() {
+        checkAlreadyCanceled();
+        this.orderStatus = OrderStatus.CANCELED;
+    }
+
+    void inProgress() {
+        checkAlreadyProcessed();
+        this.orderStatus = OrderStatus.IN_PROGRESS;
+    }
+
+    private void checkAlreadyCanceled() {
         if (this.orderStatus.equals(OrderStatus.CANCELED)) {
             throw new AlreadyCanceledOrderException();
         }
-        this.orderStatus = OrderStatus.CANCELED;
+    }
+
+    private void checkAlreadyProcessed() {
+        if (!orderStatus.equals(OrderStatus.CREATE)) {
+            throw new AlreadyProcessedOrderException();
+        }
     }
 }

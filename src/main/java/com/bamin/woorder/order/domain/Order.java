@@ -67,4 +67,8 @@ public class Order extends DeletableEntity {
             throw new OrderAlreadyOrderPaymentException();
         }
     }
+
+    public void updateInProgress() {
+        this.orderInfo.updateInProgress();
+    }
 }

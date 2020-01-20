@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum OrderStatus {
     CREATE,
-    ONPROGRESS,
+    IN_PROGRESS,
     COMPLETE,
     CANCELED;
 

@@ -46,6 +46,11 @@ public class OrderService {
         return getPageableOrdersByMemberAndStatus(num, page, status, orderedBy);
     }
 
+    Order cancelOrder(final Long orderNo) {
+        Order savedOrder = findByOrderNo(orderNo);
+        return savedOrder.cancelOrder();
+    }
+
     private List<Order> getPageableOrders(final int num, final int page) {
         return mapToOrders(orderRepository.findAll(PageRequest.of(page - 1, num)));
     }

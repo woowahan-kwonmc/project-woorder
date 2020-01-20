@@ -71,6 +71,19 @@ public class OrderCRUDService {
                 .build();
     }
 
+    public ResponseDto cancelOrder(final Long orderNo) {
+        Order canceledOrder = orderService.cancelOrder(orderNo);
+        return ResponseDto.builder()
+                .path("/api/v1/orders")
+                .method(ResponseDtoMethod.PATCH)
+                .message("주문 취소 성공")
+                .data(ResponseData.builder()
+                        .insert("canceledOrder", mapToCancelResponseDto(canceledOrder))
+                        .build())
+                .statusCode(ResponseDtoStatusCode.OK)
+                .build();
+    }
+
     private OrderResponseDto mapToOrderResponseDto(final Order order) {
         return OrderResponseDto.dtoBuilder()
                 .no(order.getOrderNo())
@@ -80,6 +93,18 @@ public class OrderCRUDService {
                 .createTime(order.getCreateTime())
                 .orderedBy(order.getOrderMemberNo())
                 .modifiedTime(order.getModifiedTime())
+                .build();
+    }
+
+    private OrderCancelResponseDto mapToCancelResponseDto(final Order order) {
+        return OrderCancelResponseDto.dtoBuilder()
+                .no(order.getOrderNo())
+                .status(order.getStatus())
+                .quantity(order.getQuantity())
+                .price(order.getPrice())
+                .createTime(order.getCreateTime())
+                .orderedBy(order.getOrderMemberNo())
+                .deletedTime(order.getDeleteTime())
                 .build();
     }
 

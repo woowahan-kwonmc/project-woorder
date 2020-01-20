@@ -29,4 +29,27 @@ class OrderTest {
                 .savedMenu(new Menu("양념치킨", "18000"))
                 .build());
     }
+
+    @Test
+    @DisplayName("Order 취소 성공")
+    void succeedCancelOrder() {
+        Order order = Order.builder()
+                .quantity(1)
+                .savedMember(new Member("권민철"))
+                .savedMenu(new Menu("양념치킨", "18000"))
+                .build();
+        assertDoesNotThrow(order::cancelOrder);
+    }
+
+    @Test
+    @DisplayName("Order 취소 실패, 이미 취소됨")
+    void failedCancelOrder() {
+        Order order = Order.builder()
+                .quantity(1)
+                .savedMember(new Member("권민철"))
+                .savedMenu(new Menu("양념치킨", "18000"))
+                .build();
+        order.cancelOrder();
+        assertThrows(AlreadyCanceledOrderException.class, order::cancelOrder);
+    }
 }

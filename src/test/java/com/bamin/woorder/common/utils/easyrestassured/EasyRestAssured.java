@@ -58,6 +58,7 @@ public class EasyRestAssured {
         whenPost(requestMethod);
         whenPut(requestMethod);
         whenDelete(requestMethod);
+        whenPatch(requestMethod);
         return this;
     }
 
@@ -79,6 +80,13 @@ public class EasyRestAssured {
         if (requestMethod.equals(PUT)) {
             this.response = this.requestSpecification.when().put(this.requestUrl);
             this.requestMethod = PUT.toString();
+        }
+    }
+
+    private void whenPatch(final EasyRestAssuredRequestMethod requestMethod) {
+        if (requestMethod.equals(PATCH)) {
+            this.response = this.requestSpecification.when().patch(this.requestUrl);
+            this.requestMethod = PATCH.toString();
         }
     }
 

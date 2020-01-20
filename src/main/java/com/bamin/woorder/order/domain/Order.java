@@ -54,4 +54,17 @@ public class Order extends DeletableEntity {
     public Long getOrderMemberNo() {
         return orderMember.getMemberNo();
     }
+
+    public Order cancelOrder() {
+        checkAlreadyPayment();
+        orderInfo.cancelOrder();
+        super.softDelete();
+        return this;
+    }
+
+    private void checkAlreadyPayment() {
+        if (this.orderPayment != null) {
+            throw new OrderAlreadyOrderPaymentException();
+        }
+    }
 }

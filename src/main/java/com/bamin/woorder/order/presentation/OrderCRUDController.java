@@ -37,6 +37,11 @@ public class OrderCRUDController {
         return ResponseEntity.ok(orderCRUDService.findConditionalOrders(requestDto));
     }
 
+    @PatchMapping("/orders")
+    public ResponseEntity cancelOrder(@RequestParam final Long orderNo) {
+        return ResponseEntity.ok(orderCRUDService.cancelOrder(orderNo));
+    }
+
     private void checkRequest(final List<OrderCreateData> requestOrders) {
         if (requestOrders.isEmpty()) {
             throw new OrderRequestEmptyException();

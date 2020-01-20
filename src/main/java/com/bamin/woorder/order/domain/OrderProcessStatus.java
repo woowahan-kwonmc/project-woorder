@@ -30,4 +30,11 @@ public class OrderProcessStatus {
     public String getStatus() {
         return orderStatus.name();
     }
+
+    void cancel() {
+        if (this.orderStatus.equals(OrderStatus.CANCELED)) {
+            throw new AlreadyCanceledOrderException();
+        }
+        this.orderStatus = OrderStatus.CANCELED;
+    }
 }

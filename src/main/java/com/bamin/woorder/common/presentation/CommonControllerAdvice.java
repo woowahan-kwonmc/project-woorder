@@ -1,5 +1,6 @@
 package com.bamin.woorder.common.presentation;
 
+import com.bamin.woorder.common.domain.NotDeletableException;
 import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.common.exception.IllegalValueRangeException;
@@ -19,7 +20,8 @@ public class CommonControllerAdvice {
     @ExceptionHandler({
             InvalidParameterTypeException.class,
             IllegalValueRangeException.class,
-            ParameterConditionException.class
+            ParameterConditionException.class,
+            NotDeletableException.class
     })
     public ResponseEntity handlingException(final RuntimeException e, final HttpServletRequest request) {
         log.error(e.getMessage());

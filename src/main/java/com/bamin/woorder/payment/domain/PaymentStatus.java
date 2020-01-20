@@ -12,14 +12,21 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class PaymentStatus {
+class PaymentStatus {
 
     @Column(name = "payment_status",
             nullable = false)
     @Enumerated(EnumType.STRING)
     private PayStatus payStatus;
 
-    public PaymentStatus(final PayStatus payStatus) {
+    private PaymentStatus(final PayStatus payStatus) {
         this.payStatus = payStatus;
+    }
+
+    static PaymentStatus initialize(final PaymentMethod paymentMethod) {
+        if (PayMethod.CASH.equals(paymentMethod.getPayMethod())) {
+            return new PaymentStatus(PayStatus.INCOMPLETE);
+        }
+        return new PaymentStatus(PayStatus.COMPLETE);
     }
 }

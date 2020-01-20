@@ -1,12 +1,13 @@
 package com.bamin.woorder.payment.domain;
 
 import com.bamin.woorder.common.domain.DeletableEntity;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.bamin.woorder.coupon.domain.Coupon;
+import com.bamin.woorder.member.domain.Member;
+import com.bamin.woorder.order.domain.Order;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -26,19 +27,24 @@ public class Payment extends DeletableEntity {
     @Embedded
     private PaymentMember paymentMember;
 
-    @Embedded
-    private PaymentCoupons paymentCoupons;
+    @Builder
+    public Payment(final String method,
+                   final Member payMember,
+                   final List<Order> payOrders,
+                   final List<Coupon> payCoupons) {
+        this.paymentInfo = new PaymentInfo(method, payOrders, payCoupons);
+        this.paymentMember = new PaymentMember(payMember);
+    }
 
-    @Embedded
-    private PaymentOrders paymentOrders;
+    public Long getPrice() {
+        return paymentInfo.getPrice();
+    }
 
-    public Payment(final PaymentInfo paymentInfo,
-                   final PaymentMember paymentMember,
-                   final PaymentCoupons paymentCoupons,
-                   final PaymentOrders paymentOrders) {
-        this.paymentInfo = paymentInfo;
-        this.paymentMember = paymentMember;
-        this.paymentCoupons = paymentCoupons;
-        this.paymentOrders = paymentOrders;
+    public String getMethod() {
+        return paymentInfo.getMethod();
+    }
+
+    public String getStatus() {
+        return paymentInfo.getStatus();
     }
 }

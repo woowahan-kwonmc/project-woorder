@@ -22,4 +22,8 @@ public class CouponMember {
     public CouponMember(final Member couponMember) {
         this.couponMember = couponMember;
     }
+
+    boolean isNotEquals(final Member payMember) {
+        return !couponMember.equals(payMember);
+    }
 }

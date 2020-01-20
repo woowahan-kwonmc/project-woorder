@@ -1,14 +1,12 @@
 package com.bamin.woorder.order.presentation;
 
 import com.bamin.woorder.order.application.OrderCRUDService;
+import com.bamin.woorder.order.dto.OrderConditionalRequestDto;
 import com.bamin.woorder.order.dto.OrderCreateData;
 import com.bamin.woorder.order.dto.OrderCreateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +25,16 @@ public class OrderCRUDController {
     public ResponseEntity createOrders(@RequestBody final OrderCreateRequestDto requestDto) {
         checkRequest(requestDto.getOrders());
         return ResponseEntity.ok(orderCRUDService.createOrders(requestDto));
+    }
+
+    @GetMapping("/orders/{orderNo}")
+    public ResponseEntity findOrder(@PathVariable final Long orderNo) {
+        return ResponseEntity.ok(orderCRUDService.findOrderByOrderNo(orderNo));
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity findConditionalOrders(@OrderConditionalRequestParams final OrderConditionalRequestDto requestDto) {
+        return ResponseEntity.ok(orderCRUDService.findConditionalOrders(requestDto));
     }
 
     private void checkRequest(final List<OrderCreateData> requestOrders) {

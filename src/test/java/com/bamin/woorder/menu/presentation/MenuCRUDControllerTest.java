@@ -190,14 +190,14 @@ class MenuCRUDControllerTest extends AcceptanceTestUtils {
     void successfullyDeleteMenu() {
         EasyRestAssured
                 .givenParams(new EasyGivenQueryParameters()
-                        .addParam("menuNo", 4L))
+                        .addParam("menuNo", 5L))
                 .whenRequest(baseUrl(MENUS_BASE_SERVLET_PATH), EasyRestAssuredRequestMethod.DELETE)
                 .thenExpectDescriptiveWith(
                         OK, MENUS_BASE_SERVLET_PATH,
                         EasyExpectBodies.builder()
                                 .insert("message", is(MENU_DELETE_SUCCEED_RESPONSE_MESSAGE))
-                                .insert("data.deletedMenu.menuNo", is(4))
-                                .insert("data.deletedMenu.menuName", is("치즈볼(4개)"))
-                                .insert("data.deletedMenu.menuPrice", is(4000)));
+                                .insert("data.deletedMenu.menuNo", is(5))
+                                .insert("data.deletedMenu.menuName", is("삭제치킨"))
+                                .insert("data.deletedMenu.menuPrice", is(10000)));
     }
 }

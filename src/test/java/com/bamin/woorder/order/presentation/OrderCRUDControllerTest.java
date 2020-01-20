@@ -175,4 +175,37 @@ class OrderCRUDControllerTest extends AcceptanceTestUtils {
                                 .insert("data.orders[1].status", is("CREATE"))
                 );
     }
+
+    @Test
+    @DisplayName("[PATCH] /api/v1/orders, 주문 취소 성공")
+    void successfullyCancelOrder() {
+        EasyGivenQueryParameters params = new EasyGivenQueryParameters()
+                .addParam("orderNo", 13);
+
+        givenParams(params)
+                .whenRequest(baseUrl("/api/v1/orders"), EasyRestAssuredRequestMethod.PATCH)
+                .thenExpectDescriptiveWith(
+                        OK, "/api/v1/orders",
+                        EasyExpectBodies.builder()
+                                .insert("message", is("주문 취소 성공"))
+                                .insert("data.canceledOrder.no", is(13))
+                                .insert("data.canceledOrder.deletedTime", is(notNullValue()))
+                                .insert("data.canceledOrder.status", is("CANCELED"))
+                );
+    }
+
+    @Test
+    @DisplayName("[PATCH] /api/v1/orders, 주문 취소 실패, 이미 취소된 주문")
+    void failedCancelOrderAlreadyCanceled() {
+        EasyGivenQueryParameters params = new EasyGivenQueryParameters()
+                .addParam("orderNo", 6);
+
+        givenParams(params)
+                .whenRequest(baseUrl("/api/v1/orders"), EasyRestAssuredRequestMethod.PATCH)
+                .thenExpectDescriptiveWith(
+                        NOT_FOUND, "/api/v1/orders",
+                        EasyExpectBodies.builder()
+                                .insert("message", is("이미 취소된 주문입니다."))
+                );
+    }
 }

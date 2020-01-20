@@ -50,4 +50,8 @@ public class Order extends DeletableEntity {
     public long getQuantity() {
         return orderInfo.getQuantity();
     }
+
+    public Long getOrderMemberNo() {
+        return orderMember.getMemberNo();
+    }
 }

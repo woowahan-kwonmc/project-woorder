@@ -21,4 +21,8 @@ class OrderMember {
     OrderMember(final Member member) {
         this.member = member;
     }
+
+    Long getMemberNo() {
+        return member.getMemberNo();
+    }
 }

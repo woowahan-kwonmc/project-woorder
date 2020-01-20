@@ -44,4 +44,8 @@ class OrderInfo {
     long getQuantity() {
         return orderQuantity.getQuantity();
     }
+
+    void cancelOrder() {
+        this.orderProcessStatus.cancel();
+    }
 }

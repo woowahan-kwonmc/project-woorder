@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderResponseData {
 
     private Long no;
@@ -18,11 +18,11 @@ public class OrderResponseData {
     private LocalDateTime createTime;
 
     @Builder
-    public OrderResponseData(final Long no,
-                             final String status,
-                             final long price,
-                             final long quantity,
-                             final LocalDateTime createTime) {
+    OrderResponseData(final Long no,
+                      final String status,
+                      final long price,
+                      final long quantity,
+                      final LocalDateTime createTime) {
         this.no = no;
         this.status = status;
         this.price = price;

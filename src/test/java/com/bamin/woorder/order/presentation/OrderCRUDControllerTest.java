@@ -9,6 +9,7 @@ import com.bamin.woorder.order.dto.OrderCreateData;
 import com.bamin.woorder.order.dto.OrderCreateRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -177,10 +178,11 @@ class OrderCRUDControllerTest extends AcceptanceTestUtils {
     }
 
     @Test
+    @DirtiesContext
     @DisplayName("[PATCH] /api/v1/orders, 주문 취소 성공")
     void successfullyCancelOrder() {
         EasyGivenQueryParameters params = new EasyGivenQueryParameters()
-                .addParam("orderNo", 13);
+                .addParam("orderNo", 1);
 
         givenParams(params)
                 .whenRequest(baseUrl("/api/v1/orders"), EasyRestAssuredRequestMethod.PATCH)
@@ -188,7 +190,7 @@ class OrderCRUDControllerTest extends AcceptanceTestUtils {
                         OK, "/api/v1/orders",
                         EasyExpectBodies.builder()
                                 .insert("message", is("주문 취소 성공"))
-                                .insert("data.canceledOrder.no", is(13))
+                                .insert("data.canceledOrder.no", is(1))
                                 .insert("data.canceledOrder.deletedTime", is(notNullValue()))
                                 .insert("data.canceledOrder.status", is("CANCELED"))
                 );

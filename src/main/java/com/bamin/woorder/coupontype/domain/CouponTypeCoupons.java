@@ -15,9 +15,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class CouponTypeCoupons {
+class CouponTypeCoupons {
 
-    @OneToMany(mappedBy = "couponTypeInfo",
-            fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "couponTypeInfo", fetch = FetchType.LAZY)
     private List<Coupon> coupons = new ArrayList<>();
 }

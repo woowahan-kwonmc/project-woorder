@@ -6,16 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
+import static com.bamin.woorder.coupontype.CouponTypeConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CouponTypeTest {
-
-    private static final String COUPON_TYPE_NAME = "민철이가 쏜다.";
-    private static final String COUPON_TYPE_COUNT = "10";
-    private static final String COUPON_TYPE_DISCOUNT = "1000";
-    private static final boolean COUPON_TYPE_HAS_CODE_CODE_TYPE = true;
 
     @Test
     @DisplayName("CouponType 생성 성공")

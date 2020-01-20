@@ -56,8 +56,15 @@ public class Order extends DeletableEntity {
     }
 
     public Order cancelOrder() {
+        checkAlreadyPayment();
         orderInfo.cancelOrder();
         super.softDelete();
         return this;
+    }
+
+    private void checkAlreadyPayment() {
+        if (this.orderPayment != null) {
+            throw new OrderAlreadyOrderPaymentException();
+        }
     }
 }

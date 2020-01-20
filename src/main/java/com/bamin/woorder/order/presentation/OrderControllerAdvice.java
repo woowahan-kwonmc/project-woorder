@@ -6,6 +6,7 @@ import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.order.OrderException;
 import com.bamin.woorder.order.application.NotFoundOrderException;
 import com.bamin.woorder.order.domain.AlreadyCanceledOrderException;
+import com.bamin.woorder.order.domain.OrderAlreadyOrderPaymentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,8 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class OrderControllerAdvice {
 
-    @ExceptionHandler({OrderException.class})
-    public ResponseEntity handlingOrderException(final OrderException e, final HttpServletRequest request) {
+    @ExceptionHandler({OrderException.class, OrderAlreadyOrderPaymentException.class})
+    public ResponseEntity handlingOrderException(final RuntimeException e, final HttpServletRequest request) {
         log.error(e.getMessage());
         return ResponseEntity.status(ResponseDtoStatusCode.BAD_REQUEST)
                 .body(ResponseDto.builder()

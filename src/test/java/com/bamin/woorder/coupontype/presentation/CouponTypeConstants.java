@@ -16,7 +16,7 @@ class CouponTypeConstants {
     static final int COUPON_TYPE_NO_01_COUNT = 100;
     static final String COUPON_TYPE_NO_01_NAME = "이달의 카피라이터";
     static final String COUPON_TYPE_NO_01_START_TIME = "2020-01-20T15:13:20";
-    static final String COUPON_TYPE_NO_01_END_TIME = "2020-01-22T15:13:20";
+    static final String COUPON_TYPE_NO_01_END_TIME = "2021-01-19T15:13:20";
 
     static final String COUPON_TYPE_CREATE_SUCCEED_RESPONSE_MESSAGE = "쿠폰 종류 생성 성공";
     static final String COUPON_TYPE_PERIOD_FAILED_RESPONSE_MESSAGE = "쿠폰 사용 가능 기간 설정을 확인해주세요.";

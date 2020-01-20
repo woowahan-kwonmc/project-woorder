@@ -2,7 +2,11 @@
 INSERT INTO `MEMBER`
     (`member_no`, `create_time`, `modified_time`, `member_name`)
 VALUES
-    ('1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'already');
+    ('1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'already'),
+    ('2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'two'),
+    ('3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'three'),
+    ('4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'four'),
+    ('5', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'five');
 
 -- MENU dummy
 INSERT INTO `MENU`
@@ -33,3 +37,20 @@ VALUES
     ('4', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '123456ABCDEF', 'USED', '7'),
     ('5', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '789012GHIJKL', 'USED', '7'),
     ('6', '2020-01-14 21:25:49', '2020-01-14 21:25:49', 'Q1W2E3R4T5Y6', 'USABLE', '7');
+
+INSERT INTO `ORDER`
+    (`order_no`, `create_time`, `modified_time`, `order_price`, `order_status`, `order_quantity`, `order_menu_no`, `order_member_no`)
+VALUES
+    ('1', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '54000', 'CREATE', '3', '1', '1'),
+    ('2', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '18000', 'CREATE', '1', '1', '2'),
+    ('3', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '18000', 'CREATE', '1', '1', '2'),
+
+    ('4', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '18000', 'ONPROGRESS', '1', '2', '1'),
+    ('5', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '18000', 'COMPLETE', '1', '1', '3'),
+    ('6', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '40000', 'CANCELED', '10', '4', '4'),
+    ('7', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '18000', 'ONPROGRESS', '1', '3', '5'),
+    ('8', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '54000', 'COMPLETE', '3', '3', '5'),
+    ('9', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '4000', 'CANCELED', '1', '4', '5'),
+    ('10', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '12000', 'ONPROGRESS', '3', '4', '3'),
+    ('11', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '36000', 'COMPLETE', '2', '1', '4'),
+    ('12', '2020-01-14 21:25:49', '2020-01-14 21:25:49', '18000', 'CANCELED', '1', '2', '1');

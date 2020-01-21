@@ -1,28 +1,97 @@
 <template>
-    <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png">
-        <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="global-wrapper">
+        <v-app id="app">
+            <v-app-bar
+                    app
+                    class="toolbar-bottom-navigation"
+                    color="primary"
+                    dark
+            >
+                <div class="d-flex align-center">우더(Woooooorder)</div>
+            </v-app-bar>
+
+            <div class="body">
+                <v-content>
+                    <HelloWorld/>
+                    <HelloWorld/>
+                    <HelloWorld/>
+                    <HelloWorld/>
+                    <HelloWorld/>
+                </v-content>
+            </div>
+
+            <v-bottom-navigation
+                    class="toolbar-bottom-navigation"
+                    fixed
+                    v-model="bottomNav"
+            >
+                <v-btn value="recent">
+                    <span>Recent</span>
+                    <v-icon>mdi-history</v-icon>
+                </v-btn>
+
+                <v-btn value="favorites">
+                    <span>Favorites</span>
+                    <v-icon>mdi-heart</v-icon>
+                </v-btn>
+
+                <v-btn value="nearby">
+                    <span>Nearby</span>
+                    <v-icon>mdi-map-marker</v-icon>
+                </v-btn>
+            </v-bottom-navigation>
+        </v-app>
     </div>
 </template>
 
 <script>
-    import HelloWorld from './components/HelloWorld.vue'
+    import HelloWorld from "./components/HelloWorld";
 
     export default {
-        name: 'app',
+        name: "App",
+
         components: {
             HelloWorld
-        }
-    }
+        },
+
+        data: () => ({
+            bottomNav: "recent"
+        })
+    };
 </script>
 
-<style>
+<style scoped>
+    #global-wrapper {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        background-color: #ccc;
+        overflow: hidden;
+    }
+
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
+        background-color: "#ffffff";
+        flex: 1;
+        height: 100%;
+        max-width: 500px;
+        min-width: 250px;
+        overflow: scroll;
+        position: relative;
+        width: 100%;
+    }
+
+    .toolbar-bottom-navigation {
+        transform: translate(-50%, 0px) !important;
+        left: 50% !important;
+        width: 100%;
+        max-width: 500px;
+        min-width: 250px;
+    }
+
+    .body {
+        margin-bottom: 56px;
     }
 </style>

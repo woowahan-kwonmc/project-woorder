@@ -18,6 +18,17 @@ module.exports = {
   */
   loading: {color: '#3B8070'},
   /*
+  ** Moduels
+  */
+  modules: [
+    '@nuxtjs/vuetify'
+  ],
+
+  vuetify: {
+    // Vuetify options
+    //  theme: { }
+  },
+  /*
   ** Build configuration
   */
   build: {

@@ -5,6 +5,12 @@ const findMemberCoupons = async (memberNo) => {
     return response.data ? response.data : null
 }
 
+const enrollCodeCoupon = async (memberNo, code) => {
+    const response = await couponService.enrollCoupon(memberNo, code)
+    return response.data ? response.data : null
+}
+
 export const couponController = {
     findMemberCoupons,
+    enrollCodeCoupon,
 }

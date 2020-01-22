@@ -27,9 +27,6 @@
                 <div style="align-self: center; margin-bottom: 16px;">
                   <v-btn color="success" dark fab v-on:click="createCouponBtnHandler(couponType.no)">생성</v-btn>
                 </div>
-                <div style="align-self: center">
-                  <v-btn color="success" dark fab v-on:click="descBtnHandler(couponType.no)">목록</v-btn>
-                </div>
               </div>
             </div>
           </v-expansion-panel-content>
@@ -115,10 +112,6 @@
             parseLocalTime(stringTime) {
                 const date = new Date(stringTime);
                 return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
-            },
-
-            descBtnHandler(id) {
-                this.$router.push(`/coupon/select/${id}`)
             },
 
             createCouponBtnHandler(id) {

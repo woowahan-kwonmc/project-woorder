@@ -4,6 +4,7 @@ import com.bamin.woorder.common.utils.RangeUtils;
 import com.bamin.woorder.coupon.application.CouponCRUDService;
 import com.bamin.woorder.coupon.application.Mode;
 import com.bamin.woorder.coupon.dto.CouponCreateRequestDto;
+import com.bamin.woorder.coupon.dto.CouponEnrollRequestDto;
 import com.bamin.woorder.coupon.dto.CouponPageReadRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,11 @@ public class CouponCRUDController {
     public ResponseEntity createCodeCoupons(@RequestBody final CouponCreateRequestDto requestDto) {
         return ResponseEntity.ok(couponCRUDService.createCodeCoupons(requestDto.getCouponTypeNo(),
                 RangeUtils.checkPositive(requestDto.getRequestCounts()), Mode.CODE));
+    }
+
+    @PutMapping("/coupons/codeMode")
+    public ResponseEntity enrollCodeCoupon(@RequestBody final CouponEnrollRequestDto requestDto) {
+        return ResponseEntity.ok(couponCRUDService.enrollCodeCoupon(requestDto));
     }
 
     @GetMapping("/coupons/{couponNo}")

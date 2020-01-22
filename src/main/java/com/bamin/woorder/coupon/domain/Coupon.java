@@ -95,4 +95,11 @@ public class Coupon extends ModifiableEntity {
         }
         return couponMember.getName();
     }
+
+    public void enrollMember(final Member requestMember) {
+        if (!Objects.isNull(this.couponMember)) {
+            throw new CouponAlreadyEnrolledException();
+        }
+        this.couponMember = new CouponMember(requestMember);
+    }
 }

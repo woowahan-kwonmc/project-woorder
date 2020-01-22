@@ -52,4 +52,9 @@ public class CouponCRUDController {
     public ResponseEntity selectPageCoupons(@CouponPageRequestParams final CouponPageReadRequestDto requestDto) {
         return ResponseEntity.ok(couponCRUDService.selectPageCoupons(requestDto));
     }
+
+    @GetMapping("/coupons/members/{memberNo}")
+    public ResponseEntity readMemberCoupons(@PathVariable final Long memberNo) {
+        return ResponseEntity.ok(couponCRUDService.readMemberCoupons(memberNo));
+    }
 }

@@ -89,6 +89,10 @@ public class CouponService {
         return selectAllPageCoupons(page, num);
     }
 
+    List<Coupon> findAllByMemberNo(final Long memberNo) {
+        return couponRepository.findAllByCouponUseStatusCouponStatusAndCouponMemberCouponMemberMemberNo(CouponStatus.USABLE, memberNo);
+    }
+
     Coupon findByCouponNo(final Long couponNo) {
         return couponRepository.findById(couponNo)
                 .orElseThrow(() -> new CouponNoNotFoundException(couponNo));

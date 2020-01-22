@@ -115,6 +115,23 @@ public class CouponCRUDService {
                 .build();
     }
 
+    public ResponseDto readMemberCoupons(final Long memberNo) {
+        List<Coupon> allCoupons = couponService.findAllByMemberNo(memberNo);
+        List<CouponDescResponseDto> coupons = allCoupons.stream()
+                .map(this::mapToDescResponseDto)
+                .collect(Collectors.toList());
+        return ResponseDto.builder()
+                .path(String.format("/coupons/members/%d", memberNo))
+                .method("GET")
+                .message("유저의 사용 가능 쿠폰")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupons", coupons)
+                        .insert("memberNo", memberNo)
+                        .build())
+                .build();
+    }
+
     private CouponType getCodeCouponType(final Long couponTypeNo) {
         CouponType couponType = couponTypeService.selectCreatableCouponType(couponTypeNo);
         couponType.checkHasCode();
@@ -144,6 +161,7 @@ public class CouponCRUDService {
 
     private CouponDescResponseDto mapToDescResponseDto(final Coupon coupon) {
         return CouponDescResponseDto.builder()
+                .no(coupon.getCouponNo())
                 .code(coupon.getCode())
                 .useStatus(coupon.getUseStatus())
                 .name(coupon.getName())

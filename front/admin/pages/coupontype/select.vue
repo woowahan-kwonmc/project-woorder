@@ -16,52 +16,17 @@
           v-for="(couponType, i) in couponTypes"
         >
           <v-expansion-panel-header>
-            <div style="display: flex; flex-direction: row;">
-              <div style="flex: 1;">
-                {{couponType.no}}
-              </div>
-              <div style="flex: 4;">
-                {{couponType.name}}
-              </div>
-              <div style="flex: 4">
-                할인 금액 {{couponType.discount}} 원
-              </div>
-              <div style="flex: 2">
-                {{couponType.hasCode ? '코드 쿠폰' : '다운로드 쿠폰'}}
-              </div>
-            </div>
+            <coupon-type-expansion-panel-element :coupon-type="couponType"/>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <div style="display: flex; flex-direction: row;">
               <div style="display: flex; flex-direction: column; flex: 10">
-                <div style="display: flex; flex-direction: row; padding: 4px;">
-                  <div style="flex: 1">No</div>
-                  <div style="flex: 4">{{couponType.no}}</div>
-                </div>
-                <div style="display: flex; flex-direction: row; padding: 4px;">
-                  <div style="flex: 1">쿠폰 타입 이름</div>
-                  <div style="flex: 4">{{couponType.name}}</div>
-                </div>
-                <div style="display: flex; flex-direction: row; padding: 4px;">
-                  <div style="flex: 1">할인 금액</div>
-                  <div style="flex: 4">{{couponType.discount}} 원</div>
-                </div>
-                <div style="display: flex; flex-direction: row; padding: 4px;">
-                  <div style="flex: 1">쿠폰 유형</div>
-                  <div style="flex: 4">{{couponType.hasCode ? '코드 쿠폰' : '다운로드 쿠폰'}}</div>
-                </div>
-                <div style="display: flex; flex-direction: row; padding: 4px;">
-                  <div style="flex: 1">총 발행 가능 쿠폰 수</div>
-                  <div style="flex: 4">{{couponType.count}} 장</div>
-                </div>
-                <div style="display: flex; flex-direction: row; padding: 4px;">
-                  <div style="flex: 1">사용 가능 기간</div>
-                  <div style="flex: 4">
-                    {{parseLocalTime(couponType.startTime)}} ~ {{parseLocalTime(couponType.endTime)}}
-                  </div>
-                </div>
+                <coupon-type-desc :coupon-size-mode="false" :coupon-type="couponType"/>
               </div>
               <div style="flex: 1; flex-direction: column; justify-content: center; display: flex;">
+                <div style="align-self: center; margin-bottom: 16px;">
+                  <v-btn color="success" dark fab v-on:click="createCouponBtnHandler(couponType.no)">생성</v-btn>
+                </div>
                 <div style="align-self: center">
                   <v-btn color="success" dark fab v-on:click="descBtnHandler(couponType.no)">목록</v-btn>
                 </div>
@@ -86,7 +51,10 @@
 
 <script>
     import WideTemplate from "../../components/WideTemplate";
+    import CouponTypeDesc from "../../components/coupontype/CouponTypeDesc";
+    import CouponTypeExpansionPanelElement from "../../components/coupontype/CouponTypeExpansionPanelElement";
     import {couponTypeController} from "../../middleware/controller/CouponTypeController";
+
 
     export default {
         data: () => ({
@@ -96,15 +64,16 @@
             message: null,
         }),
         components: {
-            WideTemplate
+            WideTemplate,
+            CouponTypeDesc,
+            CouponTypeExpansionPanelElement
         },
         async beforeMount() {
             try {
                 const response = await couponTypeController.select(this.page, 10);
                 const {couponTypes} = response.data
-                console.log(couponTypes)
                 if (couponTypes.length === 0) {
-                    this.message = "데이터가 없습니다.";
+                    return
                 }
                 this.couponTypes = couponTypes
             } catch (e) {
@@ -119,7 +88,6 @@
                 try {
                     const response = await couponTypeController.select(this.page - 1, this.num)
                     const {couponTypes} = response.data
-                    console.log(couponTypes)
                     if (couponTypes.length === 0) {
                         return
                     }
@@ -134,29 +102,11 @@
                 try {
                     const response = await couponTypeController.select(this.page + 1, this.num)
                     const {couponTypes} = response.data
-                    console.log(couponTypes)
                     if (couponTypes.length === 0) {
                         return
                     }
                     this.couponTypes = couponTypes
                     this.page += 1
-                } catch (e) {
-                    console.log(e.response.data.message)
-                }
-            },
-
-            async selectBtnClickHandler() {
-                if (this.page == null) {
-                    return
-                }
-                try {
-                    const response = await couponTypeController.select(this.page, this.num);
-                    const {couponTypes} = response.data
-                    console.log(couponTypes)
-                    if (couponTypes.length === 0) {
-                        this.message = "데이터가 없습니다.";
-                    }
-                    this.couponTypes = couponTypes
                 } catch (e) {
                     console.log(e.response.data.message)
                 }
@@ -168,7 +118,11 @@
             },
 
             descBtnHandler(id) {
-                console.log(id)
+                this.$router.push(`/coupon/select/${id}`)
+            },
+
+            createCouponBtnHandler(id) {
+                this.$router.push(`/coupon/create/${id}`)
             }
         }
     };

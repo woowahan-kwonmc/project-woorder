@@ -10,7 +10,12 @@ const select = (page, num) => (
   })
 )
 
+const findById = (id) => (
+  Api.base().get(`couponTypes/${id}`)
+)
+
 export const couponTypeService = {
   create,
   select,
+  findById,
 }

@@ -1,10 +1,6 @@
 <template>
   <v-container>
-    <v-app-bar color="deep-purple accent-4" dark fixed>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-toolbar-title>Woorder 어드민</v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-app-bar>
+    <app-bar></app-bar>
     <div class="body">
       <slot></slot>
     </div>
@@ -12,8 +8,13 @@
 </template>
 
 <script>
+    import AppBar from './AppBar'
+
     export default {
-        methods: {}
+        methods: {},
+        components: {
+            AppBar,
+        }
     };
 </script>
 

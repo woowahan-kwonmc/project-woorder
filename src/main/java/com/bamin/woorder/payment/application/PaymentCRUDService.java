@@ -14,10 +14,12 @@ import com.bamin.woorder.payment.domain.Payment;
 import com.bamin.woorder.payment.domain.exception.InvalidOrdersException;
 import com.bamin.woorder.payment.dto.PaymentCreateRequestDto;
 import com.bamin.woorder.payment.dto.PaymentCreateResponseDto;
+import com.bamin.woorder.payment.dto.PaymentDescResponseDto;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentCRUDService {
@@ -68,6 +70,22 @@ public class PaymentCRUDService {
                 .build();
     }
 
+    public ResponseDto selectPagePayment(final Long memberNo, final int page, final int num) {
+        List<Payment> payments = paymentService.selectPagePayment(memberNo, page, num);
+        List<PaymentDescResponseDto> selectPayments = payments.stream()
+                .map(this::mapToDescResponseDto)
+                .collect(Collectors.toList());
+        return ResponseDto.builder()
+                .path("/api/v1/payments")
+                .method(ResponseDtoMethod.GET)
+                .message("결제 정보 조회 성공")
+                .data(ResponseData.builder()
+                        .insert("payments", selectPayments)
+                        .build())
+                .statusCode(ResponseDtoStatusCode.OK)
+                .build();
+    }
+
     private PaymentCreateResponseDto mapToCreateResponseDto(final Payment payment) {
         return PaymentCreateResponseDto.builder()
                 .no(payment.getPaymentNo())
@@ -76,6 +94,16 @@ public class PaymentCRUDService {
                 .status(payment.getStatus())
                 .createTime(payment.getCreateTime())
                 .modifiedTime(payment.getModifiedTime())
+                .build();
+    }
+
+    private PaymentDescResponseDto mapToDescResponseDto(final Payment payment) {
+        return PaymentDescResponseDto.builder()
+                .no(payment.getPaymentNo())
+                .price(payment.getPrice())
+                .method(payment.getMethod())
+                .status(payment.getStatus())
+                .createTime(payment.getCreateTime())
                 .build();
     }
 }

@@ -51,7 +51,7 @@ public class CouponTypeService {
                 .collect(Collectors.toList());
     }
 
-    CouponType selectCouponType(final Long couponTypeNo) {
+    public CouponType selectCouponType(final Long couponTypeNo) {
         return couponTypeRepository.findById(couponTypeNo)
                 .orElseThrow(() -> new CouponTypeNotFoundException(couponTypeNo));
     }

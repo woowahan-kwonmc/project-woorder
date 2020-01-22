@@ -155,6 +155,23 @@ public class CouponCRUDService {
                 .build();
     }
 
+    @Transactional
+    public ResponseDto enrollDownloadCoupon(final CouponDownloadRequestDto requestDto) {
+        Member requestMember = memberService.findMemberByNo(requestDto.getMemberNo());
+        CouponType downloadCouponType = couponTypeService.selectCouponType(requestDto.getCouponTypeNo());
+        Coupon downloadCoupon = couponService.findFirstDownloadCouponByCouponType(downloadCouponType);
+        downloadCoupon.enrollMember(requestMember);
+        return ResponseDto.builder()
+                .path("/api/v1/coupons/downloadMode")
+                .method("PUT")
+                .message("다운로드 쿠폰 등록 성공")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", mapToDescResponseDto(downloadCoupon))
+                        .build())
+                .build();
+    }
+
     private CouponType getCodeCouponType(final Long couponTypeNo) {
         CouponType couponType = couponTypeService.selectCreatableCouponType(couponTypeNo);
         couponType.checkHasCode();

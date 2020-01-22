@@ -1,5 +1,6 @@
 package com.bamin.woorder.coupon.domain;
 
+import com.bamin.woorder.coupontype.domain.CouponType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     boolean existsByCouponCodeCouponCode(String couponCode);
 
     List<Coupon> findAllByCouponUseStatusCouponStatusAndCouponMemberCouponMemberMemberNo(final CouponStatus couponStatus, final Long memberNo);
+
+    Optional<Coupon> findFirstByCouponCodeIsNullAndCouponMemberCouponMemberIsNullAndCouponTypeInfoCouponType(final CouponType couponType);
 }

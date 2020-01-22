@@ -131,4 +131,9 @@ public class CouponService {
                 .collect(Collectors.toList());
 
     }
+
+    public Coupon findFirstDownloadCouponByCouponType(final CouponType downloadCouponType) {
+        return couponRepository.findFirstByCouponCodeIsNullAndCouponMemberCouponMemberIsNullAndCouponTypeInfoCouponType(downloadCouponType)
+                .orElseThrow(CouponNotFoundException::new);
+    }
 }

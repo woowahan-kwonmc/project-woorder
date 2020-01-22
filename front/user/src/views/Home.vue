@@ -132,9 +132,6 @@
                 <v-card-title>적용할 쿠폰 선택</v-card-title>
                 <v-divider></v-divider>
                 <v-card-text style="height: 300px;">
-                    <div style="text-align: center; padding: 24px;" v-if="coupon.memberCoupons">
-                        쿠폰이 없습니다.
-                    </div>
                     <div :key="i" v-for="(memberCoupon, i) in coupon.memberCoupons">
                         <v-checkbox :label="memberCoupon.name" :value="memberCoupon.no"
                                     v-model="coupon.appliedCoupons"></v-checkbox>

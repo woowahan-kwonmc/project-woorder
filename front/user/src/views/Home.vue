@@ -1,18 +1,25 @@
 <template>
-    <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png">
-        <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div>
+        <need-login v-if="!this.$store.isLoggedIn"/>
+        <!--  메뉴를 보여준다  -->
+        <!--  메뉴를 선택한다  -->
+        <!--  주문 정보를 생성한다.  -->
+        <!--  결제 정보를 생성한다.  -->
+        <!--  완료되었음을 보여준다.  -->
     </div>
 </template>
 
 <script>
-    // @ is an alias to /src
-    import HelloWorld from '@/components/HelloWorld.vue'
+    import NeedLogin from '../components/NeedLogin'
 
     export default {
-        name: 'home',
+        data: () => ({
+            menus: []
+        }),
+
         components: {
-            HelloWorld
+            NeedLogin
         }
     }
+
 </script>

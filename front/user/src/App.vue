@@ -4,7 +4,7 @@
             <v-app-bar
                     app
                     class="toolbar-bottom-navigation"
-                    color="primary"
+                    color="black"
                     dark
             >
                 <div class="d-flex align-center">우더(Woooooorder)</div>
@@ -12,11 +12,7 @@
 
             <div class="body">
                 <v-content>
-                    <HelloWorld/>
-                    <HelloWorld/>
-                    <HelloWorld/>
-                    <HelloWorld/>
-                    <HelloWorld/>
+                    <Home/>
                 </v-content>
             </div>
 
@@ -25,19 +21,19 @@
                     fixed
                     v-model="bottomNav"
             >
-                <v-btn value="recent">
-                    <span>Recent</span>
+                <v-btn value="home">
+                    <span>홈</span>
+                    <v-icon>mdi-home</v-icon>
+                </v-btn>
+
+                <v-btn value="order">
+                    <span>주문</span>
                     <v-icon>mdi-history</v-icon>
                 </v-btn>
 
-                <v-btn value="favorites">
-                    <span>Favorites</span>
-                    <v-icon>mdi-heart</v-icon>
-                </v-btn>
-
-                <v-btn value="nearby">
-                    <span>Nearby</span>
-                    <v-icon>mdi-map-marker</v-icon>
+                <v-btn value="coupon">
+                    <span>쿠폰</span>
+                    <v-icon>mdi-ticket</v-icon>
                 </v-btn>
             </v-bottom-navigation>
         </v-app>
@@ -45,17 +41,17 @@
 </template>
 
 <script>
-    import HelloWorld from "./components/HelloWorld";
+    import Home from "./views/Home";
 
     export default {
         name: "App",
 
         components: {
-            HelloWorld
+            Home
         },
 
         data: () => ({
-            bottomNav: "recent"
+            bottomNav: "home"
         })
     };
 </script>
@@ -73,7 +69,7 @@
     }
 
     #app {
-        background-color: "#ffffff";
+        background-color: #ffffff;
         flex: 1;
         height: 100%;
         max-width: 500px;

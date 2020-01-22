@@ -98,7 +98,7 @@
         methods: {
             async selectBtnClickHandler() {
                 try {
-                    const response = await couponController.findCoupons(this.selectedCoupon.page, 10, this.export, this.usable)
+                    const response = await couponController.findCoupons(this.selectedCoupon.page, 10, this.usable, this.expired)
                     this.selectedCoupon.coupons = response.data.coupons
                 } catch (e) {
                     console.log(e)
@@ -109,7 +109,7 @@
                 if (this.selectedCoupon.page <= 1) {
                     return
                 }
-                const response = await couponController.findCoupons(this.selectedCoupon.page - 1, 10, this.export, this.usable)
+                const response = await couponController.findCoupons(this.selectedCoupon.page - 1, 10, this.usable, this.expired)
                 const {coupons} = response.data
                 if (coupons.length === 0) {
                     return

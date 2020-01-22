@@ -12,7 +12,7 @@
 
             <div class="body">
                 <v-content>
-                    <Home/>
+                    <router-view/>
                 </v-content>
             </div>
 
@@ -21,17 +21,17 @@
                     fixed
                     v-model="bottomNav"
             >
-                <v-btn value="home">
+                <v-btn to="/" value="home">
                     <span>홈</span>
                     <v-icon>mdi-home</v-icon>
                 </v-btn>
 
-                <v-btn value="order">
+                <v-btn to="/order" value="order">
                     <span>주문</span>
                     <v-icon>mdi-history</v-icon>
                 </v-btn>
 
-                <v-btn value="coupon">
+                <v-btn to="/coupon" value="coupon">
                     <span>쿠폰</span>
                     <v-icon>mdi-ticket</v-icon>
                 </v-btn>
@@ -41,14 +41,8 @@
 </template>
 
 <script>
-    import Home from "./views/Home";
-
     export default {
         name: "App",
-
-        components: {
-            Home
-        },
 
         data: () => ({
             bottomNav: "home"

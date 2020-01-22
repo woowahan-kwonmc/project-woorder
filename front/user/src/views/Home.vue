@@ -112,8 +112,8 @@
                         </div>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
+                <!--  완료되었음을 보여준다.  -->
                 <v-expansion-panel :disabled="result.activate">
-                    <!--  완료되었음을 보여준다.  -->
                     <v-expansion-panel-header>완료</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <div>결제 수단 - {{this.result.payment ? this.result.payment.method : ''}}</div>
@@ -343,8 +343,7 @@
             },
 
             initPage() {
-                // this.$router.push('/')
-                this.$router.go(this.$router.currentRoute)
+                this.$router.push('/order')
             }
         }
     }

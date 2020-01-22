@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,12 @@ public class CouponTypeService {
 
     List<CouponType> selectPageCouponTypes(final int page, final int num) {
         return couponTypeRepository.findAll(PageRequest.of(page - 1, num))
+                .stream()
+                .collect(Collectors.toList());
+    }
+
+    List<CouponType> selectPageDownloadCouponTypes(final int page, final int num) {
+        return couponTypeRepository.findAllByCouponTypeHasCodeCouponTypeHasCodeAndCouponTypeUsablePeriodEndTimeIsAfter(false, LocalDateTime.now(), PageRequest.of(page - 1, num))
                 .stream()
                 .collect(Collectors.toList());
     }

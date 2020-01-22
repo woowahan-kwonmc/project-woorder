@@ -11,7 +11,15 @@ const enrollCoupon = (memberNo, code) => (
     })
 )
 
+const downloadCoupon = (memberNo, couponTypeNo) => (
+    Api.base().put('coupons/downloadMode', {
+        memberNo,
+        couponTypeNo
+    })
+)
+
 export const couponService = {
     findMemberCoupons,
-    enrollCoupon
+    enrollCoupon,
+    downloadCoupon
 }

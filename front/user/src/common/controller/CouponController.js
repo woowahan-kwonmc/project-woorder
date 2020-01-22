@@ -10,7 +10,13 @@ const enrollCodeCoupon = async (memberNo, code) => {
     return response.data ? response.data : null
 }
 
+const downloadCoupon = async (memberNo, couponTypeNo) => {
+    const response = await couponService.downloadCoupon(memberNo, couponTypeNo)
+    return response.data ? response.data : null
+}
+
 export const couponController = {
     findMemberCoupons,
     enrollCodeCoupon,
+    downloadCoupon
 }

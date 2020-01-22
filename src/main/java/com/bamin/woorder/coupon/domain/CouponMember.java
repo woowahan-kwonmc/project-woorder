@@ -23,4 +23,8 @@ public class CouponMember {
     boolean isNotEquals(final Member payMember) {
         return !couponMember.equals(payMember);
     }
+
+    public String getName() {
+        return couponMember.getName();
+    }
 }

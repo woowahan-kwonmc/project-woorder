@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -51,6 +52,9 @@ public class Coupon extends ModifiableEntity {
     }
 
     public String getCode() {
+        if (Objects.isNull(couponCode)) {
+            return null;
+        }
         return couponCode.getCouponCode();
     }
 
@@ -83,5 +87,12 @@ public class Coupon extends ModifiableEntity {
         if (couponMember.isNotEquals(payMember)) {
             throw new InvalidCouponOwnerException();
         }
+    }
+
+    public String getMemberName() {
+        if (Objects.isNull(couponMember)) {
+            return null;
+        }
+        return couponMember.getName();
     }
 }

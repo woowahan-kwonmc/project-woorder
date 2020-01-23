@@ -4,6 +4,8 @@ import com.bamin.woorder.common.utils.RangeUtils;
 import com.bamin.woorder.coupon.application.CouponCRUDService;
 import com.bamin.woorder.coupon.application.Mode;
 import com.bamin.woorder.coupon.dto.CouponCreateRequestDto;
+import com.bamin.woorder.coupon.dto.CouponDownloadRequestDto;
+import com.bamin.woorder.coupon.dto.CouponEnrollRequestDto;
 import com.bamin.woorder.coupon.dto.CouponPageReadRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,16 @@ public class CouponCRUDController {
                 RangeUtils.checkPositive(requestDto.getRequestCounts()), Mode.CODE));
     }
 
+    @PutMapping("/coupons/codeMode")
+    public ResponseEntity enrollCodeCoupon(@RequestBody final CouponEnrollRequestDto requestDto) {
+        return ResponseEntity.ok(couponCRUDService.enrollCodeCoupon(requestDto));
+    }
+
+    @PutMapping("/coupons/downloadMode")
+    public ResponseEntity enrollDownloadCoupon(@RequestBody final CouponDownloadRequestDto requestDto) {
+        return ResponseEntity.ok(couponCRUDService.enrollDownloadCoupon(requestDto));
+    }
+
     @GetMapping("/coupons/{couponNo}")
     public ResponseEntity findCouponByNo(@PathVariable final Long couponNo) {
         return ResponseEntity.ok(couponCRUDService.findCouponByCouponNo(couponNo));
@@ -51,5 +63,10 @@ public class CouponCRUDController {
     @GetMapping("/coupons")
     public ResponseEntity selectPageCoupons(@CouponPageRequestParams final CouponPageReadRequestDto requestDto) {
         return ResponseEntity.ok(couponCRUDService.selectPageCoupons(requestDto));
+    }
+
+    @GetMapping("/coupons/members/{memberNo}")
+    public ResponseEntity readMemberCoupons(@PathVariable final Long memberNo) {
+        return ResponseEntity.ok(couponCRUDService.readMemberCoupons(memberNo));
     }
 }

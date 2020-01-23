@@ -46,9 +46,7 @@ public class CouponTypeCRUDService {
     public ResponseDto selectPageCouponTypes(final int page, final int num) {
         List<CouponType> couponTypes = couponTypeService.selectPageCouponTypes(page, num);
         List<CouponTypeResponseDto> pageCouponTypes = couponTypes.stream()
-                .map(couponType -> {
-                    return mapCouponTypeResponseDto(couponType);
-                })
+                .map(this::mapCouponTypeResponseDto)
                 .collect(Collectors.toList());
         return ResponseDto.builder()
                 .path("/api/v1/couponTypes/all")
@@ -72,6 +70,22 @@ public class CouponTypeCRUDService {
                 .data(ResponseData.builder()
                         .insert("couponType", mapCouponTypeResponseDto(savedCouponType))
                         .insert("couponsSize", couponTypeCoupons.size())
+                        .build())
+                .build();
+    }
+
+    public ResponseDto selectPageDownloadCouponTypes(final int page, final int num) {
+        List<CouponType> downloadCouponTypes = couponTypeService.selectPageDownloadCouponTypes(page, num);
+        List<CouponTypeResponseDto> pageCouponTypes = downloadCouponTypes.stream()
+                .map(this::mapCouponTypeResponseDto)
+                .collect(Collectors.toList());
+        return ResponseDto.builder()
+                .path("/api/v1/couponTypes/download")
+                .method("GET")
+                .message(String.format("다운로드 쿠폰 타입 %d 페이지 %d 개 조회 성공", page, num))
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("couponTypes", pageCouponTypes)
                         .build())
                 .build();
     }

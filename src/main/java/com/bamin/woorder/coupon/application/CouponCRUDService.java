@@ -6,9 +6,12 @@ import com.bamin.woorder.coupon.domain.Coupon;
 import com.bamin.woorder.coupon.dto.*;
 import com.bamin.woorder.coupontype.application.CouponTypeService;
 import com.bamin.woorder.coupontype.domain.CouponType;
+import com.bamin.woorder.member.application.MemberService;
+import com.bamin.woorder.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +20,15 @@ public class CouponCRUDService {
 
     private final CouponService couponService;
     private final CouponTypeService couponTypeService;
+    private final MemberService memberService;
 
     @Autowired
-    public CouponCRUDService(CouponService couponService, CouponTypeService couponTypeService) {
+    public CouponCRUDService(final CouponService couponService,
+                             final CouponTypeService couponTypeService,
+                             final MemberService memberService) {
         this.couponService = couponService;
         this.couponTypeService = couponTypeService;
+        this.memberService = memberService;
     }
 
     public ResponseDto createDownloadableCoupons(final Long couponTypeNo, final Long requestCounts, final Mode mode) {
@@ -115,6 +122,56 @@ public class CouponCRUDService {
                 .build();
     }
 
+    public ResponseDto readMemberCoupons(final Long memberNo) {
+        List<Coupon> allCoupons = couponService.findAllByMemberNo(memberNo);
+        List<CouponDescResponseDto> coupons = allCoupons.stream()
+                .map(this::mapToDescResponseDto)
+                .collect(Collectors.toList());
+        return ResponseDto.builder()
+                .path(String.format("/coupons/members/%d", memberNo))
+                .method("GET")
+                .message("유저의 사용 가능 쿠폰")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupons", coupons)
+                        .insert("memberNo", memberNo)
+                        .build())
+                .build();
+    }
+
+    @Transactional
+    public ResponseDto enrollCodeCoupon(final CouponEnrollRequestDto requestDto) {
+        Member requestMember = memberService.findMemberByNo(requestDto.getMemberNo());
+        Coupon codeCoupon = couponService.findByCouponCode(requestDto.getCode());
+        codeCoupon.enrollMember(requestMember);
+        return ResponseDto.builder()
+                .path("/api/v1/coupons/codeMode")
+                .method("PUT")
+                .message("쿠폰 코드 등록 성공")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", mapToDescResponseDto(codeCoupon))
+                        .build())
+                .build();
+    }
+
+    @Transactional
+    public ResponseDto enrollDownloadCoupon(final CouponDownloadRequestDto requestDto) {
+        Member requestMember = memberService.findMemberByNo(requestDto.getMemberNo());
+        CouponType downloadCouponType = couponTypeService.selectCouponType(requestDto.getCouponTypeNo());
+        Coupon downloadCoupon = couponService.findFirstDownloadCouponByCouponType(downloadCouponType);
+        downloadCoupon.enrollMember(requestMember);
+        return ResponseDto.builder()
+                .path("/api/v1/coupons/downloadMode")
+                .method("PUT")
+                .message("다운로드 쿠폰 등록 성공")
+                .statusCode(200)
+                .data(ResponseData.builder()
+                        .insert("coupon", mapToDescResponseDto(downloadCoupon))
+                        .build())
+                .build();
+    }
+
     private CouponType getCodeCouponType(final Long couponTypeNo) {
         CouponType couponType = couponTypeService.selectCreatableCouponType(couponTypeNo);
         couponType.checkHasCode();
@@ -144,6 +201,7 @@ public class CouponCRUDService {
 
     private CouponDescResponseDto mapToDescResponseDto(final Coupon coupon) {
         return CouponDescResponseDto.builder()
+                .no(coupon.getCouponNo())
                 .code(coupon.getCode())
                 .useStatus(coupon.getUseStatus())
                 .name(coupon.getName())

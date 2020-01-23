@@ -30,6 +30,11 @@ public class CouponTypeCRUDController {
         return ResponseEntity.ok(couponTypeCRUDService.selectPageCouponTypes(requestDto.getPage(), requestDto.getNum()));
     }
 
+    @GetMapping("/couponTypes/download")
+    public ResponseEntity selectPageDownloadCouponTypes(@RequestParam final int page, @RequestParam final int num) {
+        return ResponseEntity.ok(couponTypeCRUDService.selectPageDownloadCouponTypes(page, num));
+    }
+
     @GetMapping("/couponTypes/{couponTypeNo}")
     public ResponseEntity selectCouponType(@PathVariable final Long couponTypeNo) {
         return ResponseEntity.ok(couponTypeCRUDService.selectCouponType(couponTypeNo));

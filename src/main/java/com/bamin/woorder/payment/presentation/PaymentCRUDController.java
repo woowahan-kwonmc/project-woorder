@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1")
 @RestController
+@CrossOrigin({"http://localhost:8081", "http://localhost:3000"})
 public class PaymentCRUDController {
 
     private PaymentCRUDService paymentCRUDService;

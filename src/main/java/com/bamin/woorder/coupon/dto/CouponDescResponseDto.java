@@ -15,6 +15,7 @@ public class CouponDescResponseDto {
     private String useStatus;
     private String name;
     private int discount;
+    private String memberName;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
@@ -23,12 +24,14 @@ public class CouponDescResponseDto {
                                  final String useStatus,
                                  final String name,
                                  final int discount,
+                                 final String memberName,
                                  final LocalDateTime startTime,
                                  final LocalDateTime endTime) {
         this.code = code;
         this.useStatus = useStatus;
         this.name = name;
         this.discount = discount;
+        this.memberName = memberName;
         this.startTime = startTime;
         this.endTime = endTime;
     }

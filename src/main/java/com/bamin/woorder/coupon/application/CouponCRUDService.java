@@ -148,6 +148,7 @@ public class CouponCRUDService {
                 .useStatus(coupon.getUseStatus())
                 .name(coupon.getName())
                 .discount(coupon.getDiscount())
+                .memberName(coupon.getMemberName())
                 .startTime(coupon.getStartTime())
                 .endTime(coupon.getEndTime())
                 .build();

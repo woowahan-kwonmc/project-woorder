@@ -25,10 +25,10 @@ public class CouponTypeCRUDService {
 
     public ResponseDto createCouponType(final CouponTypeCreateRequestDto requestDto) {
         CouponType savedCouponType = couponTypeService.createCouponTypeBuilder()
-                .couponTypeName(requestDto.getCouponTypeName())
-                .couponTypeCount(requestDto.getCouponTypeCount())
-                .couponTypeDiscount(requestDto.getCouponTypeDiscount())
-                .couponTypeHasCode(requestDto.isCouponTypeHasCode())
+                .couponTypeName(requestDto.getName())
+                .couponTypeCount(requestDto.getCount())
+                .couponTypeDiscount(requestDto.getDiscount())
+                .couponTypeHasCode(requestDto.isHasCode())
                 .startTime(requestDto.getStartTime())
                 .endTime(requestDto.getEndTime())
                 .build();
@@ -46,7 +46,9 @@ public class CouponTypeCRUDService {
     public ResponseDto selectPageCouponTypes(final int page, final int num) {
         List<CouponType> couponTypes = couponTypeService.selectPageCouponTypes(page, num);
         List<CouponTypeResponseDto> pageCouponTypes = couponTypes.stream()
-                .map(this::mapCouponTypeResponseDto)
+                .map(couponType -> {
+                    return mapCouponTypeResponseDto(couponType);
+                })
                 .collect(Collectors.toList());
         return ResponseDto.builder()
                 .path("/api/v1/couponTypes/all")

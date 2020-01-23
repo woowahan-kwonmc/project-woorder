@@ -3,6 +3,7 @@ package com.bamin.woorder.coupon.domain;
 import com.bamin.woorder.common.domain.ModifiableEntity;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import com.bamin.woorder.member.domain.Member;
+import com.bamin.woorder.payment.domain.Payment;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -51,6 +53,9 @@ public class Coupon extends ModifiableEntity {
     }
 
     public String getCode() {
+        if (Objects.isNull(couponCode)) {
+            return null;
+        }
         return couponCode.getCouponCode();
     }
 
@@ -83,5 +88,32 @@ public class Coupon extends ModifiableEntity {
         if (couponMember.isNotEquals(payMember)) {
             throw new InvalidCouponOwnerException();
         }
+    }
+
+    public String getMemberName() {
+        if (Objects.isNull(couponMember)) {
+            return null;
+        }
+        return couponMember.getName();
+    }
+
+    public void enrollMember(final Member requestMember) {
+        if (!Objects.isNull(this.couponMember)) {
+            throw new CouponAlreadyEnrolledException();
+        }
+        this.couponMember = new CouponMember(requestMember);
+    }
+
+    public void useCouponForPaymentByMember(final Payment payment, final Member member) {
+        this.useCoupon(member);
+        this.updateCouponPayment(payment);
+    }
+
+    public void updateCouponPayment(final Payment createdPayment) {
+        this.couponPayment = new CouponPayment(createdPayment);
+    }
+
+    public void checkEnrollPeriod() {
+        this.couponTypeInfo.checkEnrollPeriod();
     }
 }

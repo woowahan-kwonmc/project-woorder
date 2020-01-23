@@ -8,23 +8,23 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CouponTypeCreateRequestDto implements CouponTypeRequestDto {
 
-    private String couponTypeName;
-    private String couponTypeCount;
-    private String couponTypeDiscount;
-    private boolean couponTypeHasCode;
+    private String name;
+    private String count;
+    private String discount;
+    private boolean hasCode;
     private String startTime;
     private String endTime;
 
-    public CouponTypeCreateRequestDto(final String couponTypeName,
-                                      final String couponTypeCount,
-                                      final String couponTypeDiscount,
+    public CouponTypeCreateRequestDto(final String name,
+                                      final String count,
+                                      final String discount,
                                       final boolean couponTypeHasCode,
                                       final String startTime,
                                       final String endTime) {
-        this.couponTypeName = couponTypeName;
-        this.couponTypeCount = couponTypeCount;
-        this.couponTypeDiscount = couponTypeDiscount;
-        this.couponTypeHasCode = couponTypeHasCode;
+        this.name = name;
+        this.count = count;
+        this.discount = discount;
+        this.hasCode = couponTypeHasCode;
         this.startTime = startTime;
         this.endTime = endTime;
     }

@@ -5,6 +5,8 @@ import com.bamin.woorder.common.dto.ResponseDto;
 import com.bamin.woorder.common.dto.ResponseDtoStatusCode;
 import com.bamin.woorder.coupon.application.CouponCodeNotFoundException;
 import com.bamin.woorder.coupon.application.CouponNoNotFoundException;
+import com.bamin.woorder.coupon.application.CouponNotFoundException;
+import com.bamin.woorder.coupon.domain.CouponAlreadyEnrolledException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,6 +44,18 @@ public class CouponControllerAdvice {
                         .data(ResponseData.builder()
                                 .insert("requestCode", e.getRequestCode())
                                 .build())
+                        .statusCode(ResponseDtoStatusCode.NOT_FOUND)
+                        .build());
+    }
+
+    @ExceptionHandler({CouponAlreadyEnrolledException.class, CouponNotFoundException.class})
+    public ResponseEntity handlingRuntimeException(final RuntimeException e, final HttpServletRequest request) {
+        log.error(e.getMessage());
+        return ResponseEntity.status(ResponseDtoStatusCode.NOT_FOUND)
+                .body(ResponseDto.builder()
+                        .path(request.getServletPath())
+                        .method(request.getMethod())
+                        .message(e.getMessage())
                         .statusCode(ResponseDtoStatusCode.NOT_FOUND)
                         .build());
     }

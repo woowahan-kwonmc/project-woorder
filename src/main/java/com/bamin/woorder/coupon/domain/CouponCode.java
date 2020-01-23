@@ -1,12 +1,10 @@
 package com.bamin.woorder.coupon.domain;
 
 
-import lombok.Getter;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Optional;
 
-@Getter
 @Embeddable
 class CouponCode {
 
@@ -20,5 +18,9 @@ class CouponCode {
 
     CouponCode(final String couponCode) {
         this.couponCode = couponCode;
+    }
+
+    String getCouponCode() {
+        return Optional.ofNullable(couponCode).orElse(null);
     }
 }

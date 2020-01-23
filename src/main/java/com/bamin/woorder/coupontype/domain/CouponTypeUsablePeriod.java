@@ -17,23 +17,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Embeddable
-public class CouponTypeUsablePeriod {
+class CouponTypeUsablePeriod {
 
-    @Column(name = "coupon_usable_start_time",
-            insertable = false,
-            updatable = false,
-            nullable = true)
+    @Column(name = "coupon_usable_start_time")
     @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime startTime;
 
-    @Column(name = "coupon_usable_end_time",
-            insertable = false,
-            updatable = false,
-            nullable = true)
+    @Column(name = "coupon_usable_end_time")
     @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime endTime;
 
-    public CouponTypeUsablePeriod(final String startTime, final String endTime) {
+    public CouponTypeUsablePeriod(final LocalDateTime startTime, final LocalDateTime endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    CouponTypeUsablePeriod(final String startTime, final String endTime) {
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime unCheckedStartTime = TypeUtils.parseToTimeOrThrow(startTime);
         LocalDateTime unCheckedEndTime = TypeUtils.parseToTimeOrThrow(endTime);
@@ -59,7 +58,7 @@ public class CouponTypeUsablePeriod {
                 || unCheckedStartTime.isEqual(unCheckedEndTime);
     }
 
-    boolean checkCreatablePeriod() {
+    public boolean checkCreatablePeriod() {
         LocalDateTime currentTime = LocalDateTime.now();
         if (currentTime.isAfter(endTime)) {
             throw new CouponTypePeriodException(endTime);

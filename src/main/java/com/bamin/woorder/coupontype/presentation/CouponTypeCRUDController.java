@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin({"http://localhost:8081", "http://localhost:3000"})
 public class CouponTypeCRUDController {
 
     private final CouponTypeCRUDService couponTypeCRUDService;
@@ -27,6 +28,11 @@ public class CouponTypeCRUDController {
     @GetMapping("/couponTypes/all")
     public ResponseEntity selectPageCouponTypes(@PageRequestParams final PageReadRequestDto requestDto) {
         return ResponseEntity.ok(couponTypeCRUDService.selectPageCouponTypes(requestDto.getPage(), requestDto.getNum()));
+    }
+
+    @GetMapping("/couponTypes/download")
+    public ResponseEntity selectPageDownloadCouponTypes(@RequestParam final int page, @RequestParam final int num) {
+        return ResponseEntity.ok(couponTypeCRUDService.selectPageDownloadCouponTypes(page, num));
     }
 
     @GetMapping("/couponTypes/{couponTypeNo}")

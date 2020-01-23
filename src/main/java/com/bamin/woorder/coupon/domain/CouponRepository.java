@@ -1,11 +1,13 @@
 package com.bamin.woorder.coupon.domain;
 
+import com.bamin.woorder.coupontype.domain.CouponType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +23,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     Optional<Coupon> findByCouponCodeCouponCode(final String couponCode);
 
     boolean existsByCouponCodeCouponCode(String couponCode);
+
+    List<Coupon> findAllByCouponUseStatusCouponStatusAndCouponMemberCouponMemberMemberNo(final CouponStatus couponStatus, final Long memberNo);
+
+    Optional<Coupon> findFirstByCouponCodeIsNullAndCouponMemberCouponMemberIsNullAndCouponTypeInfoCouponType(final CouponType couponType);
 }

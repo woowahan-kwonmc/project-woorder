@@ -63,9 +63,18 @@ public class Order extends DeletableEntity {
         return this;
     }
 
+    public void updatePaymentInfo(final Member payMember) {
+        this.updateInProgress();
+        this.updatePaymentMember(payMember);
+    }
+
     public void updateInProgress() {
         checkAlreadyCanceled();
         this.orderInfo.updateInProgress();
+    }
+
+    public void updatePaymentMember(final Member payMember) {
+        this.orderMember = new OrderMember(payMember);
     }
 
     private void checkAlreadyCanceled() {

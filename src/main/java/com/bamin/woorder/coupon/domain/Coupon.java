@@ -3,6 +3,7 @@ package com.bamin.woorder.coupon.domain;
 import com.bamin.woorder.common.domain.ModifiableEntity;
 import com.bamin.woorder.coupontype.domain.CouponType;
 import com.bamin.woorder.member.domain.Member;
+import com.bamin.woorder.payment.domain.Payment;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -101,5 +102,14 @@ public class Coupon extends ModifiableEntity {
             throw new CouponAlreadyEnrolledException();
         }
         this.couponMember = new CouponMember(requestMember);
+    }
+
+    public void useCouponForPaymentByMember(final Payment payment, final Member member) {
+        this.useCoupon(member);
+        this.updateCouponPayment(payment);
+    }
+
+    public void updateCouponPayment(final Payment createdPayment) {
+        this.couponPayment = new CouponPayment(createdPayment);
     }
 }

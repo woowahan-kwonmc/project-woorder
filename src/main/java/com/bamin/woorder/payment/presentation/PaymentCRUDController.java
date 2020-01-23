@@ -24,4 +24,11 @@ public class PaymentCRUDController {
     public ResponseEntity createPayment(@RequestBody PaymentCreateRequestDto requestDto) {
         return ResponseEntity.ok(paymentCRUDService.createPayment(requestDto));
     }
+
+    @GetMapping("/payments/members/{memberNo}")
+    public ResponseEntity selectPagePayment(@PathVariable final Long memberNo,
+                                            @RequestParam final int page,
+                                            @RequestParam final int num) {
+        return ResponseEntity.ok(paymentCRUDService.selectPagePayment(memberNo, page, num));
+    }
 }

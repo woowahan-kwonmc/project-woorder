@@ -58,7 +58,7 @@ class CouponTypeUsablePeriod {
                 || unCheckedStartTime.isEqual(unCheckedEndTime);
     }
 
-    boolean checkCreatablePeriod() {
+    public boolean checkCreatablePeriod() {
         LocalDateTime currentTime = LocalDateTime.now();
         if (currentTime.isAfter(endTime)) {
             throw new CouponTypePeriodException(endTime);

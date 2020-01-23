@@ -112,4 +112,8 @@ public class Coupon extends ModifiableEntity {
     public void updateCouponPayment(final Payment createdPayment) {
         this.couponPayment = new CouponPayment(createdPayment);
     }
+
+    public void checkEnrollPeriod() {
+        this.couponTypeInfo.checkEnrollPeriod();
+    }
 }

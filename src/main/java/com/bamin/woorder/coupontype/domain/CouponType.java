@@ -79,6 +79,10 @@ public class CouponType extends ModifiableEntity {
         }
     }
 
+    public void checkEnrollPeriod() {
+        couponTypeUsablePeriod.checkCreatablePeriod();
+    }
+
     public Long getNo() {
         return getCouponTypeNo();
     }

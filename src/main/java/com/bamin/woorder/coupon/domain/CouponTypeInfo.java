@@ -36,4 +36,8 @@ public class CouponTypeInfo {
     public LocalDateTime getEndTime() {
         return couponType.getEndTime();
     }
+
+    public void checkEnrollPeriod() {
+        couponType.checkEnrollPeriod();
+    }
 }

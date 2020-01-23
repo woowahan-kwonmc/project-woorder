@@ -143,6 +143,7 @@ public class CouponCRUDService {
     public ResponseDto enrollCodeCoupon(final CouponEnrollRequestDto requestDto) {
         Member requestMember = memberService.findMemberByNo(requestDto.getMemberNo());
         Coupon codeCoupon = couponService.findByCouponCode(requestDto.getCode());
+        codeCoupon.checkEnrollPeriod();
         codeCoupon.enrollMember(requestMember);
         return ResponseDto.builder()
                 .path("/api/v1/coupons/codeMode")

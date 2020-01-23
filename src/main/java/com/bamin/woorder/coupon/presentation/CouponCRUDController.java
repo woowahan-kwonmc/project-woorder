@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin
+@CrossOrigin({"http://localhost:8081", "http://localhost:3000"})
 public class CouponCRUDController {
 
     private final CouponCRUDService couponCRUDService;

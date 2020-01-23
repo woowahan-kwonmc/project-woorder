@@ -51,14 +51,14 @@ public class PaymentCRUDService {
         Member payMember = memberService.findMemberByNo(requestDto.getMemberNo());
         List<Order> payOrders = orderService.findAllOrdersByNo(requestDto.getOrdersNo());
         List<Coupon> payCoupons = couponService.findAllCouponsByNo(requestDto.getCouponsNo());
-        payOrders.forEach(Order::updateInProgress);
-        payCoupons.forEach(coupon -> coupon.useCoupon(payMember));
+        payOrders.forEach(order -> order.updatePaymentInfo(payMember));
         Payment createdPayment = paymentService.createPayment(Payment.builder()
                 .method(requestDto.getMethod())
                 .payMember(payMember)
                 .payOrders(payOrders)
                 .payCoupons(payCoupons)
                 .build());
+        payCoupons.forEach(coupon -> coupon.useCouponForPaymentByMember(createdPayment, payMember));
         return ResponseDto.builder()
                 .path("/api/v1/payments")
                 .method(ResponseDtoMethod.POST)

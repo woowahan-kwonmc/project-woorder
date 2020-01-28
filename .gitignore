@@ -1,0 +1,6 @@
+.gradle
+build
+out
+
+src/main/resources/templates/**
+src/main/resources/static/**

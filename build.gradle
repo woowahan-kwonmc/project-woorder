@@ -3,7 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
-	id 'com.moowork.node' version '1.2.0'
+	id "com.github.node-gradle.node" version "2.2.0"
 }
 
 group = 'com.bamin'
@@ -44,6 +44,13 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
 
+node {
+	version = "12.14.1"
+	download = true
+	workDir = file("${project.buildDir}/nodejs")
+	npmWorkDir = file("${project.buildDir}/npm")
+}
+
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
@@ -54,13 +61,23 @@ asciidoctor {
 	dependsOn test
 }
 
+task userNpmInstall(type: NpmTask) {
+	workingDir = file("${project.projectDir}/front/user")
+	args = ["install"]
+}
+
 task userNpmBuild(type: NpmTask) {
-	workingDir = file('./front/user')
-	args = ['run', 'build']
+	workingDir = file("${project.projectDir}/front/user")
+	args = ["run", "build"]
+}
+
+task adminNpmInstall(type: NpmTask) {
+	workingDir = file("${project.projectDir}/front/admin")
+	args = ["install"]
 }
 
 task adminNpmBuild(type: NpmTask) {
-	workingDir = file('./front/admin')
+	workingDir = file("${project.projectDir}/front/admin")
 	args = ['run', 'generate']
 }
 
@@ -71,3 +88,6 @@ task doBuild(type: Zip) {
 	}
 	dependsOn(tasks)
 }
+
+userNpmBuild.dependsOn userNpmInstall
+adminNpmBuild.dependsOn adminNpmInstall

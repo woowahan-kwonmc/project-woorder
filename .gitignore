@@ -4,3 +4,5 @@ out
 
 src/main/resources/templates/**
 src/main/resources/static/**
+
+docker/jenkins/root

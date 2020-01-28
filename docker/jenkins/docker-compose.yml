@@ -1,0 +1,8 @@
+version: "3"
+services:
+  jenkins-woorder:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-woorder
+    ports:
+      - 8000:8080
+    restart: always

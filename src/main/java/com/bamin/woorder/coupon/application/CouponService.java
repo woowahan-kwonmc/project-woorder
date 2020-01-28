@@ -37,16 +37,14 @@ public class CouponService {
 
     List<Coupon> createDownloadableCoupons(final CouponType couponType, final Long requestCounts) {
         return LongStream.rangeClosed(1, requestCounts)
-                .boxed()
-                .map(aLong -> couponRepository.save(new Coupon(couponType)))
+                .mapToObj(aLong -> couponRepository.save(new Coupon(couponType)))
                 .collect(Collectors.toList());
     }
 
     List<Coupon> createCodeCoupons(final CouponType couponType, final Long requestCounts) {
         Long couponCount = couponRepository.count();
         return LongStream.rangeClosed(1, requestCounts)
-                .boxed()
-                .map(count -> {
+                .mapToObj(count -> {
                     try {
                         String code = CouponCodeGenerator.generate(couponType.getName(), couponCount + count);
                         return saveCoupon(couponType, code);

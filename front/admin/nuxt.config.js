@@ -18,7 +18,7 @@ module.exports = {
   */
   loading: {color: '#3B8070'},
   /*
-  ** Moduels
+  ** Modules
   */
   modules: [
     '@nuxtjs/vuetify'
@@ -45,6 +45,10 @@ module.exports = {
         })
       }
     }
+  },
+
+  generate: {
+    dir: '../../src/main/resources/templates/admin'
   }
 }
 

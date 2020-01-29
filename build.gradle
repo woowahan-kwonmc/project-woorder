@@ -95,7 +95,7 @@ task setUp(type: Zip) {
 }
 
 task doBuild(type: Zip) {
-	def tasks = [setUp, clean, build]
+	def tasks = [setUp, clean, test, build]
 	for (int i = 0; i < tasks.size() - 1; i++) {
 		tasks[i + 1].mustRunAfter(tasks[i])
 	}

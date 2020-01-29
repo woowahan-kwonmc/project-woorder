@@ -4,5 +4,6 @@ out
 
 src/main/resources/templates/**
 src/main/resources/static/**
+src/main/resources/application-prod.properties
 
 docker/jenkins/root

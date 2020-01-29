@@ -1,0 +1,3 @@
+[submodule "project-woorder-private"]
+	path = project-woorder-private
+	url = https://github.com/woowahan-kwonmc/project-woorder-private.git

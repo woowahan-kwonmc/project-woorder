@@ -81,8 +81,21 @@ task adminNpmBuild(type: NpmTask) {
 	args = ['run', 'generate']
 }
 
+task copyProperties(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/application-prod.properties")
+	into file("${project.projectDir}/src/main/resources")
+}
+
+task setUp(type: Zip) {
+	def tasks = [copyProperties, userNpmBuild, adminNpmBuild]
+	for (int i = 0; i < tasks.size() - 1; i++) {
+		tasks[i + 1].mustRunAfter(tasks[i])
+	}
+	dependsOn(tasks)
+}
+
 task doBuild(type: Zip) {
-	def tasks = [userNpmBuild, adminNpmBuild, clean, build]
+	def tasks = [setUp, clean, build]
 	for (int i = 0; i < tasks.size() - 1; i++) {
 		tasks[i + 1].mustRunAfter(tasks[i])
 	}

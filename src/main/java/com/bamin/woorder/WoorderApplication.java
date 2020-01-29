@@ -16,12 +16,18 @@ public class WoorderApplication {
     @Value("${spring.datasource.url}")
     private String datasourceUrl;
 
+    @Value("${spring.datasource.username}")
+    private String username;
+
 	public static void main(String[] args) {
 		SpringApplication.run(WoorderApplication.class, args);
 	}
 
     @Bean
     public CommandLineRunner runner() {
-        return (a) -> log.info("spring.datasource.url : {}", datasourceUrl);
+        return (a) -> {
+            log.info("spring.datasource.url : {}", datasourceUrl);
+            log.info("spring.datasource.username : {}", username);
+        };
     }
 }

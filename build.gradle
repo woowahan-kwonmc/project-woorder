@@ -66,9 +66,14 @@ task userNpmInstall(type: NpmTask) {
 	args = ["install"]
 }
 
+task copyUserEnv(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/user/.env.production")
+	into file("${project.projectDir}/front/user")
+}
+
 task userNpmBuild(type: NpmTask) {
 	workingDir = file("${project.projectDir}/front/user")
-	args = ["run", "build"]
+	args = ["run", "prod-build"]
 }
 
 task adminNpmInstall(type: NpmTask) {
@@ -81,13 +86,13 @@ task adminNpmBuild(type: NpmTask) {
 	args = ['run', 'generate']
 }
 
-task copyProperties(type: Copy) {
-	from file("${project.projectDir}/project-woorder-private/application-prod.properties")
+task copyServerProperties(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/server/application-prod.properties")
 	into file("${project.projectDir}/src/main/resources")
 }
 
 task setUp(type: Zip) {
-	def tasks = [copyProperties, userNpmBuild, adminNpmBuild]
+	def tasks = [copyServerProperties, userNpmBuild, adminNpmBuild]
 	for (int i = 0; i < tasks.size() - 1; i++) {
 		tasks[i + 1].mustRunAfter(tasks[i])
 	}
@@ -102,5 +107,7 @@ task doBuild(type: Zip) {
 	dependsOn(tasks)
 }
 
+userNpmInstall.dependsOn copyUserEnv
 userNpmBuild.dependsOn userNpmInstall
+
 adminNpmBuild.dependsOn adminNpmInstall

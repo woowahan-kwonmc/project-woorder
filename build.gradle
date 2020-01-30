@@ -61,19 +61,24 @@ asciidoctor {
 	dependsOn test
 }
 
-task userNpmInstall(type: NpmTask) {
-	workingDir = file("${project.projectDir}/front/user")
-	args = ["install"]
-}
-
 task copyUserEnv(type: Copy) {
 	from file("${project.projectDir}/project-woorder-private/user/.env.production")
 	into file("${project.projectDir}/front/user")
 }
 
+task userNpmInstall(type: NpmTask) {
+	workingDir = file("${project.projectDir}/front/user")
+	args = ["install"]
+}
+
 task userNpmBuild(type: NpmTask) {
 	workingDir = file("${project.projectDir}/front/user")
 	args = ["run", "prod-build"]
+}
+
+task copyAdminEnv(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/admin/prod.config.js")
+	into file("${project.projectDir}/front/admin/configs")
 }
 
 task adminNpmInstall(type: NpmTask) {
@@ -83,7 +88,7 @@ task adminNpmInstall(type: NpmTask) {
 
 task adminNpmBuild(type: NpmTask) {
 	workingDir = file("${project.projectDir}/front/admin")
-	args = ['run', 'generate']
+	args = ['run', 'prod-generate']
 }
 
 task copyServerProperties(type: Copy) {
@@ -110,4 +115,5 @@ task doBuild(type: Zip) {
 userNpmInstall.dependsOn copyUserEnv
 userNpmBuild.dependsOn userNpmInstall
 
+adminNpmInstall.dependsOn copyAdminEnv
 adminNpmBuild.dependsOn adminNpmInstall

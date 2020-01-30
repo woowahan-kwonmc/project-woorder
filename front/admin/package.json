@@ -5,19 +5,21 @@
   "author": "woowahan-kwonmc <luffy@woowahan.com>",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate -c nuxt.config.generate.js",
+    "dev": "cp ./configs/local.config.js ./api.config.js && nuxt",
+    "build": "cp ./configs/local.config.js ./api.config.js && nuxt build",
+    "start": "cp ./configs/local.config.js ./api.config.js && nuxt start",
+    "generate": "cp ./configs/local.config.js ./api.config.js && nuxt generate -c nuxt.config.generate.js",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "prod-generate": "cp ./configs/prod.config.js ./api.config.js && nuxt generate -c nuxt.config.generate.js"
   },
   "dependencies": {
     "@nuxtjs/vuetify": "^1.10.2",
     "axios": "^0.19.1",
+    "cross-env": "^7.0.0",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^4.19.1",
     "eslint-friendly-formatter": "^4.0.1",

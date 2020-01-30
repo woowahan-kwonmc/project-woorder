@@ -61,6 +61,11 @@ asciidoctor {
 	dependsOn test
 }
 
+task copyUserEnv(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/user/.env.production")
+	into file("${project.projectDir}/front/user")
+}
+
 task userNpmInstall(type: NpmTask) {
 	workingDir = file("${project.projectDir}/front/user")
 	args = ["install"]
@@ -68,7 +73,12 @@ task userNpmInstall(type: NpmTask) {
 
 task userNpmBuild(type: NpmTask) {
 	workingDir = file("${project.projectDir}/front/user")
-	args = ["run", "build"]
+	args = ["run", "prod-build"]
+}
+
+task copyAdminEnv(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/admin/prod.config.js")
+	into file("${project.projectDir}/front/admin/configs")
 }
 
 task adminNpmInstall(type: NpmTask) {
@@ -78,16 +88,16 @@ task adminNpmInstall(type: NpmTask) {
 
 task adminNpmBuild(type: NpmTask) {
 	workingDir = file("${project.projectDir}/front/admin")
-	args = ['run', 'generate']
+	args = ['run', 'prod-generate']
 }
 
-task copyProperties(type: Copy) {
-	from file("${project.projectDir}/project-woorder-private/application-prod.properties")
+task copyServerProperties(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/server/application-prod.properties")
 	into file("${project.projectDir}/src/main/resources")
 }
 
 task setUp(type: Zip) {
-	def tasks = [copyProperties, userNpmBuild, adminNpmBuild]
+	def tasks = [copyServerProperties, userNpmBuild, adminNpmBuild]
 	for (int i = 0; i < tasks.size() - 1; i++) {
 		tasks[i + 1].mustRunAfter(tasks[i])
 	}
@@ -102,5 +112,8 @@ task doBuild(type: Zip) {
 	dependsOn(tasks)
 }
 
+userNpmInstall.dependsOn copyUserEnv
 userNpmBuild.dependsOn userNpmInstall
+
+adminNpmInstall.dependsOn copyAdminEnv
 adminNpmBuild.dependsOn adminNpmInstall

@@ -21,7 +21,11 @@ module.exports = {
   ** Modules
   */
   modules: [
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+  ],
+
+  buildModules: [
+    '@nuxtjs/dotenv',
   ],
 
   vuetify: {
@@ -36,6 +40,11 @@ module.exports = {
     ** Run ESLint on save
     */
     extend(config, {isDev, isClient}) {
+
+      config.node = {
+        fs: 'empty'
+      }
+
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',

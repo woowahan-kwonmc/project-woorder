@@ -4,7 +4,11 @@ pipeline {
     stage('Clone') {
       agent any
       steps {
-        git(url: 'https://github.com/woowahan-kwonmc/project-woorder.git', branch: 'blue-ocean-test', changelog: true, credentialsId: '\'554289a8-7fb7-44d9-baaa-39161e09815a\'')
+        git(
+          url: 'https://github.com/woowahan-kwonmc/project-woorder.git',
+          branch: 'master',
+          changelog: true,
+          credentialsId: '554289a8-7fb7-44d9-baaa-39161e09815a')
       }
     }
 

@@ -61,6 +61,10 @@ asciidoctor {
 	dependsOn test
 }
 
+test {
+	exclude '**/CouponCodeGeneratorTest.class'
+}
+
 task copyUserEnv(type: Copy) {
 	from file("${project.projectDir}/project-woorder-private/user/.env.production")
 	into file("${project.projectDir}/front/user")

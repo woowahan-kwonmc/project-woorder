@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
+	id "com.github.node-gradle.node" version "2.2.0"
 }
 
 group = 'com.bamin'
@@ -11,6 +12,9 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://plugins.gradle.org/m2/"
+	}
 }
 
 ext {
@@ -40,6 +44,13 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
 
+node {
+	version = "12.14.1"
+	download = true
+	workDir = file("${project.buildDir}/nodejs")
+	npmWorkDir = file("${project.buildDir}/npm")
+}
+
 test {
 	outputs.dir snippetsDir
 	useJUnitPlatform()
@@ -49,3 +60,60 @@ asciidoctor {
 	inputs.dir snippetsDir
 	dependsOn test
 }
+
+task copyUserEnv(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/user/.env.production")
+	into file("${project.projectDir}/front/user")
+}
+
+task userNpmInstall(type: NpmTask) {
+	workingDir = file("${project.projectDir}/front/user")
+	args = ["install"]
+}
+
+task userNpmBuild(type: NpmTask) {
+	workingDir = file("${project.projectDir}/front/user")
+	args = ["run", "prod-build"]
+}
+
+task copyAdminEnv(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/admin/prod.config.js")
+	into file("${project.projectDir}/front/admin/configs")
+}
+
+task adminNpmInstall(type: NpmTask) {
+	workingDir = file("${project.projectDir}/front/admin")
+	args = ["install"]
+}
+
+task adminNpmBuild(type: NpmTask) {
+	workingDir = file("${project.projectDir}/front/admin")
+	args = ['run', 'prod-generate']
+}
+
+task copyServerProperties(type: Copy) {
+	from file("${project.projectDir}/project-woorder-private/server/application-prod.properties")
+	into file("${project.projectDir}/src/main/resources")
+}
+
+task setUp(type: Zip) {
+	def tasks = [copyServerProperties, userNpmBuild, adminNpmBuild]
+	for (int i = 0; i < tasks.size() - 1; i++) {
+		tasks[i + 1].mustRunAfter(tasks[i])
+	}
+	dependsOn(tasks)
+}
+
+task doBuild(type: Zip) {
+	def tasks = [setUp, clean, test, build]
+	for (int i = 0; i < tasks.size() - 1; i++) {
+		tasks[i + 1].mustRunAfter(tasks[i])
+	}
+	dependsOn(tasks)
+}
+
+userNpmInstall.dependsOn copyUserEnv
+userNpmBuild.dependsOn userNpmInstall
+
+adminNpmInstall.dependsOn copyAdminEnv
+adminNpmBuild.dependsOn adminNpmInstall

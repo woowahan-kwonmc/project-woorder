@@ -18,10 +18,14 @@ module.exports = {
   */
   loading: {color: '#3B8070'},
   /*
-  ** Moduels
+  ** Modules
   */
   modules: [
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+  ],
+
+  buildModules: [
+    '@nuxtjs/dotenv',
   ],
 
   vuetify: {
@@ -36,6 +40,11 @@ module.exports = {
     ** Run ESLint on save
     */
     extend(config, {isDev, isClient}) {
+
+      config.node = {
+        fs: 'empty'
+      }
+
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -45,6 +54,10 @@ module.exports = {
         })
       }
     }
+  },
+
+  generate: {
+    dir: '../../src/main/resources/templates/admin'
   }
 }
 

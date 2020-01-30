@@ -1,6 +1,7 @@
 import axios from 'axios'
+import config from '../../api.config'
 
-const hostUrl = 'http://localhost:8080/api/v1'
+const hostUrl = config.baseUrl
 
 export default {
   base: () => (

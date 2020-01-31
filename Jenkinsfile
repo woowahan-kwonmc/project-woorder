@@ -12,7 +12,9 @@ pipeline {
         stage('cp server properties') {
           steps {
             sh '$(pwd)/gradlew copyServerProperties'
-            slackSend(attachments: 'ddd', blocks: 'ddd', baseUrl: 'woorder.slack.com', botUser: true, channel: '#jenkins-blue-ocean', color: 'yellow', failOnError: true, message: 'application-prod.properties')
+            slackSend(channel: '#jenkins-blue-ocean',
+                                color: 'good',
+                                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}")
           }
         }
 

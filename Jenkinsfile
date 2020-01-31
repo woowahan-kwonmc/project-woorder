@@ -45,26 +45,26 @@ pipeline {
     stage('Deploy') {
       steps {
         sshPublisher(publishers: [
-                            sshPublisherDesc(
-                                configName: 'ec2-kwonmc-pilot-woorder',
-                                transfers: [sshTransfer(
-                                      cleanRemote: false,
-                                      excludes: '',
-                                      execCommand: 'sh /home/ubuntu/deploy-woorder/scripts/init_server.sh',
-                                      execTimeout: 120000,
-                                      flatten: false,
-                                      makeEmptyDirs: false,
-                                      noDefaultExcludes: false,
-                                      patternSeparator: '[, ]+',
-                                      remoteDirectory: '/deploy-woorder',
-                                      remoteDirectorySDF: false,
-                                      removePrefix: 'build/libs',
-                                      sourceFiles: 'build/libs/*.jar')
-                                      ],
-                                      usePromotionTimestamp: false,
-                                      useWorkspaceInPromotion: false,
-                                      verbose: false
-                                      )])
+                                      sshPublisherDesc(
+                                            configName: 'ec2-kwonmc-pilot-woorder',
+                                            transfers: [sshTransfer(
+                                                    cleanRemote: false,
+                                                    excludes: '',
+                                                    execCommand: 'sh /home/ubuntu/deploy-woorder/scripts/init_server.sh',
+                                                    execTimeout: 120000,
+                                                    flatten: false,
+                                                    makeEmptyDirs: false,
+                                                    noDefaultExcludes: false,
+                                                    patternSeparator: '[, ]+',
+                                                    remoteDirectory: '/deploy-woorder',
+                                                    remoteDirectorySDF: false,
+                                                    removePrefix: 'build/libs',
+                                                    sourceFiles: 'build/libs/*.jar')
+                                                    ],
+                                                    usePromotionTimestamp: false,
+                                                    useWorkspaceInPromotion: false,
+                                                    verbose: false
+                                                    )])
               sh 'echo "deploy"'
             }
           }
@@ -73,6 +73,7 @@ pipeline {
             steps {
               cleanWs(cleanWhenSuccess: true, deleteDirs: true, cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true)
               sh 'echo "clean up complete"'
+              sh 'rm -rf $(pwd)'
             }
           }
 
